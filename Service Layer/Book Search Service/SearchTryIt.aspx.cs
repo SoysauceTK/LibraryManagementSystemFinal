@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.UI;
 using LibraryManagementSystem.Service_Layer.Book_Search_Service;
 
@@ -9,6 +10,10 @@ namespace LibraryManagementSystem.Service_Layer.Book_Search_Service
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Disable any authentication redirects for this page
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+
             if (!IsPostBack)
             {
                 string op = Request.QueryString["op"];

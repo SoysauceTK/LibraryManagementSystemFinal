@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using LibraryManagementSystem.Service_Layer.Book_Storage_Service;
@@ -12,6 +13,10 @@ namespace LibraryManagementSystem.Service_Layer.Book_Storage_Service
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Disable any authentication redirects for this page
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+
             bookStorage = new BookStorage();
         }
 

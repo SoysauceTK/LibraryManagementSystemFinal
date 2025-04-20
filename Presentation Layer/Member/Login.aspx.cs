@@ -11,7 +11,7 @@ namespace LibraryManagementSystem.Presentation_Layer.Member
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (User.Identity.IsAuthenticated && !IsPostBack)
+            if (Request.IsAuthenticated && !IsPostBack)
             {
                 Response.Redirect("~/Presentation Layer/Member/Dashboard.aspx");
             }
@@ -19,16 +19,25 @@ namespace LibraryManagementSystem.Presentation_Layer.Member
 
         protected void LogIn(object sender, EventArgs e)
         {
-            if (IsValid)
+            if (IsValid && ValidateUser(Username.Text, Password.Text))
             {
-                if (ValidateUser(Username.Text, Password.Text))
+                FormsAuthentication.SetAuthCookie(Username.Text, RememberMe.Checked);
+
+                // Check if user is actually member
+                if (Roles.IsUserInRole(Username.Text, "Member"))
                 {
-                    FormsAuthentication.RedirectFromLoginPage(Username.Text, RememberMe.Checked);
+                    Response.Redirect("~/Presentation Layer/Member/Dashboard.aspx");
                 }
                 else
                 {
-                    FailureText.Text = "Invalid username or password.";
+                    // If not member, log them out and show error
+                    FormsAuthentication.SignOut();
+                    FailureText.Text = "Invalid member credentials.";
                 }
+            }
+            else
+            {
+                FailureText.Text = "Invalid username or password.";
             }
         }
 
@@ -46,7 +55,6 @@ namespace LibraryManagementSystem.Presentation_Layer.Member
                     string storedHash = userNode.SelectSingleNode("password").InnerText;
                     return SecurityHelper.VerifyPassword(password, storedHash);
                 }
-
                 return false;
             }
             catch (Exception ex)
