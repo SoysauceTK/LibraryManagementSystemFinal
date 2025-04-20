@@ -1,5 +1,5 @@
-﻿<%-- Member/Login.aspx --%>
-<%@ Page Title="Login" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="LibraryManagementSystem.Presentation_Layer.Member.Login" %>
+﻿<%@ Page Title="Login" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="LibraryManagementSystem.Presentation_Layer.Member.Login" %>
+<%@ Register Src="~/Local Component Layer/Controls/CaptchaControl.ascx" TagPrefix="uc" TagName="CaptchaControl" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
@@ -20,6 +20,9 @@
                         <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control" />
                         <asp:RequiredFieldValidator runat="server" ControlToValidate="Password"
                             CssClass="text-danger" ErrorMessage="Password is required." />
+                    </div>
+                    <div class="form-group">
+                        <uc:CaptchaControl runat="server" ID="MemberCaptcha" />
                     </div>
                     <div class="form-group">
                         <div class="checkbox">

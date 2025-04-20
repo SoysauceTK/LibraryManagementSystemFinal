@@ -199,7 +199,7 @@
     </None>
     <Content Include="Error.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Local Component Layer\Server and User Controls\CaptchaControl.ascx" />
+    <Content Include="Local Component Layer\Controls\CaptchaControl.ascx" />
     <Content Include="Presentation Layer\Member\Dashboard.aspx" />
     <Content Include="Presentation Layer\Member\Login.aspx" />
     <Content Include="Presentation Layer\Member\Register.aspx" />
@@ -237,12 +237,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Local Component Layer\Server and User Controls\CaptchaControl.ascx.cs">
+    <Compile Include="Local Component Layer\Controls\CaptchaControl.ascx.cs">
       <DependentUpon>CaptchaControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Local Component Layer\Server and User Controls\CaptchaControl.ascx.designer.cs">
+    <Compile Include="Local Component Layer\Controls\CaptchaControl.ascx.designer.cs">
       <DependentUpon>CaptchaControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Local Component Layer\Controls\CaptchaImage.ashx.cs">
+      <DependentUpon>CaptchaImage.ashx</DependentUpon>
     </Compile>
     <Compile Include="Presentation Layer\Member\Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
@@ -332,6 +335,7 @@
     <None Include="Connected Services\SearchService\SearchService3.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Local Component Layer\Controls\CaptchaImage.ashx" />
     <None Include="packages.config" />
     <Content Include="Site.Master" />
     <None Include="Web.Debug.config">
