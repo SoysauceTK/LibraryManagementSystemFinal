@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagementSystem", "LibraryManagementSystem.csproj", "{B7190106-B834-41CC-9E8A-33FE1EFDF31B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Security", "..\LMS.Security\LMS.Security.csproj", "{70764B17-7FB9-4682-8F54-F96F74A69652}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7190106-B834-41CC-9E8A-33FE1EFDF31B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7190106-B834-41CC-9E8A-33FE1EFDF31B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7190106-B834-41CC-9E8A-33FE1EFDF31B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7190106-B834-41CC-9E8A-33FE1EFDF31B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70764B17-7FB9-4682-8F54-F96F74A69652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70764B17-7FB9-4682-8F54-F96F74A69652}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70764B17-7FB9-4682-8F54-F96F74A69652}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70764B17-7FB9-4682-8F54-F96F74A69652}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2FB5ADCB-FBF0-460A-AE79-A09E4F112099}
+	EndGlobalSection
+EndGlobal

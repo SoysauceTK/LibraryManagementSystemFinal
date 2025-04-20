@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="LibraryManagementSystem.Service_Layer.Book_Search_Service.BookStorage" CodeBehind="BookStorage.svc.cs" %>

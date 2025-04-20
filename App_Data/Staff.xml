@@ -1,0 +1,6 @@
+﻿<staffs>
+	<staff>
+		<username>TA</username>
+		<password>[hashed_password]</password>
+	</staff>
+</staffs>
