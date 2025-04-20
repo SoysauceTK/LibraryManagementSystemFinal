@@ -200,7 +200,7 @@ namespace LibraryManagementSystem.Service_Layer.Book_Storage_Service
             }
 
             litResult.Text = "<table class='table table-striped table-bordered'><thead class='thead-dark'><tr>" +
-                "<th>ID</th><th>Title</th><th>Author</th><th>Category</th><th>Year</th><th>Available</th><th>Actions</th>" +
+                "<th>ID</th><th>Title</th><th>Author</th><th>Category</th><th>Year</th><th>Available</th>" +
                 "</tr></thead><tbody>" +
                 string.Join("", books.ConvertAll(b =>
                     $"<tr>" +
@@ -210,14 +210,8 @@ namespace LibraryManagementSystem.Service_Layer.Book_Storage_Service
                     $"<td>{b.Category}</td>" +
                     $"<td>{b.PublicationYear}</td>" +
                     $"<td>{b.CopiesAvailable}</td>" +
-                    $"<td><button class='btn btn-sm btn-info' onclick='loadForUpdate(\"{b.Id}\")'>Edit</button> " +
-                    $"<button class='btn btn-sm btn-danger' onclick='confirmDelete(\"{b.Id}\")'>Delete</button></td>" +
                     $"</tr>")) +
-                "</tbody></table>" +
-                "<script>" +
-                "function loadForUpdate(id) { document.getElementById('txtUpdateId').value = id; document.getElementById('btnLoadForUpdate').click(); }" +
-                "function confirmDelete(id) { if(confirm('Are you sure you want to delete this book?')) { document.getElementById('txtDeleteId').value = id; document.getElementById('btnDeleteBook').click(); } }" +
-                "</script>";
+                "</tbody></table>";
         }
 
         private void ShowMessage(string message, string type)
