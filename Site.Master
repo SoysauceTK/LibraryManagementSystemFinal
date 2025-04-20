@@ -6,12 +6,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%: Page.Title %> - Library Management System</title>
-
-    <!-- Bootstrap & jQuery from CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
 </head>
@@ -22,38 +19,58 @@
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">Library Management System</a>
+                <asp:HyperLink runat="server" CssClass="navbar-brand" NavigateUrl="~/">Library Management System</asp:HyperLink>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/About">About</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Books/Catalog">Book Catalog</a></li>
+                        <asp:LoginView runat="server" ViewStateMode="Disabled">
+                            <AnonymousTemplate>
+                                <li class="nav-item">
+                                    <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/">Home</asp:HyperLink>
+                                </li>
+                            </AnonymousTemplate>
+                        </asp:LoginView>
                         
-                        <!-- Services Dropdown Menu -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarServices" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Services
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarServices">
-                                <li><a class="dropdown-item" runat="server" href="~/Service_Layer/Book_Storage_Service/BookStorageTryIt.aspx">Book Storage Service</a></li>
-                                <li><a class="dropdown-item" runat="server" href="~/Service_Layer/Book_Search_Service/SearchTryIt.aspx">Search Service</a></li>
-                            </ul>
-                        </li>
+                        <asp:LoginView runat="server" ViewStateMode="Disabled">
+                            <RoleGroups>
+                                <asp:RoleGroup Roles="Staff">
+                                    <ContentTemplate>
+                                        <li class="nav-item">
+                                            <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/Presentation Layer/Staff/Dashboard.aspx">Dashboard</asp:HyperLink>
+                                        </li>
+                                    </ContentTemplate>
+                                </asp:RoleGroup>
+                                <asp:RoleGroup Roles="Member">
+                                    <ContentTemplate>
+                                        <li class="nav-item">
+                                            <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/Presentation Layer/Member/Dashboard.aspx">Dashboard</asp:HyperLink>
+                                        </li>
+                                    </ContentTemplate>
+                                </asp:RoleGroup>
+                            </RoleGroups>
+                        </asp:LoginView>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
                             <ul class="navbar-nav">
-                                <li class="nav-item"><a class="nav-link" runat="server" href="~Presentation Layer/Member/Login">Log in</a></li>
-                                <li class="nav-item"><a class="nav-link" runat="server" href="~/Presentation Layer/Member/Register.aspx">Register</a></li>
+                                <li class="nav-item">
+                                    <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/Presentation Layer/Member/Login.aspx">Member Login</asp:HyperLink>
+                                </li>
+                                <li class="nav-item">
+                                    <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/Presentation Layer/Member/Register.aspx">Register</asp:HyperLink>
+                                </li>
+                                <li class="nav-item">
+                                    <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/Presentation Layer/Staff/Login.aspx">Staff Login</asp:HyperLink>
+                                </li>
                             </ul>
                         </AnonymousTemplate>
                         <LoggedInTemplate>
                             <ul class="navbar-nav">
-                                <li class="nav-item"><a class="nav-link" runat="server" href="~Presentation Layer/Member/Account">Hello, <%: Context.User.Identity.Name %>!</a></li>
+                                <li class="nav-item">
+                                    <span class="nav-link">Welcome, <%: Context.User.Identity.Name %></span>
+                                </li>
                                 <li class="nav-item">
                                     <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" CssClass="nav-link" />
                                 </li>

@@ -24,6 +24,15 @@ namespace LibraryManagementSystem.Presentation_Layer.Public
         protected global::System.Web.UI.WebControls.Button btnMember;
 
         /// <summary>
+        /// btnMemberRegister control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnMemberRegister;
+
+        /// <summary>
         /// btnStaff control.
         /// </summary>
         /// <remarks>
@@ -31,5 +40,14 @@ namespace LibraryManagementSystem.Presentation_Layer.Public
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnStaff;
+
+        /// <summary>
+        /// pnlLoggedInContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlLoggedInContent;
     }
 }

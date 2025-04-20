@@ -1,22 +1,23 @@
-﻿// Global.asax.cs
-// DEVELOPER: [Both members] - Global event handlers - [Date]
-using System;
+﻿using System;
 using System.Web;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
-using System.Web.UI; // Required for ScriptManager & ScriptResourceDefinition
+using System.Web.UI;
+using log4net;
 
 namespace LibraryManagementSystem
 {
     public class Global : HttpApplication
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(Global));
+
         void Application_Start(object sender, EventArgs e)
         {
             // Register routes
             RegisterRoutes(RouteTable.Routes);
 
-            // Register jQuery for unobtrusive validation
+            // Register jQuery
             ScriptResourceDefinition jquery = new ScriptResourceDefinition
             {
                 Path = "~/Scripts/jquery-3.6.0.min.js",
@@ -32,10 +33,61 @@ namespace LibraryManagementSystem
             Application["ActiveUsers"] = 0;
             Application["TotalVisits"] = 0;
 
-            // Logging
+            // Configure log4net
             log4net.Config.XmlConfigurator.Configure();
         }
 
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+            // Skip authentication check for TryIt pages
+            if (Request.Path.Contains("TryIt.aspx"))
+            {
+                return;
+            }
+
+
+            if (Request.IsAuthenticated && !IsAjaxRequest())
+            {
+                try
+                {
+                    // Skip if already on a dashboard page or error page
+                    string currentPath = Request.Path.ToLower();
+                    if (currentPath.Contains("dashboard.aspx") ||
+                        currentPath.Contains("error.aspx") ||
+                        currentPath.Contains("login.aspx"))
+                    {
+                        return;
+                    }
+
+                    // Check if this is a redirect after successful login
+                    string returnUrl = Request.QueryString["ReturnUrl"];
+                    if (string.IsNullOrEmpty(returnUrl))
+                    {
+                        string username = Context.User.Identity.Name;
+
+                        // Role-based redirect logic
+                        if (Roles.IsUserInRole(username, "Staff"))
+                        {
+                            if (!currentPath.Contains("staff/dashboard.aspx"))
+                            {
+                                Response.Redirect("~/Presentation Layer/Staff/Dashboard.aspx");
+                            }
+                        }
+                        else if (Roles.IsUserInRole(username, "Member"))
+                        {
+                            if (!currentPath.Contains("member/dashboard.aspx"))
+                            {
+                                Response.Redirect("~/Presentation Layer/Member/Dashboard.aspx");
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.Error("Error in Application_AuthenticateRequest", ex);
+                }
+            }
+        }
         void Session_Start(object sender, EventArgs e)
         {
             Application.Lock();
@@ -43,7 +95,6 @@ namespace LibraryManagementSystem
             Application["TotalVisits"] = (int)Application["TotalVisits"] + 1;
             Application.UnLock();
 
-            log4net.ILog logger = log4net.LogManager.GetLogger(GetType());
             logger.Info($"Session started. Session ID: {Session.SessionID}");
         }
 
@@ -53,24 +104,24 @@ namespace LibraryManagementSystem
             Application["ActiveUsers"] = (int)Application["ActiveUsers"] - 1;
             Application.UnLock();
 
-            log4net.ILog logger = log4net.LogManager.GetLogger(GetType());
             logger.Info($"Session ended. Session ID: {Session.SessionID}");
         }
 
         void Application_Error(object sender, EventArgs e)
         {
             Exception ex = Server.GetLastError();
-            log4net.ILog logger = log4net.LogManager.GetLogger(GetType());
             logger.Error("An unhandled exception occurred", ex);
 
-            // Optional: redirect to error page if needed
-            // string currentPath = HttpContext.Current?.Request?.Path.ToLower() ?? "";
-            // if (!IsAjaxRequest() && !currentPath.Contains("/error.aspx"))
-            // {
-            //     Response.Clear();
-            //     Server.ClearError();
-            //     Response.Redirect("~/Presentation Layer/Error.aspx");
-            // }
+            // Handle specific HTTP errors
+            HttpException httpEx = ex as HttpException;
+            if (httpEx != null && httpEx.GetHttpCode() == 404)
+            {
+                Response.Redirect("~/Error.aspx?code=404");
+            }
+            else
+            {
+                Response.Redirect("~/Error.aspx");
+            }
         }
 
         private bool IsAjaxRequest()
@@ -83,10 +134,42 @@ namespace LibraryManagementSystem
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.Ignore("{resource}.axd/{*pathInfo}");
+
+            // Public routes
             routes.MapPageRoute(
                 "Default",
                 "",
                 "~/Presentation Layer/Public/Default.aspx");
+
+            // Member routes
+            routes.MapPageRoute(
+                "MemberLogin",
+                "member/login",
+                "~/Presentation Layer/Member/Login.aspx");
+            routes.MapPageRoute(
+                "MemberDashboard",
+                "member/dashboard",
+                "~/Presentation Layer/Member/Dashboard.aspx");
+
+            // Staff routes
+            routes.MapPageRoute(
+                "StaffLogin",
+                "staff/login",
+                "~/Presentation Layer/Staff/Login.aspx");
+            routes.MapPageRoute(
+                "StaffDashboard",
+                "staff/dashboard",
+                "~/Presentation Layer/Staff/Dashboard.aspx");
+
+            // TryIt routes
+            routes.MapPageRoute(
+                "BookStorageTryIt",
+                "services/bookstorage/tryit",
+                "~/Service Layer/Book Storage Service/BookStorageTryIt.aspx");
+            routes.MapPageRoute(
+                "SearchTryIt",
+                "services/search/tryit",
+                "~/Service Layer/Book Search Service/SearchTryIt.aspx");
         }
     }
 }

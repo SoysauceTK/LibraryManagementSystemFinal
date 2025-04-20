@@ -1,6 +1,12 @@
-﻿<staffs>
-	<staff>
-		<username>TA</username>
-		<password>E6/Q1nb0kLrpvhZ+F4F9FlSdDoByB9KN5TyTlRqOzNQ=</password>
-	</staff>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<staffs>
+  <staff>
+    <username>TA</username>
+    <password>E6/Q1nb0kLrpvhZ+F4F9FlSdDoByB9KN5TyTlRqOzNQ=</password>
+  </staff>
+  <user>
+    <username>TA</username>
+    <password>
+    </password>
+  </user>
 </staffs>

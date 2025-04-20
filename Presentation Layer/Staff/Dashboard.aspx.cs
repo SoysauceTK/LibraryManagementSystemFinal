@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace LibraryManagementSystem.Presentation_Layer.Staff
 {
@@ -11,7 +9,22 @@ namespace LibraryManagementSystem.Presentation_Layer.Staff
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                if (!Request.IsAuthenticated)
+                {
+                    Response.Redirect("~/Presentation Layer/Staff/Login.aspx?ReturnUrl=" +
+                        Server.UrlEncode(Request.Url.PathAndQuery));
+                    return;
+                }
 
+                if (!User.IsInRole("Staff"))
+                {
+                    FormsAuthentication.SignOut();
+                    Response.Redirect("~/Presentation Layer/Public/Default.aspx");
+                    return;
+                }
+            }
         }
     }
 }

@@ -29,7 +29,8 @@
                     </div>
                     <div class="form-group">
                         <asp:Button runat="server" OnClick="LogIn" Text="Log in" CssClass="btn btn-primary" />
-                        <asp:HyperLink runat="server" NavigateUrl="~/Presentation%20Layer/Member/Register.aspx" CssClass="btn btn-link">Register as a new user</asp:HyperLink>
+                        <asp:HyperLink runat="server" NavigateUrl="~/Presentation%20Layer/Member/Register.aspx" 
+                            CssClass="btn btn-link" ID="RegisterLink">Register as a new user</asp:HyperLink>
                     </div>
                     <div class="form-group">
                         <asp:Literal runat="server" ID="FailureText" />

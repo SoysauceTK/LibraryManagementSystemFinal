@@ -22,6 +22,12 @@
                             CssClass="text-danger" ErrorMessage="Password is required." />
                     </div>
                     <div class="form-group">
+                        <div class="checkbox">
+                            <asp:CheckBox runat="server" ID="RememberMe" />
+                            <asp:Label runat="server" AssociatedControlID="RememberMe">Remember me?</asp:Label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <asp:Button runat="server" OnClick="LogIn" Text="Log in" CssClass="btn btn-secondary" />
                     </div>
                     <div class="form-group">
