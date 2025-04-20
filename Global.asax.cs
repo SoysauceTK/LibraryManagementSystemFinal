@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 using System.Web.Routing;
 using System.Web.Security;
@@ -39,46 +40,49 @@ namespace LibraryManagementSystem
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
-            // Skip authentication check for TryIt pages
-            if (Request.Path.Contains("TryIt.aspx"))
+            // Skip authentication check for TryIt pages and CAPTCHA handler
+            if (Request.Path.Contains("TryIt.aspx") ||
+                Request.Path.Contains("CaptchaImage.ashx"))
             {
                 return;
             }
-
 
             if (Request.IsAuthenticated && !IsAjaxRequest())
             {
                 try
                 {
-                    // Skip if already on a dashboard page or error page
+                    // Skip if already on a dashboard page, error page, or login page
                     string currentPath = Request.Path.ToLower();
                     if (currentPath.Contains("dashboard.aspx") ||
                         currentPath.Contains("error.aspx") ||
-                        currentPath.Contains("login.aspx"))
+                        currentPath.Contains("login.aspx") ||
+                        currentPath.Contains("register.aspx"))
                     {
                         return;
                     }
 
-                    // Check if this is a redirect after successful login
-                    string returnUrl = Request.QueryString["ReturnUrl"];
-                    if (string.IsNullOrEmpty(returnUrl))
+                    // Skip if this is a CAPTCHA refresh request
+                    if (Request.Form.AllKeys.Contains("__EVENTTARGET") &&
+                        Request.Form["__EVENTTARGET"].Contains("btnRefresh"))
                     {
-                        string username = Context.User.Identity.Name;
+                        return;
+                    }
 
-                        // Role-based redirect logic
-                        if (Roles.IsUserInRole(username, "Staff"))
+                    string username = Context.User.Identity.Name;
+
+                    // Role-based redirect logic
+                    if (Roles.IsUserInRole(username, "Staff"))
+                    {
+                        if (!currentPath.Contains("staff/dashboard.aspx"))
                         {
-                            if (!currentPath.Contains("staff/dashboard.aspx"))
-                            {
-                                Response.Redirect("~/Presentation Layer/Staff/Dashboard.aspx");
-                            }
+                            Response.Redirect("~/Presentation Layer/Staff/Dashboard.aspx");
                         }
-                        else if (Roles.IsUserInRole(username, "Member"))
+                    }
+                    else if (Roles.IsUserInRole(username, "Member"))
+                    {
+                        if (!currentPath.Contains("member/dashboard.aspx"))
                         {
-                            if (!currentPath.Contains("member/dashboard.aspx"))
-                            {
-                                Response.Redirect("~/Presentation Layer/Member/Dashboard.aspx");
-                            }
+                            Response.Redirect("~/Presentation Layer/Member/Dashboard.aspx");
                         }
                     }
                 }

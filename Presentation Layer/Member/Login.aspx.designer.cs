@@ -33,6 +33,15 @@ namespace LibraryManagementSystem.Presentation_Layer.Member
         protected global::System.Web.UI.WebControls.TextBox Password;
 
         /// <summary>
+        /// MemberCaptcha control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::LibraryManagementSystem.Local_Component_Layer.Controls.CaptchaControl MemberCaptcha;
+
+        /// <summary>
         /// RememberMe control.
         /// </summary>
         /// <remarks>

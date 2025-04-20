@@ -4,6 +4,7 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Xml;
 using LMS.Security;
+using LibraryManagementSystem.Local_Component_Layer.Controls;
 
 namespace LibraryManagementSystem.Presentation_Layer.Staff
 {
@@ -19,18 +20,22 @@ namespace LibraryManagementSystem.Presentation_Layer.Staff
 
         protected void LogIn(object sender, EventArgs e)
         {
+            if (!StaffCaptcha.Validate())
+            {
+                FailureText.Text = "Invalid CAPTCHA code. Please try again.";
+                return;
+            }
+
             if (IsValid && ValidateUser(Username.Text, Password.Text))
             {
                 FormsAuthentication.SetAuthCookie(Username.Text, RememberMe.Checked);
 
-                // Check if user is actually staff
                 if (Roles.IsUserInRole(Username.Text, "Staff"))
                 {
                     Response.Redirect("~/Presentation Layer/Staff/Dashboard.aspx");
                 }
                 else
                 {
-                    // If not staff, log them out and show error
                     FormsAuthentication.SignOut();
                     FailureText.Text = "Invalid staff credentials.";
                 }
@@ -60,7 +65,6 @@ namespace LibraryManagementSystem.Presentation_Layer.Staff
             catch (Exception ex)
             {
                 FailureText.Text = "An error occurred during login. Please try again.";
-                // Log the exception
                 return false;
             }
         }
