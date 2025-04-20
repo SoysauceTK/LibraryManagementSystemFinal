@@ -1,13 +1,9 @@
-﻿// BookService.svc.cs - Create in LMS.BookStorage project
-// DEVELOPER: Aarya Baireddy - Book Storage Service - [Date]
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.ServiceModel;
 using System.ServiceModel.Web;
+using System.ServiceModel;
 
-namespace LibraryManagementSystem.Service_Layer
+namespace LibraryManagementSystem.Service_Layer.Book_Storage_Service
 {
     [ServiceContract]
     public interface IBookStorage
@@ -41,7 +37,6 @@ namespace LibraryManagementSystem.Service_Layer
         bool UpdateInventory(InventoryUpdate update);
     }
 
-    // Data contract for inventory updates
     [DataContract]
     public class InventoryUpdate
     {

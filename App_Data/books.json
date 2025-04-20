@@ -1,0 +1,38 @@
+[
+    {
+        "Id": "1",
+        "Title": "Clean Code",
+        "Author": "Robert C. Martin",
+        "ISBN": "9780132350884",
+        "Category": "Programming",
+        "PublicationYear": 2008,
+        "Publisher": "Prentice Hall",
+        "CopiesAvailable": 4,
+        "Description": "A Handbook of Agile Software Craftsmanship.",
+        "CoverImageUrl": "https://example.com/covers/cleancode.jpg"
+    },
+    {
+        "Id": "2",
+        "Title": "The Pragmatic Programmer",
+        "Author": "Andrew Hunt, David Thomas",
+        "ISBN": "9780201616224",
+        "Category": "Programming",
+        "PublicationYear": 1999,
+        "Publisher": "Addison-Wesley",
+        "CopiesAvailable": 3,
+        "Description": "Your journey to mastery starts here.",
+        "CoverImageUrl": "https://example.com/covers/pragmatic.jpg"
+    },
+    {
+        "Id": "3",
+        "Title": "1984",
+        "Author": "George Orwell",
+        "ISBN": "9780451524935",
+        "Category": "Fiction",
+        "PublicationYear": 1949,
+        "Publisher": "Signet Classics",
+        "CopiesAvailable": 5,
+        "Description": "A dystopian novel set in a totalitarian society.",
+        "CoverImageUrl": "https://example.com/covers/1984.jpg"
+    }
+]

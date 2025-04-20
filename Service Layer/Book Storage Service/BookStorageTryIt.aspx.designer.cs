@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LibraryManagementSystem.Services
+namespace LibraryManagementSystem.Service_Layer.Book_Storage_Service
 {
 
 

@@ -89,6 +89,16 @@
   <ItemGroup>
     <Content Include="App_Data\Member.xml" />
     <Content Include="App_Data\Staff.xml" />
+    <None Include="Connected Services\BookStorage\BookStorage.disco" />
+    <None Include="Connected Services\BookStorage\configuration91.svcinfo" />
+    <None Include="Connected Services\BookStorage\configuration.svcinfo" />
+    <Content Include="Connected Services\BookStorage\LibraryManagementSystem.BookStorage.Book.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\BookStorage\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Error.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Local Component Layer\Server and User Controls\CaptchaControl.ascx" />
@@ -104,6 +114,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connected Services\BookStorage\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Data Management Layer\JSON Files\Book.cs" />
     <Compile Include="Data Management Layer\JSON Files\BorrowingRecord.cs" />
     <Compile Include="Data Management Layer\JSON Files\JsonDataAccess.cs" />
@@ -192,6 +207,20 @@
     <Compile Include="Service Layer\Book Storage Service\IBookStorage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\BookStorage\BookStorage.wsdl" />
+    <None Include="Connected Services\BookStorage\BookStorage.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BookStorage\BookStorage1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BookStorage\BookStorage2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BookStorage\BookStorage3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="App_Data\books.json" />
     <None Include="packages.config" />
     <Content Include="Site.Master" />
     <None Include="Web.Debug.config">
@@ -212,6 +241,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\BookStorage\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

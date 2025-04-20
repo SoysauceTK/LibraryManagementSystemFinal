@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Web.UI;
-using LibraryManagementSystem.Service_Layer;
+using LibraryManagementSystem.Service_Layer.Book_Storage_Service;
 
-namespace LibraryManagementSystem.Services
+namespace LibraryManagementSystem.Service_Layer.Book_Storage_Service
 {
     public partial class BookStorageTryIt : Page
     {
@@ -19,7 +19,8 @@ namespace LibraryManagementSystem.Services
         {
             if (ddlService.SelectedValue == "GetAllBooks")
             {
-                var books = new BookStorage().GetAllBooks(); // No need to fully qualify LMS.BookStorage.BookService
+                var bookStorage = new BookStorage();
+                var books = bookStorage.GetAllBooks();
                 litResult.Text = "<ul>" + string.Join("", books.ConvertAll(b => $"<li>{b.Title}</li>")) + "</ul>";
             }
         }

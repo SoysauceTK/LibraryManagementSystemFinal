@@ -6,7 +6,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 
-namespace LMS.BookSearch
+namespace LibraryManagementSystem.Service_Layer
 {
     [ServiceContract]
     public interface ISearchService

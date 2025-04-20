@@ -4,8 +4,9 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.Web;
 
-namespace LibraryManagementSystem.Service_Layer
+namespace LibraryManagementSystem.Service_Layer.Book_Storage_Service
 {
     public class BookStorage : IBookStorage
     {
@@ -13,7 +14,7 @@ namespace LibraryManagementSystem.Service_Layer
 
         public BookStorage()
         {
-            _bookData = new JsonDataAccess<Book>("books.json");
+            _bookData = new JsonDataAccess<Book>(HttpContext.Current.Server.MapPath("~/App_Data/books.json"));
         }
 
         public List<Book> GetAllBooks()

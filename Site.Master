@@ -18,16 +18,7 @@
 <body>
     <form runat="server">
         <asp:ScriptManager runat="server">
-            <Scripts>
-                <asp:ScriptReference Path="~/Scripts/WebForms/WebForms.js" />
-                <asp:ScriptReference Path="~/Scripts/WebForms/WebUIValidation.js" />
-                <asp:ScriptReference Path="~/Scripts/WebForms/MenuStandards.js" />
-                <asp:ScriptReference Path="~/Scripts/WebForms/GridView.js" />
-                <asp:ScriptReference Path="~/Scripts/WebForms/DetailsView.js" />
-                <asp:ScriptReference Path="~/Scripts/WebForms/TreeView.js" />
-                <asp:ScriptReference Path="~/Scripts/WebForms/WebParts.js" />
-                <asp:ScriptReference Path="~/Scripts/WebForms/Focus.js" />
-            </Scripts>
+            
         </asp:ScriptManager>
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
