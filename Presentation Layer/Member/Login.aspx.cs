@@ -5,7 +5,7 @@ using System.Web.UI;
 using System.Xml;
 using LMS.Security;
 
-namespace LibraryManagementSystem.Member
+namespace LibraryManagementSystem.Presentation_Layer.Member
 {
     public partial class Login : Page
     {

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LibraryManagementSystem.Staff
+namespace LibraryManagementSystem.Presentation_Layer.Staff
 {
 
 

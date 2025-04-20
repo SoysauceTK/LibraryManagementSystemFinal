@@ -15,5 +15,15 @@ namespace LibraryManagementSystem
         {
             System.Web.Security.FormsAuthentication.SignOut();
         }
+
+        protected void NavigateToSearchTryIt(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Service_Layer/Book_Search_Service/SearchTryIt.aspx");
+        }
+
+        protected void NavigateToBookStorageTryIt(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Service_Layer/Book_Storage_Service/BookStorageTryIt.aspx");
+        }
     }
 }

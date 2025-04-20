@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.UI;
 
-namespace LibraryManagementSystem
+namespace LibraryManagementSystem.Presentation_Layer.Public
 {
     public partial class _Default : Page
     {
