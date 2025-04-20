@@ -11,6 +11,7 @@ namespace LibraryManagementSystem.Service_Layer.Book_Storage_Service
     public class BookStorage : IBookStorage
     {
         private readonly JsonDataAccess<Book> _bookData;
+        private readonly object _idLock = new object();
 
         public BookStorage()
         {
@@ -29,13 +30,20 @@ namespace LibraryManagementSystem.Service_Layer.Book_Storage_Service
 
         public Book AddBook(Book book)
         {
-            if (string.IsNullOrEmpty(book.Id))
+            lock (_idLock) // Thread-safe ID generation
             {
-                book.Id = Guid.NewGuid().ToString();
-            }
+                if (string.IsNullOrEmpty(book.Id))
+                {
+                    var allBooks = _bookData.GetAll();
+                    int maxId = allBooks.Count > 0
+                        ? allBooks.Max(b => int.Parse(b.Id))
+                        : 0;
+                    book.Id = (maxId + 1).ToString();
+                }
 
-            _bookData.Insert(book);
-            return book;
+                _bookData.Insert(book);
+                return book;
+            }
         }
 
         public Book UpdateBook(Book book)
