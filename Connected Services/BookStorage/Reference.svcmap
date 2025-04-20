@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="f15ad599-4020-46d0-b22e-8b78b56d3fd9" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="e5722ef6-2c38-4b5f-a567-cf24d5fd188a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,12 +22,12 @@
     <MetadataSource Address="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="BookStorage.disco" MetadataType="Disco" ID="8659e242-6aa1-4e69-9f79-99942babc8c1" SourceId="1" SourceUrl="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc?disco" />
-    <MetadataFile FileName="BookStorage.xsd" MetadataType="Schema" ID="6d6771e1-ca65-45c6-b005-c835f906ec07" SourceId="1" SourceUrl="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc?xsd=xsd1" />
-    <MetadataFile FileName="BookStorage1.xsd" MetadataType="Schema" ID="576d41ad-f045-4f25-902b-252a6831ace1" SourceId="1" SourceUrl="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc?xsd=xsd2" />
-    <MetadataFile FileName="BookStorage2.xsd" MetadataType="Schema" ID="aa18d681-5228-41af-9f9c-ff7cdbddcc3d" SourceId="1" SourceUrl="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc?xsd=xsd3" />
-    <MetadataFile FileName="BookStorage3.xsd" MetadataType="Schema" ID="63292909-75d1-442e-93e6-dbbac9d8ec75" SourceId="1" SourceUrl="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc?xsd=xsd0" />
-    <MetadataFile FileName="BookStorage.wsdl" MetadataType="Wsdl" ID="55705446-f4d3-4b9f-815e-723d394f5a20" SourceId="1" SourceUrl="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc?wsdl" />
+    <MetadataFile FileName="BookStorage.disco" MetadataType="Disco" ID="6f70afe1-c9d6-4558-9111-5f2ce1693d12" SourceId="1" SourceUrl="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc?disco" />
+    <MetadataFile FileName="BookStorage.xsd" MetadataType="Schema" ID="cb724451-a470-4ea5-8265-be3748a83941" SourceId="1" SourceUrl="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc?xsd=xsd1" />
+    <MetadataFile FileName="BookStorage1.xsd" MetadataType="Schema" ID="83a78fa3-78a7-49e2-bed8-16f9eddffa18" SourceId="1" SourceUrl="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc?xsd=xsd2" />
+    <MetadataFile FileName="BookStorage2.xsd" MetadataType="Schema" ID="8372554d-6a60-47f8-be8c-a430db5fcd96" SourceId="1" SourceUrl="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc?xsd=xsd3" />
+    <MetadataFile FileName="BookStorage3.xsd" MetadataType="Schema" ID="2e77fde7-ad2c-46fe-af61-99f26b752f8e" SourceId="1" SourceUrl="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc?xsd=xsd0" />
+    <MetadataFile FileName="BookStorage.wsdl" MetadataType="Wsdl" ID="8a11f9a1-3fb0-4257-b10e-e58a2a5274f6" SourceId="1" SourceUrl="https://localhost:44369/Service Layer/Book Storage Service/BookStorage.svc?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Xml;
 using LMS.Security;
 
-namespace LibraryManagementSystem.Staff
+namespace LibraryManagementSystem.Presentation_Layer.Staff
 {
     public partial class Login : Page
     {
@@ -15,7 +15,7 @@ namespace LibraryManagementSystem.Staff
             // Prevent unnecessary redirects and loops
             /*if (User.Identity.IsAuthenticated && !IsPostBack)
             {
-                Response.Redirect("~/Default.aspx"); // Or redirect to Staff/Dashboard only if safe
+                Response.Redirect("~/Presentation Layer/Default.aspx"); // Or redirect to Staff/Dashboard only if safe
             }*/
         }
 
@@ -42,7 +42,7 @@ namespace LibraryManagementSystem.Staff
                     authCookie.Value = FormsAuthentication.Encrypt(newTicket);
                     Response.Cookies.Add(authCookie);
 
-                    Response.Redirect("~/Staff/Dashboard.aspx");
+                    Response.Redirect("~/Presentation Layer/Staff/Dashboard.aspx");
                 }
                 else
                 {

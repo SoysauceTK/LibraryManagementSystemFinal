@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LibraryManagementSystem.Member
+namespace LibraryManagementSystem.Presentation_Layer.Member
 {
 
 

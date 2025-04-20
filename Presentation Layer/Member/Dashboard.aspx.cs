@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 
-namespace LibraryManagementSystem.Member
+namespace LibraryManagementSystem.Presentation_Layer.Member
 {
     public partial class Dashboard : Page
     {

@@ -1,5 +1,5 @@
 ﻿<%-- Default.aspx --%>
-<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="LibraryManagementSystem._Default" %>
+<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="LibraryManagementSystem.Presentation_Layer.Public._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="jumbotron">
@@ -47,7 +47,7 @@
                             <td>None</td>
                             <td>List&lt;Book&gt;</td>
                             <td>Retrieves all books in the library</td>
-                            <td><a href="Services/TryIt.aspx?service=BookService&op=GetAllBooks" class="btn btn-sm btn-info">Try It</a></td>
+                            <td><a href="Service Layer/Book Storage Service/BookStorageTryIt.aspx?op=GetAllBooks" class="btn btn-sm btn-info">Try It</a></td>
                         </tr>
                         <tr>
                             <td>Aarya Baireddy</td>
@@ -56,7 +56,7 @@
                             <td>id (string)</td>
                             <td>Book</td>
                             <td>Retrieves a book by its ID</td>
-                            <td><a href="Services/TryIt.aspx?service=BookService&op=GetBookById" class="btn btn-sm btn-info">Try It</a></td>
+                            <td><a href="Service Layer/Book Storage Service/BookStorageTryIt.aspx?op=GetBookById" class="btn btn-sm btn-info">Try It</a></td>
                         </tr>
                         <tr>
                             <td>Aarya Baireddy</td>
@@ -65,7 +65,7 @@
                             <td>Book (object)</td>
                             <td>Book</td>
                             <td>Adds a new book to the library</td>
-                            <td><a href="Services/TryIt.aspx?service=BookService&op=AddBook" class="btn btn-sm btn-info">Try It</a></td>
+                            <td><a href="Service Layer/Book Storage Service/BookStorageTryIt.aspx?op=AddBook" class="btn btn-sm btn-info">Try It</a></td>
                         </tr>
                         <tr>
                             <td>Sawyer Kesti</td>
@@ -74,7 +74,7 @@
                             <td>query (string)</td>
                             <td>List&lt;Book&gt;</td>
                             <td>Searches books by title, author, or keyword</td>
-                            <td><a href="Services/TryIt.aspx?service=SearchService&op=SearchBooks" class="btn btn-sm btn-info">Try It</a></td>
+                            <td><a href="Service Layer/Book Search Service/SearchTryIt.aspx?op=SearchBooks" class="btn btn-sm btn-info">Try It</a></td>
                         </tr>
                         <tr>
                             <td>Sawyer Kesti</td>
@@ -83,7 +83,7 @@
                             <td>title, author, category, year (all string)</td>
                             <td>List&lt;Book&gt;</td>
                             <td>Performs advanced search with multiple criteria</td>
-                            <td><a href="Services/TryIt.aspx?service=SearchService&op=AdvancedSearch" class="btn btn-sm btn-info">Try It</a></td>
+                            <td><a href="Service Layer/Book Search Service/SearchTryIt.aspx?op=AdvancedSearch" class="btn btn-sm btn-info">Try It</a></td>
                         </tr>
                         <tr>
                             <td>Sawyer Kesti</td>
@@ -92,7 +92,7 @@
                             <td>bookId (string)</td>
                             <td>List&lt;Book&gt;</td>
                             <td>Gets book recommendations based on a book ID</td>
-                            <td><a href="Services/TryIt.aspx?service=SearchService&op=GetRecommendations" class="btn btn-sm btn-info">Try It</a></td>
+                            <td><a href="Service Layer/Book Search Service/SearchTryIt.aspx?op=GetRecommendations" class="btn btn-sm btn-info">Try It</a></td>
                         </tr>
                         <tr>
                             <td>Aarya Baireddy</td>
@@ -101,7 +101,7 @@
                             <td>password (string)</td>
                             <td>string</td>
                             <td>Generates a secure hash of a password</td>
-                            <td><a href="Services/TryIt.aspx?service=SecurityService&op=HashPassword" class="btn btn-sm btn-info">Try It</a></td>
+                            <td><a href="Service Layer/SecurityServiceTryIt.aspx" class="btn btn-sm btn-info">Try It</a></td>
                         </tr>
                         <tr>
                             <td>Sawyer Kesti</td>

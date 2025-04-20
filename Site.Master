@@ -18,7 +18,6 @@
 <body>
     <form runat="server">
         <asp:ScriptManager runat="server">
-            
         </asp:ScriptManager>
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -33,6 +32,17 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/About">About</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contact</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Books/Catalog">Book Catalog</a></li>
+                        
+                        <!-- Services Dropdown Menu -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarServices" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Services
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarServices">
+                                <li><a class="dropdown-item" runat="server" href="~/Service_Layer/Book_Storage_Service/BookStorageTryIt.aspx">Book Storage Service</a></li>
+                                <li><a class="dropdown-item" runat="server" href="~/Service_Layer/Book_Search_Service/SearchTryIt.aspx">Search Service</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>

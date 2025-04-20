@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LibraryManagementSystem
+namespace LibraryManagementSystem.Presentation_Layer.Public
 {
 
 
