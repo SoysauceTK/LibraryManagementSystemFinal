@@ -49,10 +49,10 @@
                                     <tr>
                                         <td>Aarya Baireddy</td>
                                         <td>RESTful Service</td>
-                                        <td>Book Storage Service (e.g., GetAllBooks)</td>
-                                        <td>Varies (e.g., None for GetAllBooks)</td>
-                                        <td>Varies (e.g., List&lt;Book&gt;)</td>
-                                        <td>Manages CRUD operations for library books via REST API.</td>
+                                        <td>Book Search Service (e.g., SearchBooks)</td>
+                                        <td>query (string)</td>
+                                        <td>List&lt;Book&gt;</td>
+                                        <td>Provides book searching capabilities via REST API.</td>
                                     </tr>
                                     <tr>
                                         <td>Aarya Baireddy</td>
@@ -73,10 +73,10 @@
                                     <tr>
                                         <td>Sawyer Kesti</td>
                                         <td>RESTful Service</td>
-                                        <td>Book Search Service (e.g., SearchBooks)</td>
-                                        <td>query (string)</td>
-                                        <td>List&lt;Book&gt;</td>
-                                        <td>Provides book searching capabilities via REST API.</td>
+                                        <td>Book Storage Service (e.g., GetAllBooks)</td>
+                                        <td>Varies (e.g., None for GetAllBooks)</td>
+                                        <td>Varies (e.g., List&lt;Book&gt;)</td>
+                                        <td>Manages CRUD operations for library books via REST API.</td>
                                     </tr>
                                      <tr>
                                         <td>Sawyer Kesti</td>

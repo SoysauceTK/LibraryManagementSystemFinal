@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// SearchService.svc.cs - Create in LMS.BookSearch project
+// DEVELOPER: Sawyer Kesti - Book Search Service
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel.Web;
 using System.ServiceModel;

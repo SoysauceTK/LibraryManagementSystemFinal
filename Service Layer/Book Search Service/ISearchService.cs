@@ -1,5 +1,5 @@
 ﻿// SearchService.svc.cs - Create in LMS.BookSearch project
-// DEVELOPER: Sawyer Kesti - Book Search Service - [Date]
+// DEVELOPER: Aarya Baireddy - Book Search Service
 using System;
 using System.Collections.Generic;
 using System.Linq;
