@@ -49,75 +49,51 @@
                         <tbody>
                             <tr>
                                 <td>Aarya Baireddy</td>
-                                <td>WSDL Service</td>
-                                <td>GetAllBooks</td>
-                                <td>None</td>
-                                <td>List&lt;Book&gt;</td>
-                                <td>Retrieves all books in the library</td>
-                                <td><a href="Service Layer/Book Storage Service/BookStorageTryIt.aspx?op=GetAllBooks" class="btn btn-sm btn-info">Try It</a></td>
+                                <td>RESTful Service</td>
+                                <td>Book Storage Service (e.g., GetAllBooks)</td>
+                                <td>Varies (e.g., None for GetAllBooks)</td>
+                                <td>Varies (e.g., List&lt;Book&gt;)</td>
+                                <td>Manages CRUD operations for library books via REST API.</td>
                             </tr>
                             <tr>
                                 <td>Aarya Baireddy</td>
-                                <td>WSDL Service</td>
-                                <td>GetBookById</td>
-                                <td>id (string)</td>
-                                <td>Book</td>
-                                <td>Retrieves a book by its ID</td>
-                                <td><a href="Service Layer/Book Storage Service/BookStorageTryIt.aspx?op=GetBookById" class="btn btn-sm btn-info">Try It</a></td>
+                                <td>Application Lifecycle</td>
+                                <td>Global.asax (e.g., Application_Start)</td>
+                                <td>Varies (e.g., sender, e for events)</td>
+                                <td>void</td>
+                                <td>Manages application-level events and state.</td>
                             </tr>
-                            <tr>
+                                <tr>
                                 <td>Aarya Baireddy</td>
-                                <td>WSDL Service</td>
-                                <td>AddBook</td>
-                                <td>Book (object)</td>
-                                <td>Book</td>
-                                <td>Adds a new book to the library</td>
-                                <td><a href="Service Layer/Book Storage Service/BookStorageTryIt.aspx?op=AddBook" class="btn btn-sm btn-info">Try It</a></td>
+                                <td>Session State Management</td>
+                                <td>SetSessionValue</td>
+                                <td>key (string), value (object)</td>
+                                <td>void</td>
+                                <td>Handles server-side session state persistence.</td>
                             </tr>
                             <tr>
                                 <td>Sawyer Kesti</td>
                                 <td>RESTful Service</td>
-                                <td>SearchBooks</td>
+                                <td>Book Search Service (e.g., SearchBooks)</td>
                                 <td>query (string)</td>
                                 <td>List&lt;Book&gt;</td>
-                                <td>Searches books by title, author, or keyword</td>
-                                <td><a href="Service Layer/Book Search Service/SearchTryIt.aspx?op=SearchBooks" class="btn btn-sm btn-info">Try It</a></td>
+                                <td>Provides book searching capabilities via REST API.</td>
                             </tr>
-                            <tr>
+                                <tr>
                                 <td>Sawyer Kesti</td>
-                                <td>RESTful Service</td>
-                                <td>AdvancedSearch</td>
-                                <td>title, author, category, year (all string)</td>
-                                <td>List&lt;Book&gt;</td>
-                                <td>Performs advanced search with multiple criteria</td>
-                                <td><a href="Service Layer/Book Search Service/SearchTryIt.aspx?op=AdvancedSearch" class="btn btn-sm btn-info">Try It</a></td>
+                                <td>Captcha User Control</td>
+                                <td>GenerateCaptchaImage</td>
+                                <td>None</td>
+                                <td>CaptchaResult (object)</td>
+                                <td>ASP.NET control for generating and validating CAPTCHAs.</td>
                             </tr>
-                            <tr>
+                                <tr>
                                 <td>Sawyer Kesti</td>
-                                <td>RESTful Service</td>
-                                <td>GetRecommendations</td>
-                                <td>bookId (string)</td>
-                                <td>List&lt;Book&gt;</td>
-                                <td>Gets book recommendations based on a book ID</td>
-                                <td><a href="Service Layer/Book Search Service/SearchTryIt.aspx?op=GetRecommendations" class="btn btn-sm btn-info">Try It</a></td>
-                            </tr>
-                            <tr>
-                                <td>Aarya Baireddy</td>
-                                <td>DLL Library</td>
-                                <td>HashPassword</td>
-                                <td>password (string)</td>
-                                <td>string</td>
-                                <td>Generates a secure hash of a password</td>
-                                <td><a href="Service Layer/SecurityServiceTryIt.aspx" class="btn btn-sm btn-info">Try It</a></td>
-                            </tr>
-                            <tr>
-                                <td>Sawyer Kesti</td>
-                                <td>User Control</td>
-                                <td>CaptchaControl</td>
-                                <td>N/A</td>
-                                <td>N/A</td>
-                                <td>Displays a CAPTCHA for form verification</td>
-                                <td><a href="Controls/TryCaptcha.aspx" class="btn btn-sm btn-info">Try It</a></td>
+                                <td>Cookie Storage Utility</td>
+                                <td>SetClientCookie</td>
+                                <td>name (string), value (string), expiry (DateTime)</td>
+                                <td>void</td>
+                                <td>Helper methods for managing client-side cookies.</td>
                             </tr>
                         </tbody>
                     </table>
