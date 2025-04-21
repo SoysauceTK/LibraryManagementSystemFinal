@@ -62,7 +62,7 @@ namespace LibraryManagementSystem.Presentation_Layer.Member
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 FailureText.Text = "An error occurred during login. Please try again.";
                 return false;

@@ -51,7 +51,7 @@ namespace LibraryManagementSystem.Presentation_Layer.Member
                     // Redirect to login after successful registration
                     Response.Redirect("~/Presentation Layer/Member/Login.aspx?registered=true");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     litMessage.Text = "Registration failed. Please try again later.";
                     // Log the error
