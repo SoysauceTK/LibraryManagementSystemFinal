@@ -34,6 +34,13 @@ namespace LibraryManagementSystem.Staff
 
             // Set the data path to use the App_Data folder of the main application
             string dataPath = Server.MapPath("~/App_Data");
+            
+            // Ensure directory exists
+            if (!Directory.Exists(dataPath))
+            {
+                Directory.CreateDirectory(dataPath);
+            }
+            
             client.SetDataPath(dataPath);
 
             return client;
@@ -44,6 +51,18 @@ namespace LibraryManagementSystem.Staff
             var client = new SearchServiceReference.SearchServiceClient("BasicHttpBinding_ISearchService");
             client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
             client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            
+            // Set the data path to use the App_Data folder of the main application
+            string dataPath = Server.MapPath("~/App_Data");
+            
+            // Ensure directory exists
+            if (!Directory.Exists(dataPath))
+            {
+                Directory.CreateDirectory(dataPath);
+            }
+            
+            client.SetDataPath(dataPath);
+            
             return client;
         }
 

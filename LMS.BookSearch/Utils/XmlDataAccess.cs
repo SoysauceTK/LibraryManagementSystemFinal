@@ -27,9 +27,27 @@ namespace LMS.BookSearch.Utils
                 string directory = Path.GetDirectoryName(_filePath);
                 if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
                 {
-                    Directory.CreateDirectory(directory);
+                    try
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error creating directory: {ex.Message}");
+                        // Continue as the directory might be created by another process
+                    }
                 }
-                SaveAll(new List<T>());
+                
+                try
+                {
+                    // Initialize with empty list
+                    SaveAll(new List<T>());
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error initializing XML file: {ex.Message}");
+                    // If we can't create the file, we'll try again on demand
+                }
             }
         }
 
@@ -39,7 +57,14 @@ namespace LMS.BookSearch.Utils
             {
                 try
                 {
-                    using (var fileStream = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    if (!File.Exists(_filePath))
+                    {
+                        // If file doesn't exist, create an empty one
+                        SaveAll(new List<T>());
+                        return new List<T>();
+                    }
+                    
+                    using (var fileStream = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
                         return (List<T>)_serializer.Deserialize(fileStream);
                     }
@@ -72,7 +97,7 @@ namespace LMS.BookSearch.Utils
             {
                 try
                 {
-                    using (var fileStream = new FileStream(_filePath, FileMode.Create))
+                    using (var fileStream = new FileStream(_filePath, FileMode.Create, FileAccess.Write, FileShare.Read))
                     {
                         XmlWriterSettings settings = new XmlWriterSettings
                         {
