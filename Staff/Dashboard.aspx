@@ -7,7 +7,7 @@
     </div>
 
     <div class="row">
-        <%-- Left Column: Quick Stats & Actions --%>
+        <%-- Left Column: Quick Stats & Latest Borrows --%>
         <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">
@@ -15,15 +15,27 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Total Books: <asp:Literal ID="TotalBooksLiteral" runat="server">Loading...</asp:Literal></li>
-                        <li class="list-group-item">Books Borrowed: <asp:Literal ID="BorrowedBooksLiteral" runat="server">Loading...</asp:Literal></li>
-                        <li class="list-group-item">Registered Members: <asp:Literal ID="MembersLiteral" runat="server">Loading...</asp:Literal></li>
-                        <li class="list-group-item">Overdue Returns: <asp:Literal ID="OverdueLiteral" runat="server">Loading...</asp:Literal></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Total Books</span>
+                            <span class="badge badge-primary badge-pill"><asp:Literal ID="TotalBooksLiteral" runat="server">0</asp:Literal></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Books Borrowed</span>
+                            <span class="badge badge-info badge-pill"><asp:Literal ID="BorrowedBooksLiteral" runat="server">0</asp:Literal></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Registered Members</span>
+                            <span class="badge badge-success badge-pill"><asp:Literal ID="MembersLiteral" runat="server">0</asp:Literal></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Overdue Returns</span>
+                            <span class="badge badge-danger badge-pill"><asp:Literal ID="OverdueLiteral" runat="server">0</asp:Literal></span>
+                        </li>
                     </ul>
                 </div>
             </div>
 
-            <%-- NEW: Latest Borrows Card --%>
+            <%-- Latest Borrows Card --%>
             <div class="card mb-4">
                 <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
                     <h3 class="mb-0">Latest Borrows</h3>
@@ -62,23 +74,9 @@
                     <a href="BorrowingManagement.aspx" class="btn btn-sm btn-outline-success">View All Borrows</a>
                 </div>
             </div>
-
-            <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h3>Quick Actions</h3>
-                </div>
-                <div class="card-body">
-                    <div class="list-group">
-                        <a href="BookManagement.aspx" class="list-group-item list-group-item-action">Book Management</a>
-                        <a href="MemberManagement.aspx" class="list-group-item list-group-item-action">Member Management</a>
-                        <a href="BorrowingManagement.aspx" class="list-group-item list-group-item-action">Borrowing Management</a>
-                        <a href="ReportGenerator.aspx" class="list-group-item list-group-item-action">Generate Reports</a>
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <%-- Right Column: Add Book, Search, Activities --%>
+        <%-- Right Column: Add Book, Search --%>
         <div class="col-md-8">
             <%-- Add New Book Card --%>
             <div class="card mb-4">
@@ -147,9 +145,9 @@
                 </div>
             </div>
 
-            <%-- NEW: Book Search Card --%>
+            <%-- Book Search Card --%>
             <div class="card mb-4">
-                <div class="card-header bg-info text-white"> <%-- Changed color for distinction --%>
+                <div class="card-header bg-info text-white">
                     <h3>Search Books</h3>
                 </div>
                 <div class="card-body">
@@ -165,7 +163,7 @@
                             <asp:Literal runat="server" ID="SearchStatusLiteral" />
                          </asp:Panel>
                     </div>
-                     <div class="form-group mt-3 table-responsive"> <%-- Added table-responsive --%>
+                     <div class="form-group mt-3 table-responsive">
                          <asp:GridView ID="SearchResultsGridView" runat="server" AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-hover"
                              EmptyDataText="No books found matching your search criteria.">
                              <Columns>
@@ -179,25 +177,6 @@
                               <HeaderStyle CssClass="bg-light" />
                          </asp:GridView>
                      </div>
-                </div>
-            </div>
-
-            <%-- Recent Activities Card --%>
-            <div class="card">
-                <div class="card-header bg-secondary text-white"> <%-- Changed color --%>
-                    <h3>Recent Activities</h3>
-                </div>
-                <div class="card-body table-responsive"> <%-- Added table-responsive --%>
-                    <asp:GridView ID="ActivityLogGridView" runat="server" AutoGenerateColumns="False" CssClass="table table-striped table-hover"
-                        EmptyDataText="No recent activities recorded.">
-                        <Columns>
-                            <asp:BoundField DataField="Date" HeaderText="Date" DataFormatString="{0:g}" SortExpression="Date" />
-                            <asp:BoundField DataField="Action" HeaderText="Action" SortExpression="Action" />
-                            <asp:BoundField DataField="Details" HeaderText="Details" SortExpression="Details" />
-                            <asp:BoundField DataField="User" HeaderText="User" SortExpression="User" />
-                        </Columns>
-                         <HeaderStyle CssClass="bg-light" />
-                    </asp:GridView>
                 </div>
             </div>
         </div>
