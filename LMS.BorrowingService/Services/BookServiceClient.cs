@@ -21,11 +21,17 @@ namespace LMS.BorrowingService.Services
 
         private BookServiceReference.BookServiceClient CreateBookServiceClient()
         {
-            var client = new BookServiceReference.BookServiceClient("BasicHttpBinding_IBookService");
-            client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
-            client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            // Create a direct endpoint address and binding instead of relying on config
+            var endpoint = new EndpointAddress("http://webstrar94.fulton.asu.edu/Page8/BookService.svc");
+            var binding = new BasicHttpBinding
+            {
+                SendTimeout = TimeSpan.FromSeconds(30),
+                ReceiveTimeout = TimeSpan.FromSeconds(30),
+                MaxReceivedMessageSize = 2147483647,
+                MaxBufferSize = 2147483647
+            };
 
-            return client;
+            return new BookServiceReference.BookServiceClient(binding, endpoint);
         }
 
         /// <summary>
