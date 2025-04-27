@@ -19,6 +19,11 @@ namespace LibraryManagementSystem
             Response.Redirect("~/Staff/Login.aspx");
         }
 
+        protected void btnMemberRegister_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Member/Register.aspx");
+        }
+
         protected void btnTryBookStorage_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/Services/TryBookStorage.aspx");
