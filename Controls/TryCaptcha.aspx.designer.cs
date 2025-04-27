@@ -15,39 +15,66 @@ namespace LibraryManagementSystem.Controls
     {
 
         /// <summary>
-        /// testCaptcha control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::LibraryManagementSystem.Controls.CaptchaControl testCaptcha;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// CaptchaInput control.
+        /// captchaControl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox CaptchaInput;
+        protected global::LibraryManagementSystem.Controls.CaptchaControl captchaControl;
 
         /// <summary>
-        /// VerifyButton control.
+        /// txtCaptchaInput control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button VerifyButton;
+        protected global::System.Web.UI.WebControls.TextBox txtCaptchaInput;
 
         /// <summary>
-        /// ResultLiteral control.
+        /// btnVerifyCaptcha control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ResultLiteral;
+        protected global::System.Web.UI.WebControls.Button btnVerifyCaptcha;
+
+        /// <summary>
+        /// btnRefreshCaptcha control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRefreshCaptcha;
+
+        /// <summary>
+        /// pnlResults control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlResults;
+
+        /// <summary>
+        /// litResults control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litResults;
     }
 }

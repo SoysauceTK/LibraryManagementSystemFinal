@@ -18,5 +18,20 @@ namespace LibraryManagementSystem
         {
             Response.Redirect("~/Staff/Login.aspx");
         }
+
+        protected void btnTryBookStorage_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Services/TryBookStorage.aspx");
+        }
+
+        protected void btnTryBookSearch_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Services/TryBookSearch.aspx");
+        }
+
+        protected void btnTryCaptcha_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Controls/TryCaptcha.aspx");
+        }
     }
 }

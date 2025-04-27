@@ -1,36 +1,64 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace LibraryManagementSystem.Controls
 {
-    public partial class TryCaptcha : Page
+    public partial class TryCaptcha : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                // Clear any previous result
-                ResultLiteral.Text = string.Empty;
+                // Initialize the captcha on first load
+                captchaControl.GenerateNewCaptcha();
             }
         }
 
-        protected void VerifyButton_Click(object sender, EventArgs e)
+        protected void btnVerifyCaptcha_Click(object sender, EventArgs e)
         {
-            if (Page.IsValid)
+            string userInput = txtCaptchaInput.Text.Trim();
+            
+            if (string.IsNullOrEmpty(userInput))
             {
-                if (testCaptcha.Validate())
-                {
-                    ResultLiteral.Text = "<div class='alert alert-success'>CAPTCHA verification successful!</div>";
-                }
-                else
-                {
-                    ResultLiteral.Text = "<div class='alert alert-danger'>CAPTCHA verification failed. Please try again.</div>";
-                    testCaptcha.GenerateCaptcha(); // Generate a new CAPTCHA
-                }
-
-                // Clear the input
-                CaptchaInput.Text = string.Empty;
+                ShowResult("Please enter the CAPTCHA text", false);
+                return;
             }
+
+            bool isValid = captchaControl.Validate(userInput);
+            
+            if (isValid)
+            {
+                ShowResult("CAPTCHA verification successful!", true);
+                // Generate a new captcha after successful verification
+                captchaControl.GenerateNewCaptcha();
+                txtCaptchaInput.Text = string.Empty;
+            }
+            else
+            {
+                ShowResult("CAPTCHA verification failed. Please try again.", false);
+                // Generate a new captcha after failed verification
+                captchaControl.GenerateNewCaptcha();
+                txtCaptchaInput.Text = string.Empty;
+            }
+        }
+
+        protected void btnRefreshCaptcha_Click(object sender, EventArgs e)
+        {
+            // Refresh the captcha
+            captchaControl.GenerateNewCaptcha();
+            txtCaptchaInput.Text = string.Empty;
+            pnlResults.Visible = false;
+        }
+
+        private void ShowResult(string message, bool success)
+        {
+            pnlResults.Visible = true;
+            pnlResults.CssClass = success ? "alert alert-success" : "alert alert-danger";
+            litResults.Text = message;
         }
     }
 }

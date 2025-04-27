@@ -6,6 +6,7 @@ using System.ServiceModel.Activation;
 using System.IO;
 using LMS.BorrowingService.Models;
 using LMS.BorrowingService.Utils;
+using LMS.BorrowingService.Services;
 
 namespace LMS.BorrowingService
 {
@@ -84,7 +85,7 @@ namespace LMS.BorrowingService
         {
             try
             {
-                // Get book data from BookService
+                // Get book data from BookService using the new client
                 var bookServiceClient = new BookServiceClient(_bookServiceEndpoint);
                 var book = bookServiceClient.GetBookById(bookId);
                 
@@ -184,7 +185,7 @@ namespace LMS.BorrowingService
                 var userBorrowsData = new XmlDataAccess<BorrowRecord>(userRecordPath);
                 userBorrowsData.Update(borrowRecord, b => b.Id == borrowId);
                 
-                // Update book inventory (increment available copies)
+                // Update book inventory (increment available copies) using the new client
                 var bookServiceClient = new BookServiceClient(_bookServiceEndpoint);
                 bookServiceClient.UpdateInventory(new InventoryUpdate { BookId = borrowRecord.BookId, QuantityChange = 1 });
                 
@@ -256,51 +257,5 @@ namespace LMS.BorrowingService
             _membersData.Insert(member);
             return member;
         }
-    }
-
-    // Client for BookService
-    internal class BookServiceClient
-    {
-        // This is a simple client for the BookService
-        // In a real implementation, you would use WCF client configuration
-        private readonly string _endpoint;
-
-        public BookServiceClient(string endpoint)
-        {
-            _endpoint = endpoint;
-        }
-
-        public Book GetBookById(string id)
-        {
-            // In a real implementation, this would call the actual service
-            // For now, we'll just simulate it
-            return new Book
-            {
-                Id = id,
-                Title = "Sample Book",
-                CopiesAvailable = 10
-            };
-        }
-
-        public bool UpdateInventory(InventoryUpdate update)
-        {
-            // In a real implementation, this would call the actual service
-            // For now, we'll just simulate success
-            return true;
-        }
-    }
-
-    // Models needed for the BookServiceClient
-    internal class Book
-    {
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public int CopiesAvailable { get; set; }
-    }
-
-    internal class InventoryUpdate
-    {
-        public string BookId { get; set; }
-        public int QuantityChange { get; set; }
     }
 } 
