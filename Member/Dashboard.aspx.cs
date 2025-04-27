@@ -103,10 +103,13 @@ namespace LibraryManagementSystem.Member
                             {
                                 Id = b.Id,
                                 Title = b.BookTitle,
-                                Author = b.Author,  // Assuming the service returns the author
+                                Author = b.Author ?? "Unknown",  // Handle missing author info
                                 BorrowDate = b.BorrowDate,
                                 DueDate = b.DueDate
                             }).ToList();
+                            
+                            // Try to get author information if it's missing
+                            await EnrichBorrowsWithAuthorInfo(borrowList);
                         }
                     }
                     catch (Exception ex)
@@ -129,6 +132,31 @@ namespace LibraryManagementSystem.Member
                 // Show empty grid
                 BorrowedBooksGridView.DataSource = new List<BorrowedBook>();
                 BorrowedBooksGridView.DataBind();
+            }
+        }
+        
+        // Helper method to enrich borrows with author information
+        private async Task EnrichBorrowsWithAuthorInfo(List<BorrowedBook> borrows)
+        {
+            foreach (var borrow in borrows.Where(b => b.Author == "Unknown"))
+            {
+                try
+                {
+                    using (var bookClient = CreateBookServiceClient())
+                    {
+                        var book = await bookClient.GetBookByIdAsync(borrow.Id);
+                        if (book != null && !string.IsNullOrEmpty(book.Author))
+                        {
+                            borrow.Author = book.Author;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Just log and continue
+                    System.Diagnostics.Debug.WriteLine($"Error getting author info: {ex.Message}");
+                    LogError("Error getting author details", ex);
+                }
             }
         }
 

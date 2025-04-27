@@ -77,8 +77,15 @@ namespace LibraryManagementSystem.Staff
                                 MemberName = b.MemberName,
                                 BorrowDate = b.BorrowDate,
                                 DueDate = b.DueDate,
-                                Author = b.Author
+                                // The service might not return Author information
+                                Author = b.Author ?? "Unknown" // Use null coalescing to handle if Author is null
                             }).ToList();
+                            
+                            // If we don't have author info, try to get it for each book
+                            if (latestBorrows.Any(b => b.Author == "Unknown"))
+                            {
+                                await EnrichBorrowsWithBookDetails(latestBorrows);
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -110,6 +117,44 @@ namespace LibraryManagementSystem.Staff
                 BorrowCountLiteral.Text = sampleBorrows.Count.ToString();
                 LatestBorrowsListView.DataSource = sampleBorrows;
                 LatestBorrowsListView.DataBind();
+            }
+        }
+        
+        // Helper method to get book details including author
+        private async Task EnrichBorrowsWithBookDetails(List<BorrowRecord> borrows)
+        {
+            try
+            {
+                using (var bookClient = CreateBookServiceClient())
+                {
+                    foreach (var borrow in borrows.Where(b => b.Author == "Unknown"))
+                    {
+                        try
+                        {
+                            // Extract book ID from the borrow record
+                            string bookId = borrow.Id;
+                            
+                            // If ID is in a different format, we might need to parse it
+                            // This assumes the borrow ID contains or is the book ID
+                            
+                            var book = await bookClient.GetBookByIdAsync(bookId);
+                            if (book != null && !string.IsNullOrEmpty(book.Author))
+                            {
+                                borrow.Author = book.Author;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Skip this book but log the error
+                            System.Diagnostics.Debug.WriteLine($"Error getting book details: {ex.Message}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log but continue with what we have
+                LogErrorToDatabase("Error enriching borrows with book details", ex);
             }
         }
         
