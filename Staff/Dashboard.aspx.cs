@@ -77,15 +77,12 @@ namespace LibraryManagementSystem.Staff
                                 MemberName = b.MemberName,
                                 BorrowDate = b.BorrowDate,
                                 DueDate = b.DueDate,
-                                // The service might not return Author information
-                                Author = b.Author ?? "Unknown" // Use null coalescing to handle if Author is null
+                                // The BorrowRecord class in the service doesn't have an Author property
+                                Author = "Unknown"
                             }).ToList();
                             
-                            // If we don't have author info, try to get it for each book
-                            if (latestBorrows.Any(b => b.Author == "Unknown"))
-                            {
-                                await EnrichBorrowsWithBookDetails(latestBorrows);
-                            }
+                            // Always try to get author info since it's not in the service model
+                            await EnrichBorrowsWithBookDetails(latestBorrows);
                         }
                     }
                     catch (Exception ex)
@@ -127,7 +124,7 @@ namespace LibraryManagementSystem.Staff
             {
                 using (var bookClient = CreateBookServiceClient())
                 {
-                    foreach (var borrow in borrows.Where(b => b.Author == "Unknown"))
+                    foreach (var borrow in borrows)
                     {
                         try
                         {

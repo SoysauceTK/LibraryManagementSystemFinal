@@ -103,12 +103,12 @@ namespace LibraryManagementSystem.Member
                             {
                                 Id = b.Id,
                                 Title = b.BookTitle,
-                                Author = b.Author ?? "Unknown",  // Handle missing author info
+                                Author = "Unknown", // BorrowRecord doesn't have Author property
                                 BorrowDate = b.BorrowDate,
                                 DueDate = b.DueDate
                             }).ToList();
                             
-                            // Try to get author information if it's missing
+                            // Always try to get author information as it's not in BorrowRecord
                             await EnrichBorrowsWithAuthorInfo(borrowList);
                         }
                     }
