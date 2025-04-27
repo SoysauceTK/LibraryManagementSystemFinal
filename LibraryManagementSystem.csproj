@@ -264,7 +264,7 @@
     <Content Include="Scripts\jquery-3.7.1.min.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
-    <Content Include="Services\TryIt.aspx" />
+    <Content Include="Services\TryBookStorage.aspx" />
     <Content Include="Staff\Dashboard.aspx" />
     <Content Include="Staff\Login.aspx" />
     <Content Include="Web.config" />
@@ -337,12 +337,12 @@
     <Compile Include="Member\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Services\TryIt.aspx.cs">
-      <DependentUpon>TryIt.aspx</DependentUpon>
+    <Compile Include="Services\TryBookStorage.aspx.cs">
+      <DependentUpon>TryBookStorage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Services\TryIt.aspx.designer.cs">
-      <DependentUpon>TryIt.aspx</DependentUpon>
+    <Compile Include="Services\TryBookStorage.aspx.designer.cs">
+      <DependentUpon>TryBookStorage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
