@@ -6,8 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.Runtime.Serialization;
 using LMS.BookSearch.Models;
-using LMS.BookSearch.Utils;
-using System.IO;
+using LMS.BookSearch.Services;
 
 namespace LMS.BookSearch
 {
@@ -28,46 +27,20 @@ namespace LMS.BookSearch
 
         [OperationContract]
         List<string> GetAllCategories();
-
-        [OperationContract]
-        void SetDataPath(string path);
+        
+        // SetDataPath is no longer needed since we're using the BookStorage service
     }
 
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class SearchService : ISearchService
     {
-        private XmlDataAccess<Book> _bookData;
-        private const string DEFAULT_FILE_NAME = "books.xml";
+        private readonly BookServiceClient _bookServiceClient;
 
         public SearchService()
         {
-            // Default initialization - client should call SetDataPath first for proper setup
-            string filePath = DataConfiguration.GetDataFilePath(DEFAULT_FILE_NAME);
-            _bookData = new XmlDataAccess<Book>(filePath);
-        }
-
-        public void SetDataPath(string path)
-        {
-            // Update the data path and reinitialize the data access
-            DataConfiguration.DataPath = path;
-            
-            // Ensure directory exists
-            if (!Directory.Exists(path))
-            {
-                try
-                {
-                    Directory.CreateDirectory(path);
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Error creating directory: {ex.Message}");
-                    // Continue anyway, maybe the directory will be created by another method
-                }
-            }
-            
-            string filePath = DataConfiguration.GetDataFilePath(DEFAULT_FILE_NAME);
-            _bookData = new XmlDataAccess<Book>(filePath);
+            // Initialize with BookServiceClient to access BookStorage service
+            _bookServiceClient = new BookServiceClient();
         }
 
         public List<Book> SearchBooks(string query)
@@ -77,8 +50,8 @@ namespace LMS.BookSearch
 
             query = query.ToLower();
 
-            // Get all books directly from the XML file
-            var allBooks = _bookData.GetAll();
+            // Get all books from the BookStorage service
+            var allBooks = _bookServiceClient.GetAllBooks();
 
             // Filter books based on query
             return allBooks.Where(b =>
@@ -92,7 +65,7 @@ namespace LMS.BookSearch
 
         public List<Book> AdvancedSearch(string title, string author, string category, string year)
         {
-            var allBooks = _bookData.GetAll();
+            var allBooks = _bookServiceClient.GetAllBooks();
 
             // Start with all books
             IEnumerable<Book> results = allBooks;
@@ -115,7 +88,7 @@ namespace LMS.BookSearch
 
         public List<Book> GetRecommendations(string bookId)
         {
-            var allBooks = _bookData.GetAll();
+            var allBooks = _bookServiceClient.GetAllBooks();
             var book = allBooks.FirstOrDefault(b => b.Id == bookId);
 
             if (book == null)
@@ -147,12 +120,12 @@ namespace LMS.BookSearch
         {
             // In a real scenario, this would be based on borrow records
             // Here we're just returning the first 10 books as an example
-            return _bookData.GetAll().Take(10).ToList();
+            return _bookServiceClient.GetAllBooks().Take(10).ToList();
         }
 
         public List<string> GetAllCategories()
         {
-            var allBooks = _bookData.GetAll();
+            var allBooks = _bookServiceClient.GetAllBooks();
             return allBooks.Select(b => b.Category).Where(c => !string.IsNullOrEmpty(c)).Distinct().ToList();
         }
     }

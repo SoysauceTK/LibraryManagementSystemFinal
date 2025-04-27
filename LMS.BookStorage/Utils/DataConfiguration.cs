@@ -4,6 +4,11 @@ using System.IO;
 
 namespace LMS.BookStorage.Utils
 {
+    /// <summary>
+    /// DataConfiguration is maintained for backward compatibility.
+    /// BookService no longer uses this class as it now has its own local storage path.
+    /// This class may be removed in future versions if no other components depend on it.
+    /// </summary>
     public static class DataConfiguration
     {
         private static string _dataPath;
