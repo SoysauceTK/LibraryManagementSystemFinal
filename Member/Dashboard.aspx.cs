@@ -15,6 +15,9 @@ namespace LibraryManagementSystem.Member
         protected System.Web.UI.WebControls.Panel AlertPanel;
         protected System.Web.UI.WebControls.Literal AlertMessage;
         
+        // List to store borrow history
+        private static Dictionary<string, List<BorrowHistory>> _userBorrowHistory = new Dictionary<string, List<BorrowHistory>>();
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             // Check if user is authenticated
@@ -34,6 +37,9 @@ namespace LibraryManagementSystem.Member
 
                 // Load real book recommendations using async task
                 RegisterAsyncTask(new PageAsyncTask(LoadRecommendedBooksAsync));
+                
+                // Load borrow history
+                LoadBorrowHistory();
             }
         }
 
@@ -96,6 +102,7 @@ namespace LibraryManagementSystem.Member
                             {
                                 Id = b.Id,
                                 Title = b.BookTitle,
+                                Author = b.Author,  // Assuming the service returns the author
                                 BorrowDate = b.BorrowDate,
                                 DueDate = b.DueDate
                             }).ToList();
@@ -103,16 +110,10 @@ namespace LibraryManagementSystem.Member
                     }
                     catch (Exception ex)
                     {
-                        // Log the error but continue to show fallback data
+                        // Log the error
                         System.Diagnostics.Debug.WriteLine($"Error with BorrowingService: {ex.Message}");
                         LogError("BorrowingService unavailable", ex);
                     }
-                }
-
-                // If we couldn't get data or no books are borrowed, use sample data
-                if (borrowList.Count == 0)
-                {
-                    borrowList = GetSampleBorrowedBooks();
                 }
 
                 BorrowedBooksGridView.DataSource = borrowList;
@@ -120,10 +121,12 @@ namespace LibraryManagementSystem.Member
             }
             catch (Exception ex)
             {
-                // Log error and use sample data as fallback
+                // Log error
                 System.Diagnostics.Debug.WriteLine($"Error loading borrowed books: {ex.Message}");
                 LogError("Error loading borrowed books", ex);
-                BorrowedBooksGridView.DataSource = GetSampleBorrowedBooks();
+                
+                // Show empty grid
+                BorrowedBooksGridView.DataSource = new List<BorrowedBook>();
                 BorrowedBooksGridView.DataBind();
             }
         }
@@ -135,29 +138,6 @@ namespace LibraryManagementSystem.Member
             client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
             
             return client;
-        }
-
-        private List<BorrowedBook> GetSampleBorrowedBooks()
-        {
-            return new List<BorrowedBook>
-            {
-                new BorrowedBook
-                {
-                    Id = "1",
-                    Title = "The Great Gatsby",
-                    Author = "F. Scott Fitzgerald",
-                    BorrowDate = DateTime.Now.AddDays(-14),
-                    DueDate = DateTime.Now.AddDays(7)
-                },
-                new BorrowedBook
-                {
-                    Id = "2",
-                    Title = "To Kill a Mockingbird",
-                    Author = "Harper Lee",
-                    BorrowDate = DateTime.Now.AddDays(-7),
-                    DueDate = DateTime.Now.AddDays(14)
-                }
-            };
         }
 
         private SearchServiceReference.SearchServiceClient CreateSearchServiceClient()
@@ -282,6 +262,25 @@ namespace LibraryManagementSystem.Member
             {
                 string bookId = e.CommandArgument.ToString();
                 string username = User.Identity.Name;
+                string bookTitle = "";
+                
+                // Get book title for history
+                using (var bookClient = CreateBookServiceClient())
+                {
+                    try
+                    {
+                        var book = await bookClient.GetBookByIdAsync(bookId);
+                        if (book != null)
+                        {
+                            bookTitle = book.Title;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error getting book details: {ex.Message}");
+                        LogError("Error getting book details", ex);
+                    }
+                }
                 
                 using (var borrowingClient = CreateBorrowingServiceClient())
                 {
@@ -290,24 +289,48 @@ namespace LibraryManagementSystem.Member
                         // Call borrowing service to check out the book
                         await borrowingClient.CheckoutBookAsync(bookId, username, username);
                         
+                        // Add to history
+                        AddBorrowHistory(username, bookId, bookTitle, "Borrowed");
+                        
                         // Refresh borrowed books list
                         await LoadBorrowedBooksAsync();
+                        
+                        // Refresh history
+                        LoadBorrowHistory();
                         
                         // Show success message
                         ShowAlert("Book successfully borrowed.", "success");
                     }
                     else if (e.CommandName == "Renew")
                     {
-                        // For now, renewal is just handled with an alert since it's not implemented in the service
-                        ShowAlert("Renewal feature is not yet implemented.", "warning");
+                        // Instead of just showing alert, we'll log a new borrow
+                        await borrowingClient.CheckoutBookAsync(bookId, username, username);
+                        
+                        // Add to history
+                        AddBorrowHistory(username, bookId, bookTitle, "Renewed");
+                        
+                        // Refresh borrowed books list
+                        await LoadBorrowedBooksAsync();
+                        
+                        // Refresh history
+                        LoadBorrowHistory();
+                        
+                        // Show success message
+                        ShowAlert("Book successfully renewed.", "success");
                     }
                     else if (e.CommandName == "Return")
                     {
                         // Call borrowing service to return the book
                         await borrowingClient.ReturnBookAsync(bookId);
                         
+                        // Add to history
+                        AddBorrowHistory(username, bookId, bookTitle, "Returned");
+                        
                         // Refresh borrowed books list
                         await LoadBorrowedBooksAsync();
+                        
+                        // Refresh history
+                        LoadBorrowHistory();
                         
                         // Show success message
                         ShowAlert("Book successfully returned.", "success");
@@ -323,6 +346,56 @@ namespace LibraryManagementSystem.Member
                 // Show error message
                 ShowAlert($"Error: {ex.Message}", "danger");
             }
+        }
+        
+        private void AddBorrowHistory(string username, string bookId, string title, string actionType)
+        {
+            if (string.IsNullOrEmpty(title))
+            {
+                title = $"Book ID: {bookId}";
+            }
+            
+            var historyEntry = new BorrowHistory
+            {
+                BookId = bookId,
+                Title = title,
+                ActionType = actionType,
+                ActionDate = DateTime.Now
+            };
+            
+            if (!_userBorrowHistory.ContainsKey(username))
+            {
+                _userBorrowHistory[username] = new List<BorrowHistory>();
+            }
+            
+            _userBorrowHistory[username].Add(historyEntry);
+            
+            // Limit history to last 20 entries
+            if (_userBorrowHistory[username].Count > 20)
+            {
+                _userBorrowHistory[username] = _userBorrowHistory[username]
+                    .OrderByDescending(h => h.ActionDate)
+                    .Take(20)
+                    .ToList();
+            }
+        }
+        
+        private void LoadBorrowHistory()
+        {
+            string username = User.Identity.Name;
+            
+            if (_userBorrowHistory.ContainsKey(username))
+            {
+                BorrowHistoryGridView.DataSource = _userBorrowHistory[username]
+                    .OrderByDescending(h => h.ActionDate)
+                    .ToList();
+            }
+            else
+            {
+                BorrowHistoryGridView.DataSource = new List<BorrowHistory>();
+            }
+            
+            BorrowHistoryGridView.DataBind();
         }
         
         // Helper method to show alerts
@@ -379,6 +452,14 @@ namespace LibraryManagementSystem.Member
         public string Author { get; set; }
         public DateTime BorrowDate { get; set; }
         public DateTime DueDate { get; set; }
+    }
+    
+    public class BorrowHistory
+    {
+        public string BookId { get; set; }
+        public string Title { get; set; }
+        public DateTime ActionDate { get; set; }
+        public string ActionType { get; set; } // "Borrowed", "Renewed", "Returned"
     }
 
     public class Book

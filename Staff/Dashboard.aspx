@@ -23,6 +23,46 @@
                 </div>
             </div>
 
+            <%-- NEW: Latest Borrows Card --%>
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Latest Borrows</h3>
+                    <span class="badge badge-light rounded-circle p-2" title="Total borrows shown">
+                        <asp:Literal ID="BorrowCountLiteral" runat="server">0</asp:Literal>
+                    </span>
+                </div>
+                <div class="card-body p-0">
+                    <asp:ListView ID="LatestBorrowsListView" runat="server" ItemPlaceholderID="itemPlaceholder">
+                        <LayoutTemplate>
+                            <div class="list-group list-group-flush">
+                                <asp:PlaceHolder runat="server" ID="itemPlaceholder"></asp:PlaceHolder>
+                            </div>
+                        </LayoutTemplate>
+                        <EmptyDataTemplate>
+                            <div class="text-center py-3">
+                                <em>No recent borrows found</em>
+                            </div>
+                        </EmptyDataTemplate>
+                        <ItemTemplate>
+                            <div class="list-group-item list-group-item-action flex-column align-items-start p-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1 text-primary"><%# Eval("BookTitle") %></h6>
+                                    <small class="text-muted"><%# Eval("BorrowDate", "{0:MMM dd}") %></small>
+                                </div>
+                                <p class="mb-1 small"><%# Eval("MemberName") %></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">Due: <%# Eval("DueDate", "{0:MMM dd, yyyy}") %></small>
+                                    <span class="badge badge-<%# GetDueBadgeClass((DateTime)Eval("DueDate")) %>"><%# GetDueStatus((DateTime)Eval("DueDate")) %></span>
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                    </asp:ListView>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="BorrowingManagement.aspx" class="btn btn-sm btn-outline-success">View All Borrows</a>
+                </div>
+            </div>
+
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">
                     <h3>Quick Actions</h3>

@@ -23,7 +23,26 @@
                     <p><strong>Username:</strong> <asp:Literal ID="UsernameLabel" runat="server"></asp:Literal></p>
                     <p><strong>Email:</strong> <asp:Literal ID="EmailLabel" runat="server"></asp:Literal></p>
                     <p><strong>Member Since:</strong> <asp:Literal ID="MemberSinceLabel" runat="server"></asp:Literal></p>
-                    <a href="AccountSettings.aspx" class="btn btn-primary">Manage Account</a>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Borrow History</h3>
+                </div>
+                <div class="card-body">
+                    <asp:UpdatePanel ID="BorrowHistoryUpdatePanel" runat="server">
+                        <ContentTemplate>
+                            <asp:GridView ID="BorrowHistoryGridView" runat="server" AutoGenerateColumns="False" CssClass="table table-sm"
+                                EmptyDataText="No borrow history available." GridLines="None">
+                                <Columns>
+                                    <asp:BoundField DataField="Title" HeaderText="Title" />
+                                    <asp:BoundField DataField="ActionDate" HeaderText="Date" DataFormatString="{0:d}" />
+                                    <asp:BoundField DataField="ActionType" HeaderText="Action" />
+                                </Columns>
+                            </asp:GridView>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
                 </div>
             </div>
         </div>

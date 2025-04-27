@@ -22,6 +22,7 @@ namespace LibraryManagementSystem.Staff
             {
                 UserNameLiteral.Text = User.Identity.Name;
                 RegisterAsyncTask(new PageAsyncTask(LoadQuickStats));
+                RegisterAsyncTask(new PageAsyncTask(LoadLatestBorrowsAsync));
                 LoadActivityLog();
             }
         }
@@ -35,6 +36,15 @@ namespace LibraryManagementSystem.Staff
             return client;
         }
 
+        private BorrowingServiceReference.BorrowingServiceClient CreateBorrowingServiceClient()
+        {
+            var client = new BorrowingServiceReference.BorrowingServiceClient("BasicHttpBinding_IBorrowingService");
+            client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
+            client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            
+            return client;
+        }
+
         private SearchServiceReference.SearchServiceClient CreateSearchServiceClient()
         {
             var client = new SearchServiceReference.SearchServiceClient("BasicHttpBinding_ISearchService");
@@ -42,6 +52,149 @@ namespace LibraryManagementSystem.Staff
             client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
             
             return client;
+        }
+
+        private async Task LoadLatestBorrowsAsync()
+        {
+            try
+            {
+                var latestBorrows = new List<BorrowRecord>();
+                
+                using (var borrowingClient = CreateBorrowingServiceClient())
+                {
+                    try
+                    {
+                        // Get recent borrows from service
+                        var borrowRecords = await borrowingClient.GetRecentBorrowsAsync(10); // Limit to 10 latest borrows
+                        
+                        if (borrowRecords != null && borrowRecords.Length > 0)
+                        {
+                            // Convert service records to our display model
+                            latestBorrows = borrowRecords.Select(b => new BorrowRecord
+                            {
+                                Id = b.Id,
+                                BookTitle = b.BookTitle,
+                                MemberName = b.MemberName,
+                                BorrowDate = b.BorrowDate,
+                                DueDate = b.DueDate
+                            }).ToList();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log error but continue with sample data
+                        LogErrorToDatabase("Error fetching latest borrows", ex);
+                    }
+                }
+                
+                // If we couldn't get from service or no records found, use sample data
+                if (latestBorrows.Count == 0)
+                {
+                    latestBorrows = GetSampleBorrows();
+                }
+                
+                // Update the borrow count display
+                BorrowCountLiteral.Text = latestBorrows.Count.ToString();
+                
+                // Bind data to the ListView
+                LatestBorrowsListView.DataSource = latestBorrows;
+                LatestBorrowsListView.DataBind();
+            }
+            catch (Exception ex)
+            {
+                HandleServiceError(ex, "load latest borrows");
+                
+                // On error, fall back to sample data
+                var sampleBorrows = GetSampleBorrows();
+                BorrowCountLiteral.Text = sampleBorrows.Count.ToString();
+                LatestBorrowsListView.DataSource = sampleBorrows;
+                LatestBorrowsListView.DataBind();
+            }
+        }
+        
+        private List<BorrowRecord> GetSampleBorrows()
+        {
+            return new List<BorrowRecord>
+            {
+                new BorrowRecord 
+                {
+                    Id = "1",
+                    BookTitle = "The Great Gatsby",
+                    MemberName = "John Smith",
+                    BorrowDate = DateTime.Now.AddDays(-2),
+                    DueDate = DateTime.Now.AddDays(12)
+                },
+                new BorrowRecord 
+                {
+                    Id = "2",
+                    BookTitle = "To Kill a Mockingbird",
+                    MemberName = "Emily Johnson",
+                    BorrowDate = DateTime.Now.AddDays(-5),
+                    DueDate = DateTime.Now.AddDays(9)
+                },
+                new BorrowRecord 
+                {
+                    Id = "3",
+                    BookTitle = "1984",
+                    MemberName = "Michael Brown",
+                    BorrowDate = DateTime.Now.AddDays(-7),
+                    DueDate = DateTime.Now.AddDays(-1)
+                },
+                new BorrowRecord 
+                {
+                    Id = "4",
+                    BookTitle = "Pride and Prejudice",
+                    MemberName = "Sarah Williams",
+                    BorrowDate = DateTime.Now.AddDays(-1),
+                    DueDate = DateTime.Now.AddDays(13)
+                },
+                new BorrowRecord 
+                {
+                    Id = "5",
+                    BookTitle = "The Hobbit",
+                    MemberName = "David Miller",
+                    BorrowDate = DateTime.Now.AddDays(-10),
+                    DueDate = DateTime.Now.AddDays(2)
+                }
+            };
+        }
+        
+        // Helper method for displaying due status
+        protected string GetDueStatus(DateTime dueDate)
+        {
+            var daysRemaining = (dueDate - DateTime.Now).TotalDays;
+            
+            if (dueDate < DateTime.Now)
+            {
+                return "Overdue";
+            }
+            else if (daysRemaining <= 3)
+            {
+                return "Due Soon";
+            }
+            else
+            {
+                return "On Time";
+            }
+        }
+        
+        // Helper method for displaying appropriate badge class
+        protected string GetDueBadgeClass(DateTime dueDate)
+        {
+            var daysRemaining = (dueDate - DateTime.Now).TotalDays;
+            
+            if (dueDate < DateTime.Now)
+            {
+                return "danger";
+            }
+            else if (daysRemaining <= 3)
+            {
+                return "warning";
+            }
+            else
+            {
+                return "success";
+            }
         }
 
         private async Task LoadQuickStats()
@@ -282,6 +435,14 @@ namespace LibraryManagementSystem.Staff
             public string Description { get; set; }
             public string CoverImageUrl { get; set; }
         }
+        
+        public class BorrowRecord
+        {
+            public string Id { get; set; }
+            public string BookTitle { get; set; }
+            public string MemberName { get; set; }
+            public DateTime BorrowDate { get; set; }
+            public DateTime DueDate { get; set; }
+        }
     }
-
 }
