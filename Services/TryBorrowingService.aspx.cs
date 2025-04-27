@@ -1,4 +1,3 @@
-using LMS.BorrowingService;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +9,7 @@ namespace LibraryManagementSystem.Services
     public partial class TryBorrowingService : Page
     {
         // Reference to the BorrowingService
-        private BorrowingServiceClient borrowingService;
+        private BorrowingServiceReference borrowingService;
 
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -4,9 +4,7 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Xml;
 using LMS.Security;
-// Add the namespace for your CaptchaControl if it's not already implicitly available
-using LibraryManagementSystem.Controls; // Use the namespace defined in CaptchaControl.ascx.cs
-
+using LibraryManagementSystem.Controls; 
 
 namespace LibraryManagementSystem.Staff
 {

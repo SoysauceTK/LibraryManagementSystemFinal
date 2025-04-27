@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="BorrowingService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://webstrar94.fulton.asu.edu/Page6/BorrowingService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://webstrar94.fulton.asu.edu/Page6/BorrowingService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://webstrar94.fulton.asu.edu/Page6/BorrowingService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/LMS.BorrowingService.Models" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IBorrowingService_CheckoutBook_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckoutBook" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_CheckoutBook_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CheckoutBookResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_ReturnBook_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReturnBook" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_ReturnBook_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReturnBookResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_GetCurrentBorrowsByUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCurrentBorrowsByUser" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_GetCurrentBorrowsByUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCurrentBorrowsByUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_GetBorrowHistory_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBorrowHistory" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_GetBorrowHistory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBorrowHistoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_GetAllLogs_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllLogs" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_GetAllLogs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllLogsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_GetMemberById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMemberById" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_GetMemberById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMemberByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_CreateMember_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateMember" />
+  </wsdl:message>
+  <wsdl:message name="IBorrowingService_CreateMember_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateMemberResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IBorrowingService">
+    <wsdl:operation name="CheckoutBook">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBorrowingService/CheckoutBook" message="tns:IBorrowingService_CheckoutBook_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBorrowingService/CheckoutBookResponse" message="tns:IBorrowingService_CheckoutBook_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReturnBook">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBorrowingService/ReturnBook" message="tns:IBorrowingService_ReturnBook_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBorrowingService/ReturnBookResponse" message="tns:IBorrowingService_ReturnBook_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentBorrowsByUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBorrowingService/GetCurrentBorrowsByUser" message="tns:IBorrowingService_GetCurrentBorrowsByUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBorrowingService/GetCurrentBorrowsByUserResponse" message="tns:IBorrowingService_GetCurrentBorrowsByUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBorrowHistory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBorrowingService/GetBorrowHistory" message="tns:IBorrowingService_GetBorrowHistory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBorrowingService/GetBorrowHistoryResponse" message="tns:IBorrowingService_GetBorrowHistory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllLogs">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBorrowingService/GetAllLogs" message="tns:IBorrowingService_GetAllLogs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBorrowingService/GetAllLogsResponse" message="tns:IBorrowingService_GetAllLogs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMemberById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBorrowingService/GetMemberById" message="tns:IBorrowingService_GetMemberById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBorrowingService/GetMemberByIdResponse" message="tns:IBorrowingService_GetMemberById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateMember">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBorrowingService/CreateMember" message="tns:IBorrowingService_CreateMember_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBorrowingService/CreateMemberResponse" message="tns:IBorrowingService_CreateMember_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IBorrowingService" type="tns:IBorrowingService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CheckoutBook">
+      <soap:operation soapAction="http://tempuri.org/IBorrowingService/CheckoutBook" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReturnBook">
+      <soap:operation soapAction="http://tempuri.org/IBorrowingService/ReturnBook" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentBorrowsByUser">
+      <soap:operation soapAction="http://tempuri.org/IBorrowingService/GetCurrentBorrowsByUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBorrowHistory">
+      <soap:operation soapAction="http://tempuri.org/IBorrowingService/GetBorrowHistory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllLogs">
+      <soap:operation soapAction="http://tempuri.org/IBorrowingService/GetAllLogs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMemberById">
+      <soap:operation soapAction="http://tempuri.org/IBorrowingService/GetMemberById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateMember">
+      <soap:operation soapAction="http://tempuri.org/IBorrowingService/CreateMember" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BorrowingService">
+    <wsdl:port name="BasicHttpBinding_IBorrowingService" binding="tns:BasicHttpBinding_IBorrowingService">
+      <soap:address location="http://webstrar94.fulton.asu.edu/Page6/BorrowingService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

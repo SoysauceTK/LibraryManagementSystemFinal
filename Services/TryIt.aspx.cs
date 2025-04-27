@@ -61,7 +61,7 @@ namespace LibraryManagementSystem.Services
                     return;
                 }
 
-                string hashedPassword = PasswordHasher.HashPassword(password);
+                string hashedPassword = SecurityHelper.HashPassword(password);
                 litResults.Text = hashedPassword;
             }
             catch (Exception ex)
@@ -83,7 +83,7 @@ namespace LibraryManagementSystem.Services
                     return;
                 }
 
-                bool isValid = PasswordHasher.VerifyPassword(password, hash);
+                bool isValid = SecurityHelper.VerifyPassword(password, hash);
                 litResults.Text = isValid ? "Password is valid" : "Password is invalid";
             }
             catch (Exception ex)

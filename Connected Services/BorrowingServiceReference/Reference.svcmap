@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="bc0fdc92-b986-469a-81e3-f7e5c6f93874" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://webstrar94.fulton.asu.edu/page6/BorrowingService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="BorrowingService.wsdl" MetadataType="Wsdl" ID="eca2e028-0fe4-4140-aacc-cf40af6dd6e9" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page6/BorrowingService.svc?wsdl" />
+    <MetadataFile FileName="BorrowingService.xsd" MetadataType="Schema" ID="8a92de5b-437e-4031-a83d-543f33917b64" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page6/BorrowingService.svc?xsd=xsd0" />
+    <MetadataFile FileName="BorrowingService1.xsd" MetadataType="Schema" ID="9535957e-855f-4119-9e9f-cae7b6e991cf" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page6/BorrowingService.svc?xsd=xsd2" />
+    <MetadataFile FileName="BorrowingService.disco" MetadataType="Disco" ID="42ca03b9-7ee9-4aeb-a9f2-ffad1f47c5ce" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page6/BorrowingService.svc?disco" />
+    <MetadataFile FileName="BorrowingService2.xsd" MetadataType="Schema" ID="78b6e502-29b2-441f-9a0a-fa1bc413791d" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page6/BorrowingService.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
