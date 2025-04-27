@@ -76,7 +76,7 @@ namespace LibraryManagementSystem.Staff
                         {
                             // Filter to checkout actions and take most recent
                             var recentBorrowLogs = borrowLogs
-                                .Where(log => log.ActionType == "Checkout")
+                                .Where(log => log.ActionType == "Checkout" && !string.IsNullOrEmpty(log.BookTitle))
                                 .OrderByDescending(log => log.ActionDate)
                                 .Take(10)
                                 .ToArray();
@@ -86,39 +86,37 @@ namespace LibraryManagementSystem.Staff
                                 // Convert service records to our display model
                                 latestBorrows = recentBorrowLogs.Select(b => new BorrowRecord
                                 {
-                                    Id = b.Id,
-                                    BookTitle = b.BookTitle,
-                                    MemberName = b.UserName,
+                                    Id = b.BookId, // Changed from Id to BookId to ensure we have the correct book reference
+                                    BookTitle = b.BookTitle?.Trim() ?? "Unknown Book",
+                                    MemberName = b.UserName?.Trim() ?? "Unknown User",
                                     BorrowDate = b.ActionDate,
                                     DueDate = b.ActionDate.AddDays(14), // Assuming 14-day loan period
                                     Author = "Unknown"
                                 }).ToList();
                                 
-                                // Always try to get author info since it's not in the service model
+                                // Get author information for each book
                                 await EnrichBorrowsWithBookDetails(latestBorrows);
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        // Log error but continue with sample data
                         LogErrorToDatabase("Error fetching latest borrows", ex);
+                        // Only fall back to sample data if we have no real data
+                        if (!latestBorrows.Any())
+                        {
+                            latestBorrows = GetSampleBorrows();
+                        }
                     }
                 }
                 
-                // If we couldn't get from service or no records found, use sample data
-                if (latestBorrows.Count == 0)
-                {
-                    latestBorrows = GetSampleBorrows();
-                }
-                
-                // Update the borrow count display - fix the literal
+                // Update the borrow count display
                 if (BorrowCountLiteral != null)
                 {
                     BorrowCountLiteral.Text = latestBorrows.Count.ToString();
                 }
                 
-                // Bind data to the ListView - fix the reference
+                // Bind data to the ListView
                 if (LatestBorrowsListView != null)
                 {
                     LatestBorrowsListView.DataSource = latestBorrows;
@@ -129,25 +127,26 @@ namespace LibraryManagementSystem.Staff
             {
                 HandleServiceError(ex, "load latest borrows");
                 
-                // On error, fall back to sample data
-                var sampleBorrows = GetSampleBorrows();
-                
-                // Safely update UI controls - fix the literal
-                if (BorrowCountLiteral != null)
+                // On error, fall back to sample data only if we have no data
+                if (LatestBorrowsListView?.DataSource == null)
                 {
-                    BorrowCountLiteral.Text = sampleBorrows.Count.ToString();
-                }
-                
-                // Bind data to the ListView - fix the reference
-                if (LatestBorrowsListView != null)
-                {
-                    LatestBorrowsListView.DataSource = sampleBorrows;
-                    LatestBorrowsListView.DataBind();
+                    var sampleBorrows = GetSampleBorrows();
+                    
+                    if (BorrowCountLiteral != null)
+                    {
+                        BorrowCountLiteral.Text = sampleBorrows.Count.ToString();
+                    }
+                    
+                    if (LatestBorrowsListView != null)
+                    {
+                        LatestBorrowsListView.DataSource = sampleBorrows;
+                        LatestBorrowsListView.DataBind();
+                    }
                 }
             }
         }
         
-        // Helper method to get book details including author
+        // Improved method to get book details including author
         private async Task EnrichBorrowsWithBookDetails(List<BorrowRecord> borrows)
         {
             try
@@ -158,29 +157,31 @@ namespace LibraryManagementSystem.Staff
                     {
                         try
                         {
-                            // Extract book ID from the borrow record
-                            string bookId = borrow.Id;
-                            
-                            // If ID is in a different format, we might need to parse it
-                            // This assumes the borrow ID contains or is the book ID
-                            
-                            var book = await bookClient.GetBookByIdAsync(bookId);
-                            if (book != null && !string.IsNullOrEmpty(book.Author))
+                            if (string.IsNullOrEmpty(borrow.Id))
                             {
-                                borrow.Author = book.Author;
+                                continue;
+                            }
+
+                            var book = await bookClient.GetBookByIdAsync(borrow.Id);
+                            if (book != null)
+                            {
+                                // Update both author and ensure we have the correct book title
+                                borrow.Author = book.Author?.Trim() ?? "Unknown Author";
+                                if (string.IsNullOrEmpty(borrow.BookTitle) || borrow.BookTitle == "Unknown Book")
+                                {
+                                    borrow.BookTitle = book.Title?.Trim() ?? "Unknown Book";
+                                }
                             }
                         }
                         catch (Exception ex)
                         {
-                            // Skip this book but log the error
-                            System.Diagnostics.Debug.WriteLine($"Error getting book details: {ex.Message}");
+                            System.Diagnostics.Debug.WriteLine($"Error getting book details for ID {borrow.Id}: {ex.Message}");
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Log but continue with what we have
                 LogErrorToDatabase("Error enriching borrows with book details", ex);
             }
         }

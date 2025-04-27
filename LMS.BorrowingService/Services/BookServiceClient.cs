@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using LMS.BorrowingService.Models;
+using System.ServiceModel.Description;
 
 namespace LMS.BorrowingService.Services
 {
@@ -12,16 +13,15 @@ namespace LMS.BorrowingService.Services
     {
         private BookServiceReference.BookServiceClient _client;
         private readonly string _endpoint;
-        private bool _useDirectEndpoint;
 
         /// <summary>
         /// Constructor that uses the configured endpoint from WCF configuration
         /// </summary>
         public BookServiceClient()
         {
-            // Initialize the WCF client using the endpoint configuration
-            _client = new BookServiceReference.BookServiceClient("BasicHttpBinding_IBookService");
-            _useDirectEndpoint = false;
+            var binding = new BasicHttpBinding();
+            var address = new EndpointAddress("http://localhost:44355/Services/BookService.svc");
+            _client = new BookServiceReference.BookServiceClient(binding, address);
         }
 
         /// <summary>
@@ -31,12 +31,9 @@ namespace LMS.BorrowingService.Services
         public BookServiceClient(string endpoint)
         {
             _endpoint = endpoint;
-            _useDirectEndpoint = true;
-            
-            // In a real implementation, this would create a client with a custom endpoint
-            // For simplicity in this sample, we'll initialize with the default endpoint
-            // and override the URL as needed in the method calls
-            _client = new BookServiceReference.BookServiceClient("BasicHttpBinding_IBookService");
+            var binding = new BasicHttpBinding();
+            var address = new EndpointAddress(endpoint);
+            _client = new BookServiceReference.BookServiceClient(binding, address);
         }
 
         /// <summary>
@@ -50,28 +47,19 @@ namespace LMS.BorrowingService.Services
             {
                 var book = _client.GetBookById(id);
                 if (book == null)
-                    return null;
+                {
+                    throw new InvalidOperationException($"Book with ID {id} not found");
+                }
                 
                 return ConvertToLocalBookModel(book);
             }
+            catch (EndpointNotFoundException ex)
+            {
+                throw new ServiceException("Book service is not available", ex);
+            }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error getting book by ID: {ex.Message}");
-                
-                // If this is a sample implementation without service reference
-                if (_useDirectEndpoint)
-                {
-                    // Return a sample book for demonstration
-                    return new Book
-                    {
-                        Id = id,
-                        Title = "Sample Book",
-                        Author = "Sample Author",
-                        CopiesAvailable = 10
-                    };
-                }
-                
-                return null;
+                throw new ServiceException($"Error getting book by ID: {ex.Message}", ex);
             }
         }
 
@@ -84,7 +72,6 @@ namespace LMS.BorrowingService.Services
         {
             try
             {
-                // Convert to the service reference type
                 var serviceUpdate = new BookServiceReference.InventoryUpdate
                 {
                     BookId = update.BookId,
@@ -93,17 +80,13 @@ namespace LMS.BorrowingService.Services
                 
                 return _client.UpdateInventory(serviceUpdate);
             }
+            catch (EndpointNotFoundException ex)
+            {
+                throw new ServiceException("Book service is not available", ex);
+            }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error updating inventory: {ex.Message}");
-                
-                // For demonstration purposes
-                if (_useDirectEndpoint)
-                {
-                    return true;
-                }
-                
-                return false;
+                throw new ServiceException($"Error updating inventory: {ex.Message}", ex);
             }
         }
 
@@ -117,8 +100,8 @@ namespace LMS.BorrowingService.Services
             return new Book
             {
                 Id = book.Id,
-                Title = book.Title,
-                Author = book.Author,
+                Title = book.Title ?? "Unknown Title",
+                Author = book.Author ?? "Unknown Author",
                 ISBN = book.ISBN,
                 Category = book.Category,
                 PublicationYear = book.PublicationYear,
@@ -130,6 +113,12 @@ namespace LMS.BorrowingService.Services
         }
     }
 
+    public class ServiceException : Exception
+    {
+        public ServiceException(string message) : base(message) { }
+        public ServiceException(string message, Exception innerException) : base(message, innerException) { }
+    }
+
     /// <summary>
     /// This namespace contains proxy types generated from the service reference
     /// For demonstration purposes, these are defined here
@@ -137,6 +126,16 @@ namespace LMS.BorrowingService.Services
     /// </summary>
     namespace BookServiceReference
     {
+        [ServiceContract]
+        public interface IBookService
+        {
+            [OperationContract]
+            Book GetBookById(string id);
+
+            [OperationContract]
+            bool UpdateInventory(InventoryUpdate update);
+        }
+
         /// <summary>
         /// Book model from the BookStorage service
         /// </summary>
@@ -167,60 +166,21 @@ namespace LMS.BorrowingService.Services
         /// Client proxy for the BookStorage service
         /// In a real implementation, this would be generated from the service reference
         /// </summary>
-        public class BookServiceClient
+        public class BookServiceClient : ClientBase<IBookService>, IBookService
         {
-            private readonly string _endpointConfiguration;
-
-            public BookServiceClient(string endpointConfiguration)
+            public BookServiceClient(Binding binding, EndpointAddress address) 
+                : base(binding, address)
             {
-                _endpointConfiguration = endpointConfiguration;
             }
 
             public Book GetBookById(string id)
             {
-                // This would call the actual service
-                // For now, we're simulating a response
-                return new Book
-                {
-                    Id = id,
-                    Title = "Sample Book",
-                    Author = "Sample Author",
-                    CopiesAvailable = 10
-                };
+                return Channel.GetBookById(id);
             }
 
             public bool UpdateInventory(InventoryUpdate update)
             {
-                // This would call the actual service
-                // For now, we're simulating success
-                return true;
-            }
-
-            public List<Book> GetAllBooks()
-            {
-                // This would call the actual service
-                // For now, we're simulating a response
-                return new List<Book>
-                {
-                    new Book { Id = "1", Title = "Sample Book 1", Author = "Author 1", CopiesAvailable = 5 },
-                    new Book { Id = "2", Title = "Sample Book 2", Author = "Author 2", CopiesAvailable = 3 }
-                };
-            }
-
-            public List<Book> GetBooksByCategory(string category)
-            {
-                // This would call the actual service
-                // For now, we're simulating a response
-                return new List<Book>
-                {
-                    new Book { 
-                        Id = "1", 
-                        Title = "Sample Book in Category", 
-                        Author = "Author 1", 
-                        Category = category,
-                        CopiesAvailable = 5 
-                    }
-                };
+                return Channel.UpdateInventory(update);
             }
         }
     }

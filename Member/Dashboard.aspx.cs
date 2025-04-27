@@ -292,8 +292,9 @@ namespace LibraryManagementSystem.Member
                 string bookId = e.CommandArgument.ToString();
                 string username = User.Identity.Name;
                 string bookTitle = "";
+                bool gotBookDetails = false;
                 
-                // Get book title for history
+                // Get book title for history - try multiple times if needed
                 using (var bookClient = CreateBookServiceClient())
                 {
                     try
@@ -301,7 +302,8 @@ namespace LibraryManagementSystem.Member
                         var book = await bookClient.GetBookByIdAsync(bookId);
                         if (book != null)
                         {
-                            bookTitle = book.Title;
+                            bookTitle = book.Title?.Trim();
+                            gotBookDetails = !string.IsNullOrEmpty(bookTitle);
                         }
                     }
                     catch (Exception ex)
@@ -310,13 +312,41 @@ namespace LibraryManagementSystem.Member
                         LogError("Error getting book details", ex);
                     }
                 }
+
+                // If we couldn't get the book title, try one more time using the borrowing service
+                if (!gotBookDetails)
+                {
+                    try
+                    {
+                        using (var borrowingClient = CreateBorrowingServiceClient())
+                        {
+                            var borrowRecord = await borrowingClient.GetBorrowRecordAsync(bookId);
+                            if (borrowRecord != null && !string.IsNullOrEmpty(borrowRecord.BookTitle))
+                            {
+                                bookTitle = borrowRecord.BookTitle.Trim();
+                                gotBookDetails = true;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error getting borrow record: {ex.Message}");
+                        LogError("Error getting borrow record", ex);
+                    }
+                }
                 
                 using (var borrowingClient = CreateBorrowingServiceClient())
                 {
                     if (e.CommandName == "Borrow")
                     {
                         // Call borrowing service to check out the book
-                        await borrowingClient.CheckoutBookAsync(bookId, username, username);
+                        var borrowResult = await borrowingClient.CheckoutBookAsync(bookId, username, username);
+                        
+                        // If we still don't have the title but got it from checkout result
+                        if (!gotBookDetails && borrowResult != null && !string.IsNullOrEmpty(borrowResult.BookTitle))
+                        {
+                            bookTitle = borrowResult.BookTitle.Trim();
+                        }
                         
                         // Add to history
                         AddBorrowHistory(username, bookId, bookTitle, "Borrowed");
@@ -333,7 +363,13 @@ namespace LibraryManagementSystem.Member
                     else if (e.CommandName == "Renew")
                     {
                         // Instead of just showing alert, we'll log a new borrow
-                        await borrowingClient.CheckoutBookAsync(bookId, username, username);
+                        var renewResult = await borrowingClient.CheckoutBookAsync(bookId, username, username);
+                        
+                        // If we still don't have the title but got it from renew result
+                        if (!gotBookDetails && renewResult != null && !string.IsNullOrEmpty(renewResult.BookTitle))
+                        {
+                            bookTitle = renewResult.BookTitle.Trim();
+                        }
                         
                         // Add to history
                         AddBorrowHistory(username, bookId, bookTitle, "Renewed");
@@ -350,7 +386,13 @@ namespace LibraryManagementSystem.Member
                     else if (e.CommandName == "Return")
                     {
                         // Call borrowing service to return the book
-                        await borrowingClient.ReturnBookAsync(bookId);
+                        var returnResult = await borrowingClient.ReturnBookAsync(bookId);
+                        
+                        // If we still don't have the title but got it from return result
+                        if (!gotBookDetails && returnResult != null && !string.IsNullOrEmpty(returnResult.BookTitle))
+                        {
+                            bookTitle = returnResult.BookTitle.Trim();
+                        }
                         
                         // Add to history
                         AddBorrowHistory(username, bookId, bookTitle, "Returned");
