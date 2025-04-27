@@ -90,7 +90,7 @@ namespace LibraryManagementSystem.Staff
 
             try
             {
-                var book = new LMS.BookStorage.Models.Book
+                var book = new BookServiceReference.Book
                 {
                     Title = BookTitle.Text,
                     Author = BookAuthor.Text,

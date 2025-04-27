@@ -1,0 +1,90 @@
+[2025-04-27 02:01:42] Service communication error during load quick stats
+Exception: Access to the path 'C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\App_Data' is denied.
+Stack Trace: 
+Server stack trace: 
+   at System.ServiceModel.Channels.ServiceChannel.ThrowIfFaultUnderstood(Message reply, MessageFault fault, String action, MessageVersion version, FaultConverter faultConverter)
+   at System.ServiceModel.Channels.ServiceChannel.HandleReply(ProxyOperationRuntime operation, ProxyRpc& rpc)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at LibraryManagementSystem.BookServiceReference.IBookService.SetDataPath(String path)
+   at LibraryManagementSystem.BookServiceReference.BookServiceClient.SetDataPath(String path) in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Connected Services\BookServiceReference\Reference.cs:line 403
+   at LibraryManagementSystem.Staff.Dashboard.CreateBookServiceClient() in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Staff\Dashboard.aspx.cs:line 37
+   at LibraryManagementSystem.Staff.Dashboard.<LoadQuickStats>d__3.MoveNext() in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Staff\Dashboard.aspx.cs:line 54
+--------------------------------------------------------------------------------
+[2025-04-27 02:02:19] Service communication error during add book
+Exception: Access to the path 'C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\App_Data' is denied.
+Stack Trace: 
+Server stack trace: 
+   at System.ServiceModel.Channels.ServiceChannel.ThrowIfFaultUnderstood(Message reply, MessageFault fault, String action, MessageVersion version, FaultConverter faultConverter)
+   at System.ServiceModel.Channels.ServiceChannel.HandleReply(ProxyOperationRuntime operation, ProxyRpc& rpc)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at LibraryManagementSystem.BookServiceReference.IBookService.SetDataPath(String path)
+   at LibraryManagementSystem.BookServiceReference.BookServiceClient.SetDataPath(String path) in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Connected Services\BookServiceReference\Reference.cs:line 403
+   at LibraryManagementSystem.Staff.Dashboard.CreateBookServiceClient() in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Staff\Dashboard.aspx.cs:line 37
+   at LibraryManagementSystem.Staff.Dashboard.<AddBookButton_Click>d__5.MoveNext() in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Staff\Dashboard.aspx.cs:line 105
+--------------------------------------------------------------------------------
+[2025-04-27 02:05:32] Service communication error during load quick stats
+Exception: Access to the path 'C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\App_Data' is denied.
+Stack Trace: 
+Server stack trace: 
+   at System.ServiceModel.Channels.ServiceChannel.ThrowIfFaultUnderstood(Message reply, MessageFault fault, String action, MessageVersion version, FaultConverter faultConverter)
+   at System.ServiceModel.Channels.ServiceChannel.HandleReply(ProxyOperationRuntime operation, ProxyRpc& rpc)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at LibraryManagementSystem.BookServiceReference.IBookService.SetDataPath(String path)
+   at LibraryManagementSystem.BookServiceReference.BookServiceClient.SetDataPath(String path) in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Connected Services\BookServiceReference\Reference.cs:line 403
+   at LibraryManagementSystem.Staff.Dashboard.CreateBookServiceClient() in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Staff\Dashboard.aspx.cs:line 37
+   at LibraryManagementSystem.Staff.Dashboard.<LoadQuickStats>d__3.MoveNext() in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Staff\Dashboard.aspx.cs:line 54
+--------------------------------------------------------------------------------
+[2025-04-27 02:06:06] Service communication error during add book
+Exception: Access to the path 'C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\App_Data' is denied.
+Stack Trace: 
+Server stack trace: 
+   at System.ServiceModel.Channels.ServiceChannel.ThrowIfFaultUnderstood(Message reply, MessageFault fault, String action, MessageVersion version, FaultConverter faultConverter)
+   at System.ServiceModel.Channels.ServiceChannel.HandleReply(ProxyOperationRuntime operation, ProxyRpc& rpc)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at LibraryManagementSystem.BookServiceReference.IBookService.SetDataPath(String path)
+   at LibraryManagementSystem.BookServiceReference.BookServiceClient.SetDataPath(String path) in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Connected Services\BookServiceReference\Reference.cs:line 403
+   at LibraryManagementSystem.Staff.Dashboard.CreateBookServiceClient() in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Staff\Dashboard.aspx.cs:line 37
+   at LibraryManagementSystem.Staff.Dashboard.<AddBookButton_Click>d__5.MoveNext() in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Staff\Dashboard.aspx.cs:line 105
+--------------------------------------------------------------------------------
+[2025-04-27 02:12:09] Service communication error during add book
+Exception: Access to the path 'C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\App_Data' is denied.
+Stack Trace: 
+Server stack trace: 
+   at System.ServiceModel.Channels.ServiceChannel.ThrowIfFaultUnderstood(Message reply, MessageFault fault, String action, MessageVersion version, FaultConverter faultConverter)
+   at System.ServiceModel.Channels.ServiceChannel.HandleReply(ProxyOperationRuntime operation, ProxyRpc& rpc)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at LibraryManagementSystem.BookServiceReference.IBookService.SetDataPath(String path)
+   at LibraryManagementSystem.BookServiceReference.BookServiceClient.SetDataPath(String path) in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Connected Services\BookServiceReference\Reference.cs:line 403
+   at LibraryManagementSystem.Staff.Dashboard.CreateBookServiceClient() in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Staff\Dashboard.aspx.cs:line 37
+   at LibraryManagementSystem.Staff.Dashboard.<AddBookButton_Click>d__5.MoveNext() in C:\Users\81036089\Source\Repos\LibraryManagementSystemFinal\Staff\Dashboard.aspx.cs:line 105
+--------------------------------------------------------------------------------
