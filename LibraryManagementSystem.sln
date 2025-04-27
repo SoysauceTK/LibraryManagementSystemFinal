@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.BookSearch", "LMS.BookS
 		{08AA5A2E-5299-45A8-9AA2-B7D978823F1A} = {08AA5A2E-5299-45A8-9AA2-B7D978823F1A}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.BorrowingService", "LMS.BorrowingService\LMS.BorrowingService.csproj", "{F2098B20-E525-4952-B469-F6517A3C05C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{52741CD3-B525-46BE-906B-F49B5D127602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52741CD3-B525-46BE-906B-F49B5D127602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52741CD3-B525-46BE-906B-F49B5D127602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2098B20-E525-4952-B469-F6517A3C05C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2098B20-E525-4952-B469-F6517A3C05C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2098B20-E525-4952-B469-F6517A3C05C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2098B20-E525-4952-B469-F6517A3C05C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

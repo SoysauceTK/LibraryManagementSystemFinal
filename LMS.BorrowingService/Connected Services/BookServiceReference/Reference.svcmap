@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="9fbe2f6d-d5c5-4e01-a719-88d828f91a9d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://webstrar94.fulton.asu.edu/page8/BookService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="BookService.xsd" MetadataType="Schema" ID="492f70fd-5de3-40d1-a8b4-c23f718565cb" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?xsd=xsd2" />
+    <MetadataFile FileName="BookService.disco" MetadataType="Disco" ID="f84fb8d6-e961-4a88-b693-e18faba2a772" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?disco" />
+    <MetadataFile FileName="BookService1.xsd" MetadataType="Schema" ID="a0043769-811d-47bb-8175-92cc0294f283" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?xsd=xsd0" />
+    <MetadataFile FileName="BookService2.xsd" MetadataType="Schema" ID="a63b1554-c311-456f-a508-49f5ac9707ea" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?xsd=xsd1" />
+    <MetadataFile FileName="BookService.wsdl" MetadataType="Wsdl" ID="52c65521-1207-423d-b6b3-69a9597f1df9" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

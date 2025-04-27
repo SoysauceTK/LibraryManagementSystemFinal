@@ -177,6 +177,13 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Connected Services\SearchServiceReference\SearchService.disco" />
+    <None Include="Connected Services\SearchServiceReference\configuration91.svcinfo" />
+    <None Include="Connected Services\SearchServiceReference\configuration.svcinfo" />
+    <None Include="Connected Services\SearchServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -242,12 +249,28 @@
     <None Include="Connected Services\BookServiceReference\BookService2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\SearchServiceReference\SearchService.wsdl" />
+    <None Include="Connected Services\SearchServiceReference\SearchService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\SearchServiceReference\SearchService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\SearchServiceReference\SearchService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\SearchServiceReference\SearchService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Properties\DataSources\LMS.BookSearch.Models.Book1.datasource" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
+    <Content Include="Services\TryBookSearch.aspx" />
     <Content Include="Services\TryBookStorage.aspx" />
+    <Content Include="Services\TryIt.aspx" />
     <Content Include="Staff\Dashboard.aspx" />
     <Content Include="Staff\Login.aspx" />
     <Content Include="Web.config" />
@@ -256,6 +279,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Connected Services\BookServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\SearchServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -315,12 +343,26 @@
     <Compile Include="Member\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Services\TryBookSearch.aspx.cs">
+      <DependentUpon>TryBookSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Services\TryBookSearch.aspx.designer.cs">
+      <DependentUpon>TryBookSearch.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Services\TryBookStorage.aspx.cs">
       <DependentUpon>TryBookStorage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Services\TryBookStorage.aspx.designer.cs">
       <DependentUpon>TryBookStorage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Services\TryIt.aspx.cs">
+      <DependentUpon>TryIt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Services\TryIt.aspx.designer.cs">
+      <DependentUpon>TryIt.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -378,6 +420,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\BookServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\SearchServiceReference\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

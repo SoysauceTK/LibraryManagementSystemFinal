@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="c70e99da-b4aa-4a6f-9b1c-f2f8bd859aa9" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://webstrar94.fulton.asu.edu/page7/SearchService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="SearchService.xsd" MetadataType="Schema" ID="447e456e-e625-4193-8db2-609febec405b" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page7/SearchService.svc?xsd=xsd1" />
+    <MetadataFile FileName="SearchService.disco" MetadataType="Disco" ID="da6ae5ca-ca4d-490b-9065-1e31bda16fdc" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page7/SearchService.svc?disco" />
+    <MetadataFile FileName="SearchService.wsdl" MetadataType="Wsdl" ID="b9298ae2-0e12-4db8-b10c-6c0dc79ba56b" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page7/SearchService.svc?wsdl" />
+    <MetadataFile FileName="SearchService1.xsd" MetadataType="Schema" ID="f039bed8-1062-49ca-8c89-c7a4cb58b3f3" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page7/SearchService.svc?xsd=xsd2" />
+    <MetadataFile FileName="SearchService2.xsd" MetadataType="Schema" ID="155dfcff-09a7-4d6b-acba-d0184e608c7c" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page7/SearchService.svc?xsd=xsd3" />
+    <MetadataFile FileName="SearchService3.xsd" MetadataType="Schema" ID="01ed9712-80d4-4a9d-abe2-01e63a5a72d3" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page7/SearchService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
