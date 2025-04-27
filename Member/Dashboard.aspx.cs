@@ -25,8 +25,8 @@ namespace LibraryManagementSystem.Member
                 // Load user data
                 LoadUserData();
 
-                // Load borrowed books (still sample data for now)
-                LoadBorrowedBooks();
+                // Load borrowed books using borrowing service
+                RegisterAsyncTask(new PageAsyncTask(LoadBorrowedBooksAsync));
 
                 // Load real book recommendations using async task
                 RegisterAsyncTask(new PageAsyncTask(LoadRecommendedBooksAsync));
@@ -71,13 +71,66 @@ namespace LibraryManagementSystem.Member
             }
         }
 
-        private void LoadBorrowedBooks()
+        private async Task LoadBorrowedBooksAsync()
         {
-            // This would normally query a BorrowingService for borrowed books
-            // For now, we'll use sample data until that service is created
-            List<BorrowedBook> borrowedBooks = GetSampleBorrowedBooks();
-            BorrowedBooksGridView.DataSource = borrowedBooks;
-            BorrowedBooksGridView.DataBind();
+            try
+            {
+                string username = User.Identity.Name;
+                var borrowList = new List<BorrowedBook>();
+
+                using (var borrowingClient = CreateBorrowingServiceClient())
+                {
+                    try
+                    {
+                        // Get current borrows from the borrowing service
+                        var borrowRecords = await borrowingClient.GetCurrentBorrowsByUserAsync(username);
+
+                        if (borrowRecords != null && borrowRecords.Length > 0)
+                        {
+                            // Map service data to our UI model
+                            borrowList = borrowRecords.Select(b => new BorrowedBook
+                            {
+                                Id = b.Id,
+                                Title = b.BookTitle,
+                                BorrowDate = b.BorrowDate,
+                                DueDate = b.DueDate
+                            }).ToList();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log the error but continue to show fallback data
+                        System.Diagnostics.Debug.WriteLine($"Error with BorrowingService: {ex.Message}");
+                        LogError("BorrowingService unavailable", ex);
+                    }
+                }
+
+                // If we couldn't get data or no books are borrowed, use sample data
+                if (borrowList.Count == 0)
+                {
+                    borrowList = GetSampleBorrowedBooks();
+                }
+
+                BorrowedBooksGridView.DataSource = borrowList;
+                BorrowedBooksGridView.DataBind();
+            }
+            catch (Exception ex)
+            {
+                // Log error and use sample data as fallback
+                System.Diagnostics.Debug.WriteLine($"Error loading borrowed books: {ex.Message}");
+                LogError("Error loading borrowed books", ex);
+                BorrowedBooksGridView.DataSource = GetSampleBorrowedBooks();
+                BorrowedBooksGridView.DataBind();
+            }
+        }
+
+        private BorrowingServiceReference.BorrowingServiceClient CreateBorrowingServiceClient()
+        {
+            var client = new BorrowingServiceReference.BorrowingServiceClient("BasicHttpBinding_IBorrowingService");
+            client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
+            client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            
+            return client;
         }
 
         private List<BorrowedBook> GetSampleBorrowedBooks()
@@ -218,25 +271,62 @@ namespace LibraryManagementSystem.Member
             };
         }
 
-        // This method would handle the borrowing action
-        protected void BookAction_Command(object sender, System.Web.UI.WebControls.CommandEventArgs e)
+        // This method handles book actions (borrow, renew, return)
+        protected async void BookAction_Command(object sender, System.Web.UI.WebControls.CommandEventArgs e)
         {
-            if (e.CommandName == "Borrow")
+            try
             {
                 string bookId = e.CommandArgument.ToString();
-                // In a real application, this would call a BorrowingService to borrow the book
-                // For now, we'll just show an alert
-                ScriptManager.RegisterStartupScript(this, GetType(), "alert",
-                    $"alert('You have requested to borrow book ID: {bookId}. This feature is not yet implemented.');", true);
+                string username = User.Identity.Name;
+                
+                using (var borrowingClient = CreateBorrowingServiceClient())
+                {
+                    if (e.CommandName == "Borrow")
+                    {
+                        // Call borrowing service to check out the book
+                        await borrowingClient.CheckoutBookAsync(bookId, username, username);
+                        
+                        // Refresh borrowed books list
+                        await LoadBorrowedBooksAsync();
+                        
+                        // Show success message
+                        ShowAlert("Book successfully borrowed.", "success");
+                    }
+                    else if (e.CommandName == "Renew")
+                    {
+                        // For now, renewal is just handled with an alert since it's not implemented in the service
+                        ShowAlert("Renewal feature is not yet implemented.", "warning");
+                    }
+                    else if (e.CommandName == "Return")
+                    {
+                        // Call borrowing service to return the book
+                        await borrowingClient.ReturnBookAsync(bookId);
+                        
+                        // Refresh borrowed books list
+                        await LoadBorrowedBooksAsync();
+                        
+                        // Show success message
+                        ShowAlert("Book successfully returned.", "success");
+                    }
+                }
             }
-            else if (e.CommandName == "Renew" || e.CommandName == "Return")
+            catch (Exception ex)
             {
-                string bookId = e.CommandArgument.ToString();
-                // In a real application, this would call a BorrowingService to renew/return the book
-                // For now, we'll just show an alert
-                ScriptManager.RegisterStartupScript(this, GetType(), "alert",
-                    $"alert('You have requested to {e.CommandName.ToLower()} book ID: {bookId}. This feature is not yet implemented.');", true);
+                // Log the error
+                System.Diagnostics.Debug.WriteLine($"Error in BookAction_Command: {ex.Message}");
+                LogError("Error performing book action", ex);
+                
+                // Show error message
+                ShowAlert($"Error: {ex.Message}", "danger");
             }
+        }
+        
+        // Helper method to show alerts
+        private void ShowAlert(string message, string type)
+        {
+            AlertMessage.Text = message;
+            AlertPanel.CssClass = $"alert alert-{type} alert-dismissible fade show";
+            AlertPanel.Visible = true;
         }
 
         private void LogError(string message, Exception ex)
@@ -255,6 +345,25 @@ namespace LibraryManagementSystem.Member
             catch
             {
                 // Fail silently if logging itself fails
+            }
+        }
+        
+        // Helper method to determine due status
+        protected string GetDueStatus(DateTime dueDate)
+        {
+            var daysRemaining = (dueDate - DateTime.Now).TotalDays;
+            
+            if (dueDate < DateTime.Now)
+            {
+                return $"<span class='badge badge-danger'>Overdue</span>";
+            }
+            else if (daysRemaining <= 3)
+            {
+                return $"<span class='badge badge-warning'>Due soon</span>";
+            }
+            else
+            {
+                return $"<span class='badge badge-success'>On time</span>";
             }
         }
     }

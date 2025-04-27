@@ -6,6 +6,13 @@
         <p class="lead">This is your personal dashboard where you can manage your library activities.</p>
     </div>
 
+    <asp:Panel ID="AlertPanel" runat="server" CssClass="alert alert-success alert-dismissible fade show" Visible="false" role="alert">
+        <asp:Literal ID="AlertMessage" runat="server"></asp:Literal>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </asp:Panel>
+
     <div class="row">
         <div class="col-md-4">
             <div class="card mb-4">
@@ -22,27 +29,43 @@
         </div>
         <div class="col-md-8">
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h3>My Borrowed Books</h3>
+                    <asp:UpdateProgress ID="BorrowedBooksUpdateProgress" runat="server" AssociatedUpdatePanelID="BorrowedBooksUpdatePanel">
+                        <ProgressTemplate>
+                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </ProgressTemplate>
+                    </asp:UpdateProgress>
                 </div>
                 <div class="card-body">
-                    <asp:GridView ID="BorrowedBooksGridView" runat="server" AutoGenerateColumns="False" CssClass="table table-striped"
-                        EmptyDataText="You have no borrowed books.">
-                        <Columns>
-                            <asp:BoundField DataField="Title" HeaderText="Title" />
-                            <asp:BoundField DataField="Author" HeaderText="Author" />
-                            <asp:BoundField DataField="BorrowDate" HeaderText="Borrowed On" DataFormatString="{0:d}" />
-                            <asp:BoundField DataField="DueDate" HeaderText="Due Date" DataFormatString="{0:d}" />
-                            <asp:TemplateField HeaderText="Actions">
-                                <ItemTemplate>
-                                    <asp:Button ID="RenewButton" runat="server" Text="Renew" CssClass="btn btn-sm btn-info"
-                                               CommandName="Renew" CommandArgument='<%# Eval("Id") %>' OnCommand="BookAction_Command" />
-                                    <asp:Button ID="ReturnButton" runat="server" Text="Return" CssClass="btn btn-sm btn-success"
-                                               CommandName="Return" CommandArgument='<%# Eval("Id") %>' OnCommand="BookAction_Command" />
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                        </Columns>
-                    </asp:GridView>
+                    <asp:UpdatePanel ID="BorrowedBooksUpdatePanel" runat="server">
+                        <ContentTemplate>
+                            <asp:GridView ID="BorrowedBooksGridView" runat="server" AutoGenerateColumns="False" CssClass="table table-striped"
+                                EmptyDataText="You have no borrowed books." GridLines="None">
+                                <Columns>
+                                    <asp:BoundField DataField="Title" HeaderText="Title" />
+                                    <asp:BoundField DataField="Author" HeaderText="Author" />
+                                    <asp:BoundField DataField="BorrowDate" HeaderText="Borrowed On" DataFormatString="{0:d}" />
+                                    <asp:BoundField DataField="DueDate" HeaderText="Due Date" DataFormatString="{0:d}" />
+                                    <asp:TemplateField HeaderText="Status">
+                                        <ItemTemplate>
+                                            <%# GetDueStatus((DateTime)Eval("DueDate")) %>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Actions">
+                                        <ItemTemplate>
+                                            <asp:Button ID="RenewButton" runat="server" Text="Renew" CssClass="btn btn-sm btn-info"
+                                                CommandName="Renew" CommandArgument='<%# Eval("Id") %>' OnCommand="BookAction_Command" />
+                                            <asp:Button ID="ReturnButton" runat="server" Text="Return" CssClass="btn btn-sm btn-success"
+                                                CommandName="Return" CommandArgument='<%# Eval("Id") %>' OnCommand="BookAction_Command" />
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
                 </div>
             </div>
             
