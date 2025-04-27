@@ -39,11 +39,11 @@ namespace LibraryManagementSystem.Services
 
                 using (var borrowingService = CreateBorrowingServiceClient())
                 {
-                    // Call the BorrowBook method from the service
-                    string result = borrowingService.BorrowBook(bookId, memberId);
+                    // Call the CheckoutBook method from the service (previously BorrowBook)
+                    var result = borrowingService.CheckoutBook(bookId, memberId, "TestUser");
 
                     // Display the result
-                    ShowResult(result, true);
+                    ShowResult("Book borrowed successfully: " + result.BookTitle, true);
                 }
             }
             catch (Exception ex)
@@ -61,10 +61,10 @@ namespace LibraryManagementSystem.Services
                 using (var borrowingService = CreateBorrowingServiceClient())
                 {
                     // Call the ReturnBook method from the service
-                    string result = borrowingService.ReturnBook(borrowId);
+                    var result = borrowingService.ReturnBook(borrowId);
 
                     // Display the result
-                    ShowResult(result, true);
+                    ShowResult("Book returned successfully: " + result.BookTitle, true);
                 }
             }
             catch (Exception ex)
@@ -87,8 +87,8 @@ namespace LibraryManagementSystem.Services
 
                 using (var borrowingService = CreateBorrowingServiceClient())
                 {
-                    // Call the GetBorrowingHistory method from the service
-                    var history = borrowingService.GetBorrowingHistory(memberId);
+                    // Call the GetBorrowHistory method from the service (previously GetBorrowingHistory)
+                    var history = borrowingService.GetBorrowHistory(memberId);
 
                     // Display the records in the GridView
                     DisplayBorrowingRecords(history);
@@ -106,8 +106,9 @@ namespace LibraryManagementSystem.Services
             {
                 using (var borrowingService = CreateBorrowingServiceClient())
                 {
-                    // Call the GetCurrentBorrowings method from the service
-                    var currentBorrowings = borrowingService.GetCurrentBorrowings();
+                    // Call the GetCurrentBorrowsByUser method from the service (previously GetCurrentBorrowings)
+                    // We'll pass an empty string to get all borrowings or implement a different approach if needed
+                    var currentBorrowings = borrowingService.GetCurrentBorrowsByUser("");
 
                     // Display the records in the GridView
                     DisplayBorrowingRecords(currentBorrowings);
@@ -151,7 +152,7 @@ namespace LibraryManagementSystem.Services
                 row["BorrowDate"] = record.BorrowDate;
                 row["DueDate"] = record.DueDate;
                 
-                if (record.ReturnDate != DateTime.MinValue)
+                if (record.ReturnDate != null && record.ReturnDate != DateTime.MinValue)
                 {
                     row["ReturnDate"] = record.ReturnDate;
                 }
