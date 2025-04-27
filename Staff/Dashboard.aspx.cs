@@ -76,7 +76,8 @@ namespace LibraryManagementSystem.Staff
                                 BookTitle = b.BookTitle,
                                 MemberName = b.MemberName,
                                 BorrowDate = b.BorrowDate,
-                                DueDate = b.DueDate
+                                DueDate = b.DueDate,
+                                Author = b.Author
                             }).ToList();
                         }
                     }
@@ -122,7 +123,8 @@ namespace LibraryManagementSystem.Staff
                     BookTitle = "The Great Gatsby",
                     MemberName = "John Smith",
                     BorrowDate = DateTime.Now.AddDays(-2),
-                    DueDate = DateTime.Now.AddDays(12)
+                    DueDate = DateTime.Now.AddDays(12),
+                    Author = "F. Scott Fitzgerald"
                 },
                 new BorrowRecord 
                 {
@@ -130,7 +132,8 @@ namespace LibraryManagementSystem.Staff
                     BookTitle = "To Kill a Mockingbird",
                     MemberName = "Emily Johnson",
                     BorrowDate = DateTime.Now.AddDays(-5),
-                    DueDate = DateTime.Now.AddDays(9)
+                    DueDate = DateTime.Now.AddDays(9),
+                    Author = "Harper Lee"
                 },
                 new BorrowRecord 
                 {
@@ -138,7 +141,8 @@ namespace LibraryManagementSystem.Staff
                     BookTitle = "1984",
                     MemberName = "Michael Brown",
                     BorrowDate = DateTime.Now.AddDays(-7),
-                    DueDate = DateTime.Now.AddDays(-1)
+                    DueDate = DateTime.Now.AddDays(-1),
+                    Author = "George Orwell"
                 },
                 new BorrowRecord 
                 {
@@ -146,7 +150,8 @@ namespace LibraryManagementSystem.Staff
                     BookTitle = "Pride and Prejudice",
                     MemberName = "Sarah Williams",
                     BorrowDate = DateTime.Now.AddDays(-1),
-                    DueDate = DateTime.Now.AddDays(13)
+                    DueDate = DateTime.Now.AddDays(13),
+                    Author = "Jane Austen"
                 },
                 new BorrowRecord 
                 {
@@ -154,7 +159,8 @@ namespace LibraryManagementSystem.Staff
                     BookTitle = "The Hobbit",
                     MemberName = "David Miller",
                     BorrowDate = DateTime.Now.AddDays(-10),
-                    DueDate = DateTime.Now.AddDays(2)
+                    DueDate = DateTime.Now.AddDays(2),
+                    Author = "J.R.R. Tolkien"
                 }
             };
         }
@@ -443,6 +449,7 @@ namespace LibraryManagementSystem.Staff
             public string MemberName { get; set; }
             public DateTime BorrowDate { get; set; }
             public DateTime DueDate { get; set; }
+            public string Author { get; set; }
         }
     }
 }

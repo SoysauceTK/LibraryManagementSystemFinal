@@ -14,6 +14,7 @@ namespace LibraryManagementSystem.Member
         // Controls from ASPX file
         protected System.Web.UI.WebControls.Panel AlertPanel;
         protected System.Web.UI.WebControls.Literal AlertMessage;
+        protected System.Web.UI.WebControls.GridView BorrowHistoryGridView;
         
         // List to store borrow history
         private static Dictionary<string, List<BorrowHistory>> _userBorrowHistory = new Dictionary<string, List<BorrowHistory>>();
