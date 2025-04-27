@@ -63,7 +63,7 @@
                                 <td>object sender, EventArgs e</td>
                                 <td>void</td>
                                 <td>Manages application-level events and initialization.</td>
-                                <td><a href="Controls/TryCookies.aspx" class="btn btn-sm btn-info">Try It</a></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>Aarya Baireddy</td>
@@ -85,21 +85,22 @@
                             </tr>
                             <tr>
                                 <td>Aarya Baireddy</td>
-                                <td>Session State</td>
-                                <td>Session_Start</td>
-                                <td>object sender, EventArgs e</td>
-                                <td>void</td>
-                                <td>Handles server-side session state initialization.</td>
-                                <td><a href="Controls/TryCookies.aspx" class="btn btn-sm btn-info">Try It</a></td>
-                            </tr>
-                            <tr>
-                                <td>Aarya Baireddy</td>
                                 <td>UI Component</td>
                                 <td>Member Dashboard</td>
                                 <td>N/A</td>
                                 <td>N/A</td>
                                 <td>User interface for member account management and book browsing.</td>
-                                <td><a href="Member/Dashboard.aspx" class="btn btn-sm btn-info">Try It</a></td>
+                                <td>
+                                    <asp:Panel ID="pnlMemberDashboardAccess" runat="server">
+                                        <% if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Member") { %>
+                                            <a href="Member/Dashboard.aspx" class="btn btn-sm btn-info">Try It</a>
+                                        <% } else if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Staff") { %>
+                                            <span class="text-warning">Please <a href="Logout.aspx">sign out</a> of staff account first</span>
+                                        <% } else { %>
+                                            <a href="Member/Login.aspx" class="btn btn-sm btn-info">Log in as Member</a>
+                                        <% } %>
+                                    </asp:Panel>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Aarya Baireddy & Sawyer Kesti</td>
@@ -144,7 +145,15 @@
                                 <td>N/A</td>
                                 <td>N/A</td>
                                 <td>User interface for new member registration with CAPTCHA verification.</td>
-                                <td><a href="Member/Register.aspx" class="btn btn-sm btn-info">Try It</a></td>
+                                <td>
+                                    <asp:Panel ID="pnlMemberRegistrationAccess" runat="server">
+                                        <% if (Session["UserRole"] == null) { %>
+                                            <a href="Member/Register.aspx" class="btn btn-sm btn-info">Try It</a>
+                                        <% } else { %>
+                                            <span class="text-warning">Please <a href="Logout.aspx">sign out</a> first</span>
+                                        <% } %>
+                                    </asp:Panel>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Sawyer Kesti</td>
@@ -153,16 +162,17 @@
                                 <td>N/A</td>
                                 <td>N/A</td>
                                 <td>Administrative interface for library staff to manage books and members.</td>
-                                <td><a href="Staff/Dashboard.aspx" class="btn btn-sm btn-info">Try It</a></td>
-                            </tr>
-                            <tr>
-                                <td>Both Members</td>
-                                <td>Data Storage</td>
-                                <td>XML Database</td>
-                                <td>N/A</td>
-                                <td>N/A</td>
-                                <td>XML-based persistent storage for books, members, and transactions.</td>
-                                <td><a href="Services/TryIt.aspx?service=XMLDatabase" class="btn btn-sm btn-info">Try It</a></td>
+                                <td>
+                                    <asp:Panel ID="pnlStaffDashboardAccess" runat="server">
+                                        <% if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Staff") { %>
+                                            <a href="Staff/Dashboard.aspx" class="btn btn-sm btn-info">Try It</a>
+                                        <% } else if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Member") { %>
+                                            <span class="text-warning">Please <a href="Logout.aspx">sign out</a> of member account first</span>
+                                        <% } else { %>
+                                            <a href="Staff/Login.aspx" class="btn btn-sm btn-info">Log in as Staff</a>
+                                        <% } %>
+                                    </asp:Panel>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

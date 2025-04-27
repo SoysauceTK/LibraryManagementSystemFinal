@@ -70,9 +70,6 @@
                         </ItemTemplate>
                     </asp:ListView>
                 </div>
-                <div class="card-footer text-center">
-                    <a href="BorrowingManagement.aspx" class="btn btn-sm btn-outline-success">View All Borrows</a>
-                </div>
             </div>
         </div>
 
