@@ -286,5 +286,29 @@
     "CopiesAvailable": 4,
     "Description": "Master your mind and defy the odds.",
     "CoverImageUrl": "https://example.com/covers/canthurtme.jpg"
+  },
+  {
+    "Id": "ac3db29b-6ce1-402e-912d-cc695c12f1b1",
+    "Title": "TEstasda",
+    "Author": "Test",
+    "ISBN": "Test",
+    "Category": "Fiction",
+    "PublicationYear": 1234,
+    "Publisher": "Unknown",
+    "CopiesAvailable": 2,
+    "Description": "asda",
+    "CoverImageUrl": null
+  },
+  {
+    "Id": "1f3e8d80-00ba-47c8-97bc-610008cebb69",
+    "Title": "ada",
+    "Author": "asdas",
+    "ISBN": "1123123",
+    "Category": "Fiction",
+    "PublicationYear": 1231,
+    "Publisher": "Unknown",
+    "CopiesAvailable": 12,
+    "Description": "12312321",
+    "CoverImageUrl": null
   }
 ]
