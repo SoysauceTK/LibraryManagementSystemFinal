@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="TryBookSearch.aspx.cs" Inherits="LibraryManagementSystem.Services.TryBookSearch" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="TryBookSearch.aspx.cs" Inherits="LibraryManagementSystem.Services.TryBookSearch" Async="true" %>
 
 <!DOCTYPE html>
 

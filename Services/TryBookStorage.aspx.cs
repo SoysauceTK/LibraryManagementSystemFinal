@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Text;
 using Newtonsoft.Json;
 using System.ServiceModel;
+using System.Threading.Tasks;
 
 namespace LibraryManagementSystem.Services
 {
@@ -24,7 +25,12 @@ namespace LibraryManagementSystem.Services
         {
         }
 
-        protected async void btnGetAllBooks_Click(object sender, EventArgs e)
+        protected void btnGetAllBooks_Click(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(GetAllBooksAsync));
+        }
+
+        private async Task GetAllBooksAsync()
         {
             try
             {
@@ -40,7 +46,12 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected async void btnGetBookById_Click(object sender, EventArgs e)
+        protected void btnGetBookById_Click(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(GetBookByIdAsync));
+        }
+
+        private async Task GetBookByIdAsync()
         {
             try
             {
@@ -63,7 +74,12 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected async void btnAddBook_Click(object sender, EventArgs e)
+        protected void btnAddBook_Click(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(AddBookAsync));
+        }
+
+        private async Task AddBookAsync()
         {
             try
             {
@@ -102,7 +118,12 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected async void btnGetBooksByCategory_Click(object sender, EventArgs e)
+        protected void btnGetBooksByCategory_Click(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(GetBooksByCategoryAsync));
+        }
+
+        private async Task GetBooksByCategoryAsync()
         {
             try
             {
@@ -125,7 +146,12 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected async void btnUpdateInventory_Click(object sender, EventArgs e)
+        protected void btnUpdateInventory_Click(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(UpdateInventoryAsync));
+        }
+
+        private async Task UpdateInventoryAsync()
         {
             try
             {
@@ -163,7 +189,12 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected async void btnDeleteBook_Click(object sender, EventArgs e)
+        protected void btnDeleteBook_Click(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(DeleteBookAsync));
+        }
+
+        private async Task DeleteBookAsync()
         {
             try
             {

@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Text;
 using Newtonsoft.Json;
 using System.ServiceModel;
+using System.Threading.Tasks;
 
 namespace LibraryManagementSystem.Services
 {
@@ -24,7 +25,12 @@ namespace LibraryManagementSystem.Services
         {
         }
 
-        protected async void btnSearch_Click(object sender, EventArgs e)
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(SearchBooksAsync));
+        }
+
+        private async Task SearchBooksAsync()
         {
             try
             {
@@ -47,7 +53,12 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected async void btnAdvancedSearch_Click(object sender, EventArgs e)
+        protected void btnAdvancedSearch_Click(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(AdvancedSearchAsync));
+        }
+
+        private async Task AdvancedSearchAsync()
         {
             try
             {
@@ -75,7 +86,12 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected async void btnGetRecommendations_Click(object sender, EventArgs e)
+        protected void btnGetRecommendations_Click(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(GetRecommendationsAsync));
+        }
+
+        private async Task GetRecommendationsAsync()
         {
             try
             {
@@ -98,7 +114,12 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected async void btnGetPopularBooks_Click(object sender, EventArgs e)
+        protected void btnGetPopularBooks_Click(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(GetPopularBooksAsync));
+        }
+
+        private async Task GetPopularBooksAsync()
         {
             try
             {
@@ -114,7 +135,12 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected async void btnGetAllCategories_Click(object sender, EventArgs e)
+        protected void btnGetAllCategories_Click(object sender, EventArgs e)
+        {
+            RegisterAsyncTask(new PageAsyncTask(GetAllCategoriesAsync));
+        }
+
+        private async Task GetAllCategoriesAsync()
         {
             try
             {
