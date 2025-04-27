@@ -1,58 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.UI;
-// using System.Xml;
-using System.Net.Http;
-using System.Text;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Web; // Needed for HttpContext, Request
-using System.Linq; // Needed for Count()
-
-// Assume a Book model exists here or is referenced, matching the service model
-// If not, you might need to create one or continue using anonymous types carefully.
-// For clarity, let's define a simple Book class for deserialization in LoadQuickStats
-// Note: Ensure this matches the structure returned by BookService.GetAllBooks()
-// If LMS.BookStorage.Models or LMS.BookSearch.Models can be referenced, use that.
-// Otherwise, define it here:
-namespace LibraryManagementSystem.Models // Or an appropriate namespace
-{
-    public class Book
-    {
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public string ISBN { get; set; }
-        public string Category { get; set; }
-        public int PublicationYear { get; set; }
-        public string Publisher { get; set; }
-        public int CopiesAvailable { get; set; }
-        public string Description { get; set; }
-        public string CoverImageUrl { get; set; } // Even if not used here, include for complete mapping
-    }
-}
-
+using System.ServiceModel;
+using LMS.BookStorage.Models; // Using the original Book model directly
 
 namespace LibraryManagementSystem.Staff
 {
-    // DEVELOPER: Sawyer Kesti - Staff dashboard (Updated for Service Integration)
     public partial class Dashboard : Page
     {
-        private static readonly HttpClient client = new HttpClient(); // Reuse HttpClient instance
-        private string _bookServiceBaseUrl;
-        private string _searchServiceBaseUrl; // Add URL for Search Service
-
         protected void Page_Load(object sender, EventArgs e)
         {
             // Check if user is authenticated and in Staff role
             if (!User.Identity.IsAuthenticated || !User.IsInRole("Staff"))
             {
-                Response.Redirect("~/Staff/Login.aspx", false); // Use false to stop execution here
-                Context.ApplicationInstance.CompleteRequest(); // Ensure response is sent
+                Response.Redirect("~/Staff/Login.aspx", false);
+                Context.ApplicationInstance.CompleteRequest();
                 return;
             }
-
-            DetermineServiceUrls(); // Set the base URLs
 
             if (!IsPostBack)
             {
@@ -62,107 +27,64 @@ namespace LibraryManagementSystem.Staff
                 // Load quick stats asynchronously
                 RegisterAsyncTask(new PageAsyncTask(LoadQuickStats));
 
-                // Load activity log (still uses sample data)
+                // Load activity log (sample data)
                 LoadActivityLog();
-            }
-        }
-
-        private void DetermineServiceUrls()
-        {
-            string host = Request.Url.Host.ToLower();
-            // --- IMPORTANT: Replace X with your actual site number for Webstrar ---
-            string siteNumber = "X"; // <--- CONFIGURATION NEEDED HERE
-
-            // --- Adjust Ports if your services run on different ports locally ---
-            string localBookServicePort = "44301"; // Default from original code
-            string localSearchServicePort = "44302"; // *** ASSUMPTION: Search service runs on a different port locally. Adjust if necessary. ***
-
-            if (host.Contains("localhost"))
-            {
-                _bookServiceBaseUrl = $"http://localhost:{localBookServicePort}/BookService.svc";
-                _searchServiceBaseUrl = $"http://localhost:{localSearchServicePort}/SearchService.svc"; // Assumed port
-            }
-            else // Assuming Webstrar deployment
-            {
-                // --- ASSUMPTION: Both services are deployed under the same 'page0' path on Webstrar. Adjust if structure differs. ---
-                string baseWebstrarUrl = $"http://webstrar{siteNumber}.fulton.asu.edu/page0"; // Adjust 'page0' if needed
-                _bookServiceBaseUrl = $"{baseWebstrarUrl}/BookService.svc";
-                _searchServiceBaseUrl = $"{baseWebstrarUrl}/SearchService.svc";
             }
         }
 
         private async Task LoadQuickStats()
         {
-            // --- Get Total Books from BookService ---
             try
             {
-                string getAllBooksUrl = $"{_bookServiceBaseUrl}/GetAllBooks";
-                HttpResponseMessage response = await client.GetAsync(getAllBooksUrl);
+                // Create BookService client
+                using (var bookClient = new BookServiceReference.BookServiceClient())
+                {
+                    // Call GetAllBooks method
+                    var books = await bookClient.GetAllBooksAsync();
 
-                if (response.IsSuccessStatusCode)
-                {
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
-                    // Use the defined Book class for deserialization
-                    var books = JsonConvert.DeserializeObject<List<LibraryManagementSystem.Models.Book>>(jsonResponse);
-                    TotalBooksLiteral.Text = books?.Count.ToString("N0") ?? "0"; // Format number with commas
-                }
-                else
-                {
-                    TotalBooksLiteral.Text = "Error";
-                    // Log the error: response.StatusCode, response.ReasonPhrase
+                    // Update the UI with the book count
+                    TotalBooksLiteral.Text = books?.Length.ToString("N0") ?? "0";
                 }
             }
             catch (Exception ex)
             {
-                TotalBooksLiteral.Text = "Unavailable";
-                // Log the exception ex
-                // Consider displaying a more user-friendly message or logging detail
+                TotalBooksLiteral.Text = "Error";
                 System.Diagnostics.Debug.WriteLine($"Error loading total books: {ex.Message}");
             }
 
-            // --- Placeholder for other stats - Requires other services (Borrowing, Member) ---
-            // In a real implementation, call respective services here asynchronously
-            BorrowedBooksLiteral.Text = "278 (Sample)"; // Placeholder
-            MembersLiteral.Text = "356 (Sample)";      // Placeholder
-            OverdueLiteral.Text = "12 (Sample)";       // Placeholder
+            // Placeholder data for other stats
+            BorrowedBooksLiteral.Text = "278 (Sample)";
+            MembersLiteral.Text = "356 (Sample)";
+            OverdueLiteral.Text = "12 (Sample)";
         }
 
         private void LoadActivityLog()
         {
-            // --- This still uses sample data ---
-            // In a real implementation, this would load from a dedicated logging service or database.
-            // The LogBookAddition method currently updates a local list for demo purposes.
-            // For now, check if the data source is already populated (e.g., by LogBookAddition)
             if (ActivityLogGridView.DataSource == null)
             {
                 List<ActivityLogEntry> activityLog = new List<ActivityLogEntry>
                  {
-                     // Sample entries... (can be kept or removed if LogBookAddition is the primary source)
                      new ActivityLogEntry { Date = DateTime.Now.AddHours(-3), Action = "Book Borrowed", Details = "To Kill a Mockingbird by Harper Lee", User = "john_doe" },
                      new ActivityLogEntry { Date = DateTime.Now.AddHours(-5), Action = "New Member", Details = "sarah_smith joined the library", User = "system" },
                      new ActivityLogEntry { Date = DateTime.Now.AddDays(-1), Action = "Book Returned", Details = "1984 by George Orwell", User = "mike_jones" }
                  };
                 ActivityLogGridView.DataSource = activityLog;
             }
-            // Ensure DataBind happens even if populated by LogBookAddition before initial load
+
             ActivityLogGridView.DataBind();
         }
 
         protected async void AddBookButton_Click(object sender, EventArgs e)
         {
-            // Ensure service URLs are set (might be redundant if always called after Page_Load, but safe)
-            DetermineServiceUrls();
+            BookAddStatusPanel.Visible = true;
 
             if (Page.IsValid)
             {
                 try
                 {
-                    // Create a book object matching the BookService model definition
-                    // Using an anonymous type here as before, ensure properties match LMS.BookStorage.Models.Book
-                    var book = new
+                    // Create new Book object using the LMS.BookStorage.Models.Book class
+                    var book = new Book
                     {
-                        // Let the service generate the ID if AddBook handles null/empty IDs
-                        // Id = Guid.NewGuid().ToString(), // Service should handle ID generation
                         Title = BookTitle.Text,
                         Author = BookAuthor.Text,
                         ISBN = BookISBN.Text,
@@ -170,52 +92,45 @@ namespace LibraryManagementSystem.Staff
                         Description = BookDescription.Text,
                         CopiesAvailable = int.Parse(BookCopies.Text),
                         PublicationYear = int.Parse(BookPublicationYear.Text),
-                        Publisher = "Unknown", // Provide default or add a field if needed
-                        CoverImageUrl = (string)null // Add if you have this field
+                        Publisher = "Unknown"
                     };
 
-                    // Call the BookStorage service to add the book
-                    string addBookUrl = $"{_bookServiceBaseUrl}/add"; // Use the correct base URL
-                    string bookJson = JsonConvert.SerializeObject(book);
-                    HttpContent content = new StringContent(bookJson, Encoding.UTF8, "application/json");
-
-                    HttpResponseMessage response = await client.PostAsync(addBookUrl, content);
-
-                    if (response.IsSuccessStatusCode)
+                    // Create BookService client
+                    using (var bookClient = new BookServiceReference.BookServiceClient())
                     {
-                        BookAddStatus.Text = "<div class='alert alert-success'>Book added successfully!</div>";
+                        // Call AddBook method
+                        var addedBook = await bookClient.AddBookAsync(book);
 
-                        // Log the activity (currently updates local list)
-                        LogBookAddition(book.Title, book.Author);
+                        if (addedBook != null)
+                        {
+                            BookAddStatus.Text = "<div class='alert alert-success'>Book added successfully!</div>";
 
-                        // Clear the form
-                        ClearBookForm();
+                            // Log the activity
+                            LogBookAddition(book.Title, book.Author);
 
-                        // Refresh quick stats (specifically total books count)
-                        await LoadQuickStats(); // Re-load stats after adding
-                    }
-                    else
-                    {
-                        string errorContent = await response.Content.ReadAsStringAsync();
-                        BookAddStatus.Text = $"<div class='alert alert-danger'>Error adding book: {response.StatusCode} - {response.ReasonPhrase}. Details: {errorContent}</div>";
-                        // Log the error details: errorContent
+                            // Clear the form
+                            ClearBookForm();
+
+                            // Refresh stats
+                            await LoadQuickStats();
+                        }
+                        else
+                        {
+                            BookAddStatus.Text = "<div class='alert alert-danger'>Error adding book: Service returned null.</div>";
+                        }
                     }
                 }
-                catch (HttpRequestException httpEx)
+                catch (FaultException fex)
                 {
-                    // Handle cases where the service is unreachable
-                    BookAddStatus.Text = $"<div class='alert alert-warning'>Could not connect to Book Service. Please try again later. ({httpEx.Message})</div>";
-                    // Log the exception httpEx
+                    BookAddStatus.Text = $"<div class='alert alert-danger'>Service error: {fex.Message}</div>";
                 }
-                catch (JsonException jsonEx)
+                catch (CommunicationException cex)
                 {
-                    BookAddStatus.Text = $"<div class='alert alert-danger'>Error processing service response: {jsonEx.Message}</div>";
-                    // Log the exception jsonEx
+                    BookAddStatus.Text = $"<div class='alert alert-warning'>Could not connect to Book Service. Please try again later. ({cex.Message})</div>";
                 }
-                catch (Exception ex) // Catch other potential errors (e.g., parsing)
+                catch (Exception ex)
                 {
                     BookAddStatus.Text = $"<div class='alert alert-danger'>An unexpected error occurred: {ex.Message}</div>";
-                    // Log the exception ex
                 }
             }
         }
@@ -225,7 +140,7 @@ namespace LibraryManagementSystem.Staff
             BookTitle.Text = string.Empty;
             BookAuthor.Text = string.Empty;
             BookISBN.Text = string.Empty;
-            BookCategory.SelectedIndex = 0; // Reset to the first item
+            BookCategory.SelectedIndex = 0;
             BookPublicationYear.Text = string.Empty;
             BookCopies.Text = string.Empty;
             BookDescription.Text = string.Empty;
@@ -233,14 +148,9 @@ namespace LibraryManagementSystem.Staff
 
         private void LogBookAddition(string title, string author)
         {
-            // --- Placeholder: Updates local sample data ---
-            // Ideally, this would call a separate Logging Service.
-            // For now, it adds to the GridView's current data source if it's the expected list type.
             var activityLog = ActivityLogGridView.DataSource as List<ActivityLogEntry>;
             if (activityLog == null)
             {
-                // If the grid hasn't been bound yet or has a different source, create a new list.
-                // This might happen if LoadActivityLog hasn't run or failed.
                 activityLog = new List<ActivityLogEntry>();
             }
 
@@ -249,105 +159,77 @@ namespace LibraryManagementSystem.Staff
                 Date = DateTime.Now,
                 Action = "Book Added",
                 Details = $"{title} by {author}",
-                User = User.Identity.Name ?? "Unknown" // Use logged-in user
+                User = User.Identity.Name ?? "Unknown"
             });
 
-            // Re-bind the grid view with the updated list
             ActivityLogGridView.DataSource = activityLog;
             ActivityLogGridView.DataBind();
         }
 
-        // --- NEW: Search Functionality ---
-
-        /// <summary>
-        /// Handles the click event for the Search button.
-        /// </summary>
         protected async void SearchButton_Click(object sender, EventArgs e)
         {
             string query = SearchTextBox.Text.Trim();
-            SearchStatusPanel.Visible = true; // Show status panel
+            SearchStatusPanel.Visible = true;
 
             if (string.IsNullOrWhiteSpace(query))
             {
                 SearchStatusLiteral.Text = "<div class='alert alert-warning'>Please enter a search term.</div>";
-                SearchResultsGridView.DataSource = null; // Clear results
+                SearchResultsGridView.DataSource = null;
                 SearchResultsGridView.DataBind();
                 return;
             }
 
-            SearchStatusLiteral.Text = "<div class='alert alert-info'>Searching...</div>"; // Provide feedback
-            await PerformSearchAsync(query);
-        }
-
-        /// <summary>
-        /// Calls the Search Service and updates the UI with results or errors.
-        /// </summary>
-        /// <param name="query">The search term.</param>
-        private async Task PerformSearchAsync(string query)
-        {
-            DetermineServiceUrls(); // Ensure URLs are current
+            SearchStatusLiteral.Text = "<div class='alert alert-info'>Searching...</div>";
 
             try
             {
-                string encodedQuery = HttpUtility.UrlEncode(query); // IMPORTANT: Encode the query
-                string searchUrl = $"{_searchServiceBaseUrl}/search?q={encodedQuery}";
-
-                HttpResponseMessage response = await client.GetAsync(searchUrl);
-
-                if (response.IsSuccessStatusCode)
+                // Use BookService for searching by retrieving all books
+                using (var bookClient = new BookServiceReference.BookServiceClient())
                 {
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
-                    var results = JsonConvert.DeserializeObject<List<LibraryManagementSystem.Models.Book>>(jsonResponse);
+                    var allBooks = await bookClient.GetAllBooksAsync();
+
+                    // Perform basic search filtering
+                    var results = new List<Book>();
+
+                    if (allBooks != null)
+                    {
+                        query = query.ToLower();
+
+                        foreach (var book in allBooks)
+                        {
+                            if ((book.Title != null && book.Title.ToLower().Contains(query)) ||
+                                (book.Author != null && book.Author.ToLower().Contains(query)) ||
+                                (book.ISBN != null && book.ISBN.ToLower().Contains(query)) ||
+                                (book.Category != null && book.Category.ToLower().Contains(query)) ||
+                                (book.Description != null && book.Description.ToLower().Contains(query)))
+                            {
+                                results.Add(book);
+                            }
+                        }
+                    }
 
                     SearchResultsGridView.DataSource = results;
                     SearchResultsGridView.DataBind();
 
-                    if (results != null && results.Any())
+                    if (results.Count > 0)
                     {
-                        SearchStatusLiteral.Text = $"<div class='alert alert-success'>Found {results.Count} book(s) matching '{HttpUtility.HtmlEncode(query)}'.</div>"; // Encode output query
+                        SearchStatusLiteral.Text = $"<div class='alert alert-success'>Found {results.Count} book(s) matching '{System.Web.HttpUtility.HtmlEncode(query)}'.</div>";
                     }
                     else
                     {
-                        // GridView's EmptyDataText will be shown
-                        SearchStatusLiteral.Text = $"<div class='alert alert-warning'>No books found matching '{HttpUtility.HtmlEncode(query)}'.</div>"; // Encode output query
+                        SearchStatusLiteral.Text = $"<div class='alert alert-warning'>No books found matching '{System.Web.HttpUtility.HtmlEncode(query)}'.</div>";
                     }
                 }
-                else
-                {
-                    // Service returned an error status code
-                    string errorContent = await response.Content.ReadAsStringAsync();
-                    SearchStatusLiteral.Text = $"<div class='alert alert-danger'>Error during search: {response.StatusCode} - {response.ReasonPhrase}. Details: {HttpUtility.HtmlEncode(errorContent)}</div>";
-                    SearchResultsGridView.DataSource = null;
-                    SearchResultsGridView.DataBind();
-                    // Log the error: errorContent
-                }
-            }
-            catch (HttpRequestException httpEx)
-            {
-                SearchStatusLiteral.Text = $"<div class='alert alert-danger'>Could not connect to Search Service. Please try again later. ({HttpUtility.HtmlEncode(httpEx.Message)})</div>";
-                SearchResultsGridView.DataSource = null;
-                SearchResultsGridView.DataBind();
-                // Log the exception httpEx
-            }
-            catch (JsonException jsonEx)
-            {
-                SearchStatusLiteral.Text = $"<div class='alert alert-danger'>Error processing search results: {HttpUtility.HtmlEncode(jsonEx.Message)}</div>";
-                SearchResultsGridView.DataSource = null;
-                SearchResultsGridView.DataBind();
-                // Log the exception jsonEx
             }
             catch (Exception ex)
             {
-                SearchStatusLiteral.Text = $"<div class='alert alert-danger'>An unexpected error occurred during search: {HttpUtility.HtmlEncode(ex.Message)}</div>";
+                SearchStatusLiteral.Text = $"<div class='alert alert-danger'>Error during search: {ex.Message}</div>";
                 SearchResultsGridView.DataSource = null;
                 SearchResultsGridView.DataBind();
-                // Log the exception ex
             }
         }
-
     }
 
-    // Keep the ActivityLogEntry class definition
     public class ActivityLogEntry
     {
         public DateTime Date { get; set; }
