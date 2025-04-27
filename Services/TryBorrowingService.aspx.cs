@@ -3,26 +3,31 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.UI;
-using BorrowingServiceReference;
+using System.ServiceModel;
 
 namespace LibraryManagementSystem.Services
 {
     public partial class TryBorrowingService : Page
     {
         // Reference to the BorrowingService
-        private BorrowingServiceReference borrowingService;
+        private BorrowingServiceReference.BorrowingServiceClient borrowingService;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Initialize the borrowing service client
-            borrowingService = new BorrowingServiceClient("BasicHttpBinding_IBorrowingService");
-
             if (!IsPostBack)
             {
                 // Set default values
                 txtMemberId.Text = "1"; // Default member ID for testing
                 txtHistoryMemberId.Text = "1"; // Default history member ID
             }
+        }
+
+        private BorrowingServiceReference.BorrowingServiceClient CreateBorrowingServiceClient()
+        {
+            var client = new BorrowingServiceReference.BorrowingServiceClient("BasicHttpBinding_IBorrowingService");
+            client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
+            client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            return client;
         }
 
         protected void btnBorrow_Click(object sender, EventArgs e)
@@ -32,15 +37,18 @@ namespace LibraryManagementSystem.Services
                 string bookId = txtBookId.Text.Trim();
                 string memberId = txtMemberId.Text.Trim();
 
-                // Call the BorrowBook method from the service
-                string result = borrowingService.BorrowBook(bookId, memberId);
+                using (var borrowingService = CreateBorrowingServiceClient())
+                {
+                    // Call the BorrowBook method from the service
+                    string result = borrowingService.BorrowBook(bookId, memberId);
 
-                // Display the result
-                ShowResult(result, true);
+                    // Display the result
+                    ShowResult(result, true);
+                }
             }
             catch (Exception ex)
             {
-                ShowResult("Error borrowing book: " + ex.Message, false);
+                ShowResult("Error borrowing book: " + GetUserFriendlyError(ex), false);
             }
         }
 
@@ -50,15 +58,18 @@ namespace LibraryManagementSystem.Services
             {
                 string borrowId = txtBorrowId.Text.Trim();
 
-                // Call the ReturnBook method from the service
-                string result = borrowingService.ReturnBook(borrowId);
+                using (var borrowingService = CreateBorrowingServiceClient())
+                {
+                    // Call the ReturnBook method from the service
+                    string result = borrowingService.ReturnBook(borrowId);
 
-                // Display the result
-                ShowResult(result, true);
+                    // Display the result
+                    ShowResult(result, true);
+                }
             }
             catch (Exception ex)
             {
-                ShowResult("Error returning book: " + ex.Message, false);
+                ShowResult("Error returning book: " + GetUserFriendlyError(ex), false);
             }
         }
 
@@ -74,15 +85,18 @@ namespace LibraryManagementSystem.Services
                     return;
                 }
 
-                // Call the GetBorrowingHistory method from the service
-                var history = borrowingService.GetBorrowingHistory(memberId);
+                using (var borrowingService = CreateBorrowingServiceClient())
+                {
+                    // Call the GetBorrowingHistory method from the service
+                    var history = borrowingService.GetBorrowingHistory(memberId);
 
-                // Display the records in the GridView
-                DisplayBorrowingRecords(history);
+                    // Display the records in the GridView
+                    DisplayBorrowingRecords(history);
+                }
             }
             catch (Exception ex)
             {
-                ShowResult("Error retrieving borrowing history: " + ex.Message, false);
+                ShowResult("Error retrieving borrowing history: " + GetUserFriendlyError(ex), false);
             }
         }
 
@@ -90,19 +104,22 @@ namespace LibraryManagementSystem.Services
         {
             try
             {
-                // Call the GetCurrentBorrowings method from the service
-                var currentBorrowings = borrowingService.GetCurrentBorrowings();
+                using (var borrowingService = CreateBorrowingServiceClient())
+                {
+                    // Call the GetCurrentBorrowings method from the service
+                    var currentBorrowings = borrowingService.GetCurrentBorrowings();
 
-                // Display the records in the GridView
-                DisplayBorrowingRecords(currentBorrowings);
+                    // Display the records in the GridView
+                    DisplayBorrowingRecords(currentBorrowings);
+                }
             }
             catch (Exception ex)
             {
-                ShowResult("Error retrieving current borrowings: " + ex.Message, false);
+                ShowResult("Error retrieving current borrowings: " + GetUserFriendlyError(ex), false);
             }
         }
 
-        private void DisplayBorrowingRecords(BorrowRecord[] records)
+        private void DisplayBorrowingRecords(BorrowingServiceReference.BorrowRecord[] records)
         {
             if (records == null || records.Length == 0)
             {
@@ -124,7 +141,7 @@ namespace LibraryManagementSystem.Services
             dt.Columns.Add("Status", typeof(string));
 
             // Populate the DataTable
-            foreach (BorrowRecord record in records)
+            foreach (BorrowingServiceReference.BorrowRecord record in records)
             {
                 DataRow row = dt.NewRow();
                 row["BorrowId"] = record.Id;
@@ -162,29 +179,31 @@ namespace LibraryManagementSystem.Services
             gvBorrowingHistory.Visible = false;
         }
 
-        protected override void OnUnload(EventArgs e)
+        private string GetUserFriendlyError(Exception ex)
         {
-            // Close the service client to release resources
-            if (borrowingService != null)
-            {
-                try
-                {
-                    if (borrowingService.State != System.ServiceModel.CommunicationState.Faulted)
-                    {
-                        borrowingService.Close();
-                    }
-                    else
-                    {
-                        borrowingService.Abort();
-                    }
-                }
-                catch
-                {
-                    borrowingService.Abort();
-                }
-            }
+            string friendlyMessage;
 
-            base.OnUnload(e);
+            if (ex is CommunicationException)
+                friendlyMessage = "Service is unavailable. Please try again later.";
+            else if (ex is TimeoutException)
+                friendlyMessage = "Request timed out. Please check your connection.";
+            else if (ex is FaultException)
+                friendlyMessage = "The server reported an error while processing your request.";
+            else if (ex is ProtocolException)
+                friendlyMessage = "There was a communication protocol issue. Please contact support.";
+            else if (ex is EndpointNotFoundException)
+                friendlyMessage = "Could not connect to the service. Please try again later.";
+            else if (ex is ServerTooBusyException)
+                friendlyMessage = "The server is currently busy. Please try again later.";
+            else
+                friendlyMessage = "An unexpected error occurred. Please contact support.";
+
+#if DEBUG
+            // Add detailed technical error in DEBUG mode
+            friendlyMessage += $"<br/><strong>Technical details:</strong> {ex.Message}";
+#endif
+
+            return friendlyMessage;
         }
     }
 } 
