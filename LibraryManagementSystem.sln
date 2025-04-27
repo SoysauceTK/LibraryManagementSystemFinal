@@ -9,6 +9,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.BookStorage", "LMS.BookStorage\LMS.BookStorage.csproj", "{08AA5A2E-5299-45A8-9AA2-B7D978823F1A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.BookSearch", "LMS.BookSearch\LMS.BookSearch.csproj", "{52741CD3-B525-46BE-906B-F49B5D127602}"
+	ProjectSection(ProjectDependencies) = postProject
+		{08AA5A2E-5299-45A8-9AA2-B7D978823F1A} = {08AA5A2E-5299-45A8-9AA2-B7D978823F1A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

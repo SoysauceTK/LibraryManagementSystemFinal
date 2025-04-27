@@ -107,12 +107,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\BookServiceReference\BookService.disco" />
+    <None Include="Connected Services\BookServiceReference\configuration91.svcinfo" />
+    <None Include="Connected Services\BookServiceReference\configuration.svcinfo" />
+    <Content Include="Connected Services\BookServiceReference\LMS.BookSearch.BookServiceReference.Book.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\BookServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Global.asax" />
     <Content Include="SearchSearch.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Connected Services\BookServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -122,6 +137,16 @@
     <Compile Include="Utils\BookServiceClient.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\BookServiceReference\BookService.wsdl" />
+    <None Include="Connected Services\BookServiceReference\BookService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BookServiceReference\BookService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BookServiceReference\BookService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -139,6 +164,12 @@
       <Project>{c44a6049-2f5e-40eb-b03f-fae19d2a09c3}</Project>
       <Name>LMS.Security</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\BookServiceReference\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

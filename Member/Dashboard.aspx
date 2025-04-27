@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Member Dashboard" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="LibraryManagementSystem.Member.Dashboard" %>
+﻿<%@ Page Title="Member Dashboard" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="LibraryManagementSystem.Member.Dashboard" Async="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="jumbotron">
@@ -36,9 +36,9 @@
                             <asp:TemplateField HeaderText="Actions">
                                 <ItemTemplate>
                                     <asp:Button ID="RenewButton" runat="server" Text="Renew" CssClass="btn btn-sm btn-info"
-                                               CommandName="Renew" CommandArgument='<%# Eval("Id") %>' />
+                                               CommandName="Renew" CommandArgument='<%# Eval("Id") %>' OnCommand="BookAction_Command" />
                                     <asp:Button ID="ReturnButton" runat="server" Text="Return" CssClass="btn btn-sm btn-success"
-                                               CommandName="Return" CommandArgument='<%# Eval("Id") %>' />
+                                               CommandName="Return" CommandArgument='<%# Eval("Id") %>' OnCommand="BookAction_Command" />
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -59,7 +59,7 @@
                                     <h6 class="card-subtitle mb-2 text-muted"><%# Eval("Author") %></h6>
                                     <p class="card-text"><%# Eval("Description") %></p>
                                     <asp:Button ID="BorrowButton" runat="server" Text="Borrow" CssClass="btn btn-primary btn-sm"
-                                               CommandName="Borrow" CommandArgument='<%# Eval("Id") %>' />
+                                               CommandName="Borrow" CommandArgument='<%# Eval("Id") %>' OnCommand="BookAction_Command" />
                                 </div>
                             </div>
                         </ItemTemplate>
