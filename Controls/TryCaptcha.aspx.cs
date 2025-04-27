@@ -14,7 +14,7 @@ namespace LibraryManagementSystem.Controls
             if (!IsPostBack)
             {
                 // Initialize the captcha on first load
-                captchaControl.GenerateNewCaptcha();
+                captchaControl.GenerateCaptcha();
             }
         }
 
@@ -28,20 +28,27 @@ namespace LibraryManagementSystem.Controls
                 return;
             }
 
-            bool isValid = captchaControl.Validate(userInput);
+            // Set the captcha textbox value
+            TextBox txtCaptcha = captchaControl.FindControl("txtCaptcha") as TextBox;
+            if (txtCaptcha != null)
+            {
+                txtCaptcha.Text = userInput;
+            }
+            
+            bool isValid = captchaControl.Validate();
             
             if (isValid)
             {
                 ShowResult("CAPTCHA verification successful!", true);
                 // Generate a new captcha after successful verification
-                captchaControl.GenerateNewCaptcha();
+                captchaControl.GenerateCaptcha();
                 txtCaptchaInput.Text = string.Empty;
             }
             else
             {
                 ShowResult("CAPTCHA verification failed. Please try again.", false);
                 // Generate a new captcha after failed verification
-                captchaControl.GenerateNewCaptcha();
+                captchaControl.GenerateCaptcha();
                 txtCaptchaInput.Text = string.Empty;
             }
         }
@@ -49,7 +56,7 @@ namespace LibraryManagementSystem.Controls
         protected void btnRefreshCaptcha_Click(object sender, EventArgs e)
         {
             // Refresh the captcha
-            captchaControl.GenerateNewCaptcha();
+            captchaControl.GenerateCaptcha();
             txtCaptchaInput.Text = string.Empty;
             pnlResults.Visible = false;
         }

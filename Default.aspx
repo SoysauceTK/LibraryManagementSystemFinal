@@ -63,7 +63,7 @@
                                 <td>object sender, EventArgs e</td>
                                 <td>void</td>
                                 <td>Manages application-level events and initialization.</td>
-                                <td>N/A</td>
+                                <td><a href="Controls/TryCookies.aspx" class="btn btn-sm btn-info">Try It</a></td>
                             </tr>
                             <tr>
                                 <td>Aarya Baireddy</td>
@@ -90,7 +90,7 @@
                                 <td>object sender, EventArgs e</td>
                                 <td>void</td>
                                 <td>Handles server-side session state initialization.</td>
-                                <td>N/A</td>
+                                <td><a href="Controls/TryCookies.aspx" class="btn btn-sm btn-info">Try It</a></td>
                             </tr>
                             <tr>
                                 <td>Aarya Baireddy</td>
@@ -100,6 +100,15 @@
                                 <td>N/A</td>
                                 <td>User interface for member account management and book browsing.</td>
                                 <td><a href="Member/Dashboard.aspx" class="btn btn-sm btn-info">Try It</a></td>
+                            </tr>
+                            <tr>
+                                <td>Aarya Baireddy & Sawyer Kesti</td>
+                                <td>WSDL Service</td>
+                                <td>Borrowing Service</td>
+                                <td>Varies (e.g., bookId, memberId)</td>
+                                <td>Varies (e.g., string, BorrowRecord[])</td>
+                                <td>Manages book borrowing and returns via WSDL API.</td>
+                                <td><a href="Services/TryBorrowingService.aspx" class="btn btn-sm btn-info">Try It</a></td>
                             </tr>
                             <tr>
                                 <td>Sawyer Kesti</td>
@@ -126,7 +135,7 @@
                                 <td>name (string), value (string), expiry (DateTime)</td>
                                 <td>void</td>
                                 <td>Helper methods for managing client-side cookies.</td>
-                                <td><a href="Services/TryIt.aspx?service=CookieService" class="btn btn-sm btn-info">Try It</a></td>
+                                <td><a href="Controls/TryCookies.aspx" class="btn btn-sm btn-info">Try It</a></td>
                             </tr>
                             <tr>
                                 <td>Sawyer Kesti</td>
@@ -135,7 +144,7 @@
                                 <td>N/A</td>
                                 <td>N/A</td>
                                 <td>User interface for new member registration with CAPTCHA verification.</td>
-                                <td><a href="Account/Register.aspx" class="btn btn-sm btn-info">Try It</a></td>
+                                <td><a href="Member/Register.aspx" class="btn btn-sm btn-info">Try It</a></td>
                             </tr>
                             <tr>
                                 <td>Sawyer Kesti</td>

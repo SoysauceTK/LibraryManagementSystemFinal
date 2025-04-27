@@ -27,7 +27,6 @@ namespace LibraryManagementSystem.Member
                 {
                     StatusMessage.Text = "<div class='alert alert-danger'>Invalid verification code. Please try again.</div>";
                     RegisterCaptcha.GenerateCaptcha();
-                    CaptchaInput.Text = string.Empty;
                     return;
                 }
 

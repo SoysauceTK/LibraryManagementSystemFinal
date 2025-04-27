@@ -45,9 +45,6 @@
                     <div class="form-group">
                         <asp:Label runat="server" CssClass="control-label">Verification Code</asp:Label>
                         <uc:Captcha ID="RegisterCaptcha" runat="server" />
-                        <asp:TextBox runat="server" ID="CaptchaInput" CssClass="form-control" placeholder="Enter the code shown above" />
-                        <asp:RequiredFieldValidator runat="server" ControlToValidate="CaptchaInput"
-                            CssClass="text-danger" ErrorMessage="Verification code is required." Display="Dynamic" />
                     </div>
                     <div class="form-group">
                         <asp:Button runat="server" ID="RegisterButton" Text="Register" CssClass="btn btn-primary" OnClick="RegisterButton_Click" />
