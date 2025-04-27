@@ -31,17 +31,31 @@ namespace LMS.BookStorage
 
         [OperationContract]
         bool UpdateInventory(InventoryUpdate update);
+        
+        [OperationContract]
+        void SetDataPath(string path);
     }
 
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class BookService : IBookService
     {
-        private readonly JsonDataAccess<Book> _bookData;
+        private XmlDataAccess<Book> _bookData;
+        private const string DEFAULT_FILE_NAME = "books.xml";
 
         public BookService()
         {
-            _bookData = new JsonDataAccess<Book>("books.json");
+            // Default initialization - client should call SetDataPath first for proper setup
+            string filePath = DataConfiguration.GetDataFilePath(DEFAULT_FILE_NAME);
+            _bookData = new XmlDataAccess<Book>(filePath);
+        }
+
+        public void SetDataPath(string path)
+        {
+            // Update the data path and reinitialize the data access
+            DataConfiguration.DataPath = path;
+            string filePath = DataConfiguration.GetDataFilePath(DEFAULT_FILE_NAME);
+            _bookData = new XmlDataAccess<Book>(filePath);
         }
 
         public List<Book> GetAllBooks()

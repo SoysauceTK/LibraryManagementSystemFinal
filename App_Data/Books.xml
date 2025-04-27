@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<books>
+  <book id="1">
+    <title>Clean Code</title>
+    <author>Robert C. Martin</author>
+    <isbn>9780132350884</isbn>
+    <category>Programming</category>
+    <publicationYear>2008</publicationYear>
+    <publisher>Prentice Hall</publisher>
+    <copiesAvailable>4</copiesAvailable>
+    <description>A Handbook of Agile Software Craftsmanship!</description>
+    <coverImageUrl></coverImageUrl>
+  </book>
+  <book id="2">
+    <title>The Pragmatic Programmer</title>
+    <author>Andrew Hunt, David Thomas</author>
+    <isbn>9780201616224</isbn>
+    <category>Programming</category>
+    <publicationYear>1999</publicationYear>
+    <publisher>Addison-Wesley</publisher>
+    <copiesAvailable>3</copiesAvailable>
+    <description>Your journey to mastery starts here.</description>
+    <coverImageUrl>https://example.com/covers/pragmatic.jpg</coverImageUrl>
+  </book>
+  <book id="3">
+    <title>1984</title>
+    <author>George Orwell</author>
+    <isbn>9780451524935</isbn>
+    <category>Fiction</category>
+    <publicationYear>1949</publicationYear>
+    <publisher>Signet Classics</publisher>
+    <copiesAvailable>5</copiesAvailable>
+    <description>A dystopian novel set in a totalitarian society.</description>
+    <coverImageUrl>https://example.com/covers/1984.jpg</coverImageUrl>
+  </book>
+  <!-- Continue with the rest of the books from the JSON file -->
+</books>

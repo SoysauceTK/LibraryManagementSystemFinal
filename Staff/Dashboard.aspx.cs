@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Web.UI;
 using System.Threading.Tasks;
 using System.ServiceModel;
-using LMS.BookStorage.Models;
-using System.Runtime.Serialization;
 using System.Linq;
+using System.IO;
 
 namespace LibraryManagementSystem.Staff
 {
@@ -32,6 +31,11 @@ namespace LibraryManagementSystem.Staff
             var client = new BookServiceReference.BookServiceClient("BasicHttpBinding_IBookService");
             client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
             client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            
+            // Set the data path to use the App_Data folder of the main application
+            string dataPath = Server.MapPath("~/App_Data");
+            client.SetDataPath(dataPath);
+            
             return client;
         }
 
@@ -86,7 +90,7 @@ namespace LibraryManagementSystem.Staff
 
             try
             {
-                var book = new Book
+                var book = new BookServiceReference.Book
                 {
                     Title = BookTitle.Text,
                     Author = BookAuthor.Text,
@@ -165,6 +169,23 @@ namespace LibraryManagementSystem.Staff
         {
             // Implement your error logging here
             // Could use database, file system, or application insights
+            
+            // For now, just log to a text file in App_Data
+            try
+            {
+                string logPath = Server.MapPath("~/App_Data/ErrorLog.txt");
+                using (StreamWriter writer = File.AppendText(logPath))
+                {
+                    writer.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}");
+                    writer.WriteLine($"Exception: {ex.Message}");
+                    writer.WriteLine($"Stack Trace: {ex.StackTrace}");
+                    writer.WriteLine(new string('-', 80));
+                }
+            }
+            catch
+            {
+                // Fail silently if logging itself fails
+            }
         }
 
         private void ClearBookForm()
@@ -215,7 +236,7 @@ namespace LibraryManagementSystem.Staff
                     // Use the search service to search books
                     var results = await searchClient.SearchBooksAsync(query);
 
-                    // Convert SearchServiceReference.Book[] to Book[]
+                    // Convert SearchServiceReference.Book[] to List<Book>
                     var bookResults = results.Select(b => new Book
                     {
                         Id = b.Id,
@@ -252,5 +273,18 @@ namespace LibraryManagementSystem.Staff
             public string Details { get; set; }
             public string User { get; set; }
         }
+
+        public class Book
+        {
+            public string Id { get; set; }
+            public string Title { get; set; }
+            public string Author { get; set; }
+            public string ISBN { get; set; }
+            public string Category { get; set; }
+            public int PublicationYear { get; set; }
+            public string Publisher { get; set; }
+            public int CopiesAvailable { get; set; }
+            public string Description { get; set; }
+            public string CoverImageUrl { get; set; }
+        }
     }
-}

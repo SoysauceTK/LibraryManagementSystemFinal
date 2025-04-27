@@ -5,6 +5,7 @@ using System.Xml;
 using System.Threading.Tasks;
 using System.ServiceModel;
 using System.Linq;
+using System.IO;
 
 namespace LibraryManagementSystem.Member
 {
@@ -66,6 +67,7 @@ namespace LibraryManagementSystem.Member
             {
                 // Log error
                 System.Diagnostics.Debug.WriteLine($"Error loading user data: {ex.Message}");
+                LogError("Error loading user data", ex);
             }
         }
 
@@ -109,34 +111,76 @@ namespace LibraryManagementSystem.Member
             return client;
         }
 
+        private BookServiceReference.BookServiceClient CreateBookServiceClient()
+        {
+            var client = new BookServiceReference.BookServiceClient("BasicHttpBinding_IBookService");
+            client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
+            client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            
+            // Set the data path to use the App_Data folder of the main application
+            string dataPath = Server.MapPath("~/App_Data");
+            client.SetDataPath(dataPath);
+            
+            return client;
+        }
+
         private async Task LoadRecommendedBooksAsync()
         {
             try
             {
-                // Create SearchService client instead of BookService client
+                // First try to use the SearchService
                 using (var searchClient = CreateSearchServiceClient())
                 {
-                    // Get popular books from the search service
-                    var popularBooks = await searchClient.GetPopularBooksAsync();
+                    try
+                    {
+                        // Get popular books from the search service
+                        var popularBooks = await searchClient.GetPopularBooksAsync();
 
-                    if (popularBooks != null && popularBooks.Length > 0)
-                    {
-                        RecommendedBooksRepeater.DataSource = popularBooks;
-                        RecommendedBooksRepeater.DataBind();
+                        if (popularBooks != null && popularBooks.Length > 0)
+                        {
+                            RecommendedBooksRepeater.DataSource = popularBooks;
+                            RecommendedBooksRepeater.DataBind();
+                            return;
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        // No books found, show sample recommendations as fallback
-                        var sampleBooks = GetSampleRecommendedBooks();
-                        RecommendedBooksRepeater.DataSource = sampleBooks;
-                        RecommendedBooksRepeater.DataBind();
+                        // Log the error but continue to try BookService instead
+                        System.Diagnostics.Debug.WriteLine($"Error with SearchService: {ex.Message}");
+                        LogError("SearchService unavailable", ex);
                     }
                 }
+
+                // If SearchService failed, try to get some books from BookService
+                using (var bookClient = CreateBookServiceClient())
+                {
+                    var allBooks = await bookClient.GetAllBooksAsync();
+                    
+                    if (allBooks != null && allBooks.Length > 0)
+                    {
+                        // Get up to 5 random books as recommendations
+                        var rand = new Random();
+                        var recommendations = allBooks
+                            .OrderBy(x => rand.Next())
+                            .Take(5)
+                            .ToArray();
+                        
+                        RecommendedBooksRepeater.DataSource = recommendations;
+                        RecommendedBooksRepeater.DataBind();
+                        return;
+                    }
+                }
+
+                // If all else fails, use sample data
+                var sampleBooks = GetSampleRecommendedBooks();
+                RecommendedBooksRepeater.DataSource = sampleBooks;
+                RecommendedBooksRepeater.DataBind();
             }
             catch (Exception ex)
             {
                 // Log error
                 System.Diagnostics.Debug.WriteLine($"Error loading recommended books: {ex.Message}");
+                LogError("Error loading recommended books", ex);
 
                 // On error, fall back to sample data
                 var sampleBooks = GetSampleRecommendedBooks();
@@ -195,6 +239,25 @@ namespace LibraryManagementSystem.Member
                 // For now, we'll just show an alert
                 ScriptManager.RegisterStartupScript(this, GetType(), "alert",
                     $"alert('You have requested to {e.CommandName.ToLower()} book ID: {bookId}. This feature is not yet implemented.');", true);
+            }
+        }
+
+        private void LogError(string message, Exception ex)
+        {
+            try
+            {
+                string logPath = Server.MapPath("~/App_Data/ErrorLog.txt");
+                using (StreamWriter writer = File.AppendText(logPath))
+                {
+                    writer.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}");
+                    writer.WriteLine($"Exception: {ex.Message}");
+                    writer.WriteLine($"Stack Trace: {ex.StackTrace}");
+                    writer.WriteLine(new string('-', 80));
+                }
+            }
+            catch
+            {
+                // Fail silently if logging itself fails
             }
         }
     }
