@@ -54,7 +54,7 @@
                                 <td>query (string)</td>
                                 <td>List&lt;Book&gt;</td>
                                 <td>Provides book searching capabilities via WSDL API.</td>
-                                <td><a href="Services/TryBookSearch.aspx" class="btn btn-sm btn-info">Try It</a></td>
+                                <td><asp:LinkButton ID="lnkTryBookSearch" runat="server" CssClass="btn btn-sm btn-info" OnClick="lnkTryBookSearch_Click">Try It</asp:LinkButton></td>
                             </tr>
                             <tr>
                                 <td>Aarya Baireddy</td>
@@ -93,11 +93,11 @@
                                 <td>
                                     <asp:Panel ID="pnlMemberDashboardAccess" runat="server">
                                         <% if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Member") { %>
-                                            <a href="Member/Dashboard.aspx" class="btn btn-sm btn-info">Try It</a>
+                                            <asp:LinkButton ID="lnkMemberDashboard" runat="server" CssClass="btn btn-sm btn-info" OnClick="lnkMemberDashboard_Click">Try It</asp:LinkButton>
                                         <% } else if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Staff") { %>
-                                            <span class="text-warning">Please <a href="Logout.aspx">sign out</a> of staff account first</span>
+                                            <asp:LinkButton ID="lnkMemberDashboardStaffLogout" runat="server" CssClass="btn btn-sm btn-info" OnClick="lnkMemberDashboardStaffLogout_Click">Switch to Member</asp:LinkButton>
                                         <% } else { %>
-                                            <a href="Member/Login.aspx" class="btn btn-sm btn-info">Log in as Member</a>
+                                            <asp:LinkButton ID="lnkMemberLogin" runat="server" CssClass="btn btn-sm btn-info" OnClick="lnkMemberLogin_Click">Log in as Member</asp:LinkButton>
                                         <% } %>
                                     </asp:Panel>
                                 </td>
@@ -118,7 +118,7 @@
                                 <td>Varies (e.g., None for GetAllBooks)</td>
                                 <td>Varies (e.g., List&lt;Book&gt;)</td>
                                 <td>Manages CRUD operations for library books via WSDL API.</td>
-                                <td><a href="Services/TryBookStorage.aspx" class="btn btn-sm btn-info">Try It</a></td>
+                                <td><asp:LinkButton ID="lnkTryBookStorage" runat="server" CssClass="btn btn-sm btn-info" OnClick="lnkTryBookStorage_Click">Try It</asp:LinkButton></td>
                             </tr>
                             <tr>
                                 <td>Sawyer Kesti</td>
@@ -127,7 +127,7 @@
                                 <td>None</td>
                                 <td>CaptchaResult (object)</td>
                                 <td>ASP.NET control for generating and validating CAPTCHAs.</td>
-                                <td><a href="Controls/TryCaptcha.aspx" class="btn btn-sm btn-info">Try It</a></td>
+                                <td><asp:LinkButton ID="lnkTryCaptcha" runat="server" CssClass="btn btn-sm btn-info" OnClick="lnkTryCaptcha_Click">Try It</asp:LinkButton></td>
                             </tr>
                             <tr>
                                 <td>Sawyer Kesti</td>
@@ -136,7 +136,7 @@
                                 <td>name (string), value (string), expiry (DateTime)</td>
                                 <td>void</td>
                                 <td>Helper methods for managing client-side cookies.</td>
-                                <td><a href="Controls/TryCookies.aspx" class="btn btn-sm btn-info">Try It</a></td>
+                                <td><asp:LinkButton ID="lnkTryCookies" runat="server" CssClass="btn btn-sm btn-info" OnClick="lnkTryCookies_Click">Try It</asp:LinkButton></td>
                             </tr>
                             <tr>
                                 <td>Sawyer Kesti</td>
@@ -148,9 +148,9 @@
                                 <td>
                                     <asp:Panel ID="pnlMemberRegistrationAccess" runat="server">
                                         <% if (Session["UserRole"] == null) { %>
-                                            <a href="Member/Register.aspx" class="btn btn-sm btn-info">Try It</a>
+                                            <asp:LinkButton ID="lnkMemberRegister" runat="server" CssClass="btn btn-sm btn-info" OnClick="lnkMemberRegister_Click">Try It</asp:LinkButton>
                                         <% } else { %>
-                                            <span class="text-warning">Please <a href="Logout.aspx">sign out</a> first</span>
+                                            <asp:LinkButton ID="lnkMemberRegisterLogout" runat="server" CssClass="btn btn-sm btn-info" OnClick="lnkMemberRegisterLogout_Click">Sign out & Register</asp:LinkButton>
                                         <% } %>
                                     </asp:Panel>
                                 </td>
@@ -165,11 +165,11 @@
                                 <td>
                                     <asp:Panel ID="pnlStaffDashboardAccess" runat="server">
                                         <% if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Staff") { %>
-                                            <a href="Staff/Dashboard.aspx" class="btn btn-sm btn-info">Try It</a>
+                                            <asp:LinkButton ID="lnkStaffDashboard" runat="server" CssClass="btn btn-sm btn-info" OnClick="lnkStaffDashboard_Click">Try It</asp:LinkButton>
                                         <% } else if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Member") { %>
-                                            <span class="text-warning">Please <a href="Logout.aspx">sign out</a> of member account first</span>
+                                            <asp:LinkButton ID="lnkStaffDashboardMemberLogout" runat="server" CssClass="btn btn-sm btn-info" OnClick="lnkStaffDashboardMemberLogout_Click">Switch to Staff</asp:LinkButton>
                                         <% } else { %>
-                                            <a href="Staff/Login.aspx" class="btn btn-sm btn-info">Log in as Staff</a>
+                                            <asp:LinkButton ID="lnkStaffLogin" runat="server" CssClass="btn btn-sm btn-info" OnClick="lnkStaffLogin_Click">Log in as Staff</asp:LinkButton>
                                         <% } %>
                                     </asp:Panel>
                                 </td>
