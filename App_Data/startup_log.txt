@@ -1,0 +1,10 @@
+Application_Start initiated: 4/26/2025 5:03:30 PM
+Before RegisterRoutes: 4/26/2025 5:03:30 PM
+After RegisterRoutes: 4/26/2025 5:03:30 PM
+Before RegisterBundles: 4/26/2025 5:03:30 PM
+After RegisterBundles: 4/26/2025 5:03:30 PM
+Before AddDefinition for jquery: 4/26/2025 5:03:30 PM
+After AddDefinition for jquery: 4/26/2025 5:03:30 PM
+Before setting application vars: 4/26/2025 5:03:30 PM
+After setting application vars: 4/26/2025 5:03:30 PM
+Application_Start completed: 4/26/2025 5:03:30 PM

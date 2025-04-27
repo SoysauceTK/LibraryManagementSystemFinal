@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Web;
 using System.Web.UI;
-using System.Web.Security;
 
 namespace LibraryManagementSystem
 {
@@ -9,16 +7,11 @@ namespace LibraryManagementSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Ensure the page refreshes authentication state
-            if (Request.IsAuthenticated)
-            {
-                // You can add any role-specific logic here if needed
-            }
         }
 
-        protected void Unnamed_LoggingOut(object sender, EventArgs e)
+        protected void Unnamed_LoggingOut(object sender, System.Web.UI.WebControls.LoginCancelEventArgs e)
         {
-            FormsAuthentication.SignOut();
+            System.Web.Security.FormsAuthentication.SignOut();
             Response.Redirect("~/");
         }
     }

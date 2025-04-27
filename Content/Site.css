@@ -1,0 +1,53 @@
+﻿/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 20px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* Custom styles for the library management system */
+.jumbotron {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 0.3rem;
+}
+
+.card {
+    margin-bottom: 1.5rem;
+}
+
+.card-header h3 {
+    margin-bottom: 0;
+}
+
+.captcha-container {
+    margin-bottom: 15px;
+}
+
+.captcha-image {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-right: 10px;
+    background-color: #f8f9fa;
+}
+
+footer {
+    margin-top: 30px;
+    padding: 20px 0;
+    text-align: center;
+}

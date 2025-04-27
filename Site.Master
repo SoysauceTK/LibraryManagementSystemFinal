@@ -6,71 +6,44 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%: Page.Title %> - Library Management System</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
 </head>
 <body>
     <form runat="server">
         <asp:ScriptManager runat="server">
+            <Scripts>
+                <asp:ScriptReference Path="~/Scripts/jquery-3.7.1.min.js" />
+                <asp:ScriptReference Path="~/Scripts/bootstrap.js" />
+            </Scripts>
         </asp:ScriptManager>
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <asp:HyperLink runat="server" CssClass="navbar-brand" NavigateUrl="~/">Library Management System</asp:HyperLink>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" runat="server" href="~/">Library Management System</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <asp:LoginView runat="server" ViewStateMode="Disabled">
-                            <AnonymousTemplate>
-                                <li class="nav-item">
-                                    <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/">Home</asp:HyperLink>
-                                </li>
-                            </AnonymousTemplate>
-                        </asp:LoginView>
-                        
-                        <asp:LoginView runat="server" ViewStateMode="Disabled">
-                            <RoleGroups>
-                                <asp:RoleGroup Roles="Staff">
-                                    <ContentTemplate>
-                                        <li class="nav-item">
-                                            <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/Presentation Layer/Staff/Dashboard.aspx">Dashboard</asp:HyperLink>
-                                        </li>
-                                    </ContentTemplate>
-                                </asp:RoleGroup>
-                                <asp:RoleGroup Roles="Member">
-                                    <ContentTemplate>
-                                        <li class="nav-item">
-                                            <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/Presentation Layer/Member/Dashboard.aspx">Dashboard</asp:HyperLink>
-                                        </li>
-                                    </ContentTemplate>
-                                </asp:RoleGroup>
-                            </RoleGroups>
-                        </asp:LoginView>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Books/Catalog">Book Catalog</a></li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
                             <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/Presentation Layer/Member/Login.aspx">Member Login</asp:HyperLink>
-                                </li>
-                                <li class="nav-item">
-                                    <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/Presentation Layer/Member/Register.aspx">Register</asp:HyperLink>
-                                </li>
-                                <li class="nav-item">
-                                    <asp:HyperLink runat="server" CssClass="nav-link" NavigateUrl="~/Presentation Layer/Staff/Login.aspx">Staff Login</asp:HyperLink>
-                                </li>
+                                <li class="nav-item"><a class="nav-link" runat="server" href="~/Member/Login">Log in</a></li>
+                                <li class="nav-item"><a class="nav-link" runat="server" href="~/Member/Register">Register</a></li>
                             </ul>
                         </AnonymousTemplate>
                         <LoggedInTemplate>
                             <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <span class="nav-link">Welcome, <%: Context.User.Identity.Name %></span>
-                                </li>
+                                <li class="nav-item"><a class="nav-link" runat="server" href="~/Member/Account" title="Manage your account">Hello, <%: Context.User.Identity.Name  %> !</a></li>
                                 <li class="nav-item">
                                     <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" CssClass="nav-link" />
                                 </li>
@@ -82,7 +55,8 @@
         </nav>
 
         <div class="container body-content">
-            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
             <hr />
             <footer>
                 <p>&copy; <%: DateTime.Now.Year %> - Library Management System</p>
