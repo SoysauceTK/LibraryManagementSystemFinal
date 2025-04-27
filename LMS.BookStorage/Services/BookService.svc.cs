@@ -6,6 +6,7 @@ using System.ServiceModel.Activation;
 using LMS.BookStorage.Models;
 using LMS.BookStorage.Utils;
 using System.IO;
+using System.Diagnostics;
 
 namespace LMS.BookStorage
 {
@@ -45,8 +46,12 @@ namespace LMS.BookStorage
         // Static constructor to initialize the local data path
         static BookService()
         {
-            // Set up a local directory for this service's data
-            LOCAL_DATA_PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BookStorage");
+            // Get base directory path for web app
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            
+            // Ensure consistent directory casing (App_Data not App_data)
+            // This is important even on Windows systems in some deployment scenarios
+            LOCAL_DATA_PATH = Path.Combine(baseDir, "App_Data", "BookStorage");
             
             // Ensure the directory exists
             if (!Directory.Exists(LOCAL_DATA_PATH))
@@ -81,13 +86,22 @@ namespace LMS.BookStorage
 
         public Book AddBook(Book book)
         {
-            if (string.IsNullOrEmpty(book.Id))
+            try
             {
-                book.Id = Guid.NewGuid().ToString();
-            }
+                if (string.IsNullOrEmpty(book.Id))
+                {
+                    book.Id = Guid.NewGuid().ToString();
+                }
 
-            _bookData.Insert(book);
-            return book;
+                _bookData.Insert(book);
+                return book;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error in AddBook: {ex.Message}");
+                Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public Book UpdateBook(Book book)
