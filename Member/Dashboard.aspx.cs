@@ -313,25 +313,26 @@ namespace LibraryManagementSystem.Member
                     }
                 }
 
-                // If we couldn't get the book title, try one more time using the borrowing service
+                // If we couldn't get the book title, try getting it from current borrows
                 if (!gotBookDetails)
                 {
                     try
                     {
                         using (var borrowingClient = CreateBorrowingServiceClient())
                         {
-                            var borrowRecord = await borrowingClient.GetBorrowRecordAsync(bookId);
-                            if (borrowRecord != null && !string.IsNullOrEmpty(borrowRecord.BookTitle))
+                            var currentBorrows = await borrowingClient.GetCurrentBorrowsByUserAsync(username);
+                            var currentBorrow = currentBorrows?.FirstOrDefault(b => b.BookId == bookId);
+                            if (currentBorrow != null && !string.IsNullOrEmpty(currentBorrow.BookTitle))
                             {
-                                bookTitle = borrowRecord.BookTitle.Trim();
+                                bookTitle = currentBorrow.BookTitle.Trim();
                                 gotBookDetails = true;
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        System.Diagnostics.Debug.WriteLine($"Error getting borrow record: {ex.Message}");
-                        LogError("Error getting borrow record", ex);
+                        System.Diagnostics.Debug.WriteLine($"Error getting current borrows: {ex.Message}");
+                        LogError("Error getting current borrows", ex);
                     }
                 }
                 
