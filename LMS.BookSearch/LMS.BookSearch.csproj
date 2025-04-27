@@ -121,7 +121,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Global.asax" />
-    <Content Include="SearchSearch.svc" />
+    <Content Include="SearchService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
