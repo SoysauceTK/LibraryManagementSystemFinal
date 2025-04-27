@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.ServiceModel;
 using LMS.BookSearch.Models;
-using LMS.BookStorage.Models;
 
 namespace LMS.BookSearch.Utils
 {
     public class BookServiceClient : IDisposable
     {
-        private readonly ServiceModel.BasicHttpBinding _binding;
+        private readonly BasicHttpBinding _binding;
         private readonly EndpointAddress _endpoint;
-        private readonly ServiceModel.ChannelFactory<IBookStorageService> _factory;
+        private readonly ChannelFactory<IBookStorageService> _factory;
 
         public BookServiceClient()
         {
             // For local development
-            _binding = new ServiceModel.BasicHttpBinding();
+            _binding = new BasicHttpBinding();
 
             // For local development, use:
             _endpoint = new EndpointAddress("http://localhost:44301/BookService.svc");
 
             // For Webstrar deployment, use:
             // Replace X with your site number
-            // _endpoint = new EndpointAddress("http://webstrarX.fulton.asu.edu/page0/BookService.svc");
+            // _endpoint = new EndpointAddress("http://webstrar94.fulton.asu.edu/page0/BookService.svc");
 
-            _factory = new ServiceModel.ChannelFactory<IBookStorageService>(_binding, _endpoint);
+            _factory = new ChannelFactory<IBookStorageService>(_binding, _endpoint);
         }
 
         public List<Book> GetAllBooks()
@@ -35,12 +35,25 @@ namespace LMS.BookSearch.Utils
 
                 try
                 {
+                    // Convert the returned books to our model
                     var storageBooks = channel.GetAllBooks();
                     var books = new List<Book>();
 
                     foreach (var book in storageBooks)
                     {
-                        books.Add(ConvertToSearchBook(book));
+                        books.Add(new Book
+                        {
+                            Id = book.Id,
+                            Title = book.Title,
+                            Author = book.Author,
+                            ISBN = book.ISBN,
+                            Category = book.Category,
+                            PublicationYear = book.PublicationYear,
+                            Publisher = book.Publisher,
+                            CopiesAvailable = book.CopiesAvailable,
+                            Description = book.Description,
+                            CoverImageUrl = book.CoverImageUrl
+                        });
                     }
 
                     return books;
@@ -73,23 +86,6 @@ namespace LMS.BookSearch.Utils
                 Console.WriteLine($"Error creating channel to Book Storage Service: {ex.Message}");
                 return GetSampleBooks();
             }
-        }
-
-        private Book ConvertToSearchBook(LMS.BookStorage.Models.Book storageBook)
-        {
-            return new Book
-            {
-                Id = storageBook.Id,
-                Title = storageBook.Title,
-                Author = storageBook.Author,
-                ISBN = storageBook.ISBN,
-                Category = storageBook.Category,
-                PublicationYear = storageBook.PublicationYear,
-                Publisher = storageBook.Publisher,
-                CopiesAvailable = storageBook.CopiesAvailable,
-                Description = storageBook.Description,
-                CoverImageUrl = storageBook.CoverImageUrl
-            };
         }
 
         private List<Book> GetSampleBooks()
@@ -149,13 +145,49 @@ namespace LMS.BookSearch.Utils
         }
     }
 
+    // Define the service contract without referencing LMS.BookStorage
     [ServiceContract]
     public interface IBookStorageService
     {
         [OperationContract]
-        List<LMS.BookStorage.Models.Book> GetAllBooks();
+        System.Collections.Generic.List<BookStorageServiceBook> GetAllBooks();
 
         [OperationContract]
-        LMS.BookStorage.Models.Book GetBookById(string id);
+        BookStorageServiceBook GetBookById(string id);
+    }
+
+    // Create a mirror class to match the structure from BookStorage service
+    [DataContract]
+    public class BookStorageServiceBook
+    {
+        [DataMember]
+        public string Id { get; set; }
+
+        [DataMember]
+        public string Title { get; set; }
+
+        [DataMember]
+        public string Author { get; set; }
+
+        [DataMember]
+        public string ISBN { get; set; }
+
+        [DataMember]
+        public string Category { get; set; }
+
+        [DataMember]
+        public int PublicationYear { get; set; }
+
+        [DataMember]
+        public string Publisher { get; set; }
+
+        [DataMember]
+        public int CopiesAvailable { get; set; }
+
+        [DataMember]
+        public string Description { get; set; }
+
+        [DataMember]
+        public string CoverImageUrl { get; set; }
     }
 }

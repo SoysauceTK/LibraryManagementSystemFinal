@@ -8,8 +8,7 @@ namespace LMS.BookSearch
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            // Register Web API configuration
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+
         }
     }
 }

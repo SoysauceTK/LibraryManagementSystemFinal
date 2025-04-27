@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
+using System.Runtime.Serialization;
 using LMS.BookSearch.Models;
 using LMS.BookSearch.Utils;
 
