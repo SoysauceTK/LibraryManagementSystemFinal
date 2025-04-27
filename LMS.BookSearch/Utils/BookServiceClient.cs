@@ -6,87 +6,66 @@ using LMS.BookSearch.Models;
 
 namespace LMS.BookSearch.Utils
 {
-    public class BookServiceClient : IDisposable
+    public class BookServiceClient
     {
-        private readonly BasicHttpBinding _binding;
-        private readonly EndpointAddress _endpoint;
-        private readonly ChannelFactory<IBookStorageService> _factory;
 
-        public BookServiceClient()
+        private BookServiceReference.BookServiceClient CreateBookServiceClient()
         {
-            // For local development
-            _binding = new BasicHttpBinding();
-
-            // For local development, use:
-            _endpoint = new EndpointAddress("http://localhost:44301/BookService.svc");
-
-            // For Webstrar deployment, use:
-            // Replace X with your site number
-            // _endpoint = new EndpointAddress("http://webstrar94.fulton.asu.edu/page0/BookService.svc");
-
-            _factory = new ChannelFactory<IBookStorageService>(_binding, _endpoint);
+            var client = new BookServiceReference.BookServiceClient("BasicHttpBinding_IBookService");
+            client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
+            client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            return client;
         }
+
 
         public List<Book> GetAllBooks()
         {
             try
             {
-                var channel = _factory.CreateChannel();
-
-                try
+                using (var client = CreateBookServiceClient())
                 {
-                    // Convert the returned books to our model
-                    var storageBooks = channel.GetAllBooks();
-                    var books = new List<Book>();
-
-                    foreach (var book in storageBooks)
+                    try
                     {
-                        books.Add(new Book
+                        // Convert the returned books to our model
+                        var storageBooks = client.GetAllBooks();
+                        var books = new List<Book>();
+
+                        foreach (var book in storageBooks)
                         {
-                            Id = book.Id,
-                            Title = book.Title,
-                            Author = book.Author,
-                            ISBN = book.ISBN,
-                            Category = book.Category,
-                            PublicationYear = book.PublicationYear,
-                            Publisher = book.Publisher,
-                            CopiesAvailable = book.CopiesAvailable,
-                            Description = book.Description,
-                            CoverImageUrl = book.CoverImageUrl
-                        });
+                            books.Add(new Book
+                            {
+                                Id = book.Id,
+                                Title = book.Title,
+                                Author = book.Author,
+                                ISBN = book.ISBN,
+                                Category = book.Category,
+                                PublicationYear = book.PublicationYear,
+                                Publisher = book.Publisher,
+                                CopiesAvailable = book.CopiesAvailable,
+                                Description = book.Description,
+                                CoverImageUrl = book.CoverImageUrl
+                            });
+                        }
+
+                        return books;
                     }
-
-                    return books;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error calling Book Storage Service: {ex.Message}");
-                    ((ICommunicationObject)channel).Abort();
-
-                    // Return sample data if service fails
-                    return GetSampleBooks();
-                }
-                finally
-                {
-                    if (channel != null)
+                    catch (Exception ex)
                     {
-                        try
-                        {
-                            ((ICommunicationObject)channel).Close();
-                        }
-                        catch
-                        {
-                            ((ICommunicationObject)channel).Abort();
-                        }
+                        Console.WriteLine($"Error calling Book Storage Service: {ex.Message}");
+                        client.Abort();
+
+                        // Return sample data if service fails
+                        return GetSampleBooks();
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error creating channel to Book Storage Service: {ex.Message}");
+                Console.WriteLine($"Error creating client for Book Storage Service: {ex.Message}");
                 return GetSampleBooks();
             }
         }
+
 
         private List<Book> GetSampleBooks()
         {
@@ -129,31 +108,6 @@ namespace LMS.BookSearch.Utils
             };
         }
 
-        public void Dispose()
-        {
-            if (_factory != null)
-            {
-                try
-                {
-                    _factory.Close();
-                }
-                catch
-                {
-                    _factory.Abort();
-                }
-            }
-        }
-    }
-
-    // Define the service contract without referencing LMS.BookStorage
-    [ServiceContract]
-    public interface IBookStorageService
-    {
-        [OperationContract]
-        System.Collections.Generic.List<BookStorageServiceBook> GetAllBooks();
-
-        [OperationContract]
-        BookStorageServiceBook GetBookById(string id);
     }
 
     // Create a mirror class to match the structure from BookStorage service

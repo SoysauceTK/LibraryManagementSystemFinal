@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.ServiceModel;
 using LMS.BookStorage.Models;
 using System.Runtime.Serialization;
+using System.Linq;
 
 namespace LibraryManagementSystem.Staff
 {
@@ -29,6 +30,14 @@ namespace LibraryManagementSystem.Staff
         private BookServiceReference.BookServiceClient CreateBookServiceClient()
         {
             var client = new BookServiceReference.BookServiceClient("BasicHttpBinding_IBookService");
+            client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
+            client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            return client;
+        }
+
+        private SearchServiceReference.SearchServiceClient CreateSearchServiceClient()
+        {
+            var client = new SearchServiceReference.SearchServiceClient("BasicHttpBinding_ISearchService");
             client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
             client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
             return client;
@@ -117,15 +126,11 @@ namespace LibraryManagementSystem.Staff
         {
             System.Diagnostics.Debug.WriteLine($"Error during {operation}: {ex}");
 
-            // 👇 ADD this for now to see the real error on screen
-            Response.Write($"<pre>Real error during {operation}: {ex}</pre>");
-
             if (ex is CommunicationException || ex is TimeoutException)
             {
                 LogErrorToDatabase($"Service communication error during {operation}", ex);
             }
         }
-
 
         private string GetUserFriendlyError(Exception ex)
         {
@@ -149,13 +154,12 @@ namespace LibraryManagementSystem.Staff
                 friendlyMessage = "An unexpected error occurred. Please contact support.";
 
 #if DEBUG
-            // 👇 Add detailed technical error in DEBUG mode
+            // Add detailed technical error in DEBUG mode
             friendlyMessage += $"<br/><strong>Technical details:</strong> {ex.Message}";
 #endif
 
             return friendlyMessage;
         }
-
 
         private void LogErrorToDatabase(string message, Exception ex)
         {
@@ -194,6 +198,8 @@ namespace LibraryManagementSystem.Staff
         protected async void SearchButton_Click(object sender, EventArgs e)
         {
             string query = SearchTextBox.Text.Trim();
+            SearchStatusPanel.Visible = true;
+
             if (string.IsNullOrWhiteSpace(query))
             {
                 SearchStatusLiteral.Text = "<div class='alert alert-warning'>Please enter a search term</div>";
@@ -204,43 +210,39 @@ namespace LibraryManagementSystem.Staff
 
             try
             {
-                using (var bookClient = CreateBookServiceClient())
+                using (var searchClient = CreateSearchServiceClient())
                 {
-                    var allBooks = await bookClient.GetAllBooksAsync();
-                    var results = FilterBooks(allBooks, query);
+                    // Use the search service to search books
+                    var results = await searchClient.SearchBooksAsync(query);
 
-                    SearchResultsGridView.DataSource = results;
+                    // Convert SearchServiceReference.Book[] to Book[]
+                    var bookResults = results.Select(b => new Book
+                    {
+                        Id = b.Id,
+                        Title = b.Title,
+                        Author = b.Author,
+                        ISBN = b.ISBN,
+                        Category = b.Category,
+                        PublicationYear = b.PublicationYear,
+                        Publisher = b.Publisher,
+                        CopiesAvailable = b.CopiesAvailable,
+                        Description = b.Description,
+                        CoverImageUrl = b.CoverImageUrl
+                    }).ToList();
+
+                    SearchResultsGridView.DataSource = bookResults;
                     SearchResultsGridView.DataBind();
 
-                    SearchStatusLiteral.Text = results.Count > 0
-                        ? $"<div class='alert alert-success'>Found {results.Count} book(s)</div>"
+                    SearchStatusLiteral.Text = bookResults.Count > 0
+                        ? $"<div class='alert alert-success'>Found {bookResults.Count} book(s)</div>"
                         : $"<div class='alert alert-warning'>No books found</div>";
                 }
             }
             catch (Exception ex)
             {
                 HandleServiceError(ex, "search books");
-                SearchStatusLiteral.Text = "<div class='alert alert-danger'>Search failed</div>";
+                SearchStatusLiteral.Text = $"<div class='alert alert-danger'>Search failed: {GetUserFriendlyError(ex)}</div>";
             }
-        }
-
-        private List<Book> FilterBooks(Book[] allBooks, string query)
-        {
-            var results = new List<Book>();
-            if (allBooks == null) return results;
-
-            query = query.ToLower();
-            foreach (var book in allBooks)
-            {
-                if (book.Title?.ToLower().Contains(query) == true ||
-                    book.Author?.ToLower().Contains(query) == true ||
-                    book.ISBN?.ToLower().Contains(query) == true ||
-                    book.Category?.ToLower().Contains(query) == true)
-                {
-                    results.Add(book);
-                }
-            }
-            return results;
         }
 
         public class ActivityLogEntry

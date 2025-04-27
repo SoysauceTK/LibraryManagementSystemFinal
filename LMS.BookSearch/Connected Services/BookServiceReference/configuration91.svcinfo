@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="9OoEhKbMOQ7sk0yeb+7aDd9t9JxzueCpPr1HvB+AnSU=">
+<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="pIQF9ODCLSdtjJwZJapk0b107bpWs7BtS+dmJmsPv5A=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IBookService">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IBookService" contract="BookServiceReference.IBookService" bindingType="basicHttpBinding" address="http://localhost:53029/BookService.svc" bindingConfiguration="BasicHttpBinding_IBookService">
+    <endpoint name="BasicHttpBinding_IBookService" contract="BookServiceReference.IBookService" bindingType="basicHttpBinding" address="http://webstrar94.fulton.asu.edu/Page10/BookService.svc" bindingConfiguration="BasicHttpBinding_IBookService">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://localhost:53029/BookService.svc</serializedValue>
+          <serializedValue>http://webstrar94.fulton.asu.edu/Page10/BookService.svc</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

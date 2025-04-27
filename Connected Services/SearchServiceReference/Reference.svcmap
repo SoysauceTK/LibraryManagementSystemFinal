@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="a7665e09-49d5-43e7-aa19-858928bbcc9b" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="6934d233-449f-487d-8138-b07d1dcddd13" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,12 +22,12 @@
     <MetadataSource Address="https://localhost:44302/SearchSearch.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="SearchSearch.xsd" MetadataType="Schema" ID="ef0ddb98-f02c-4a66-8999-38e37199f761" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?xsd=xsd2" />
-    <MetadataFile FileName="SearchSearch1.xsd" MetadataType="Schema" ID="2170d326-4358-405f-befa-52f0d14e0dcc" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?xsd=xsd1" />
-    <MetadataFile FileName="SearchService.wsdl" MetadataType="Wsdl" ID="cdceb2f4-4faa-44e2-a40f-7f8837bce61c" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?wsdl" />
-    <MetadataFile FileName="SearchSearch.disco" MetadataType="Disco" ID="7571d81f-84b1-475b-b492-1f65e68e8d57" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?disco" />
-    <MetadataFile FileName="SearchSearch2.xsd" MetadataType="Schema" ID="64bf840c-097b-45f7-bda6-34e8c41c6e1c" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?xsd=xsd0" />
-    <MetadataFile FileName="SearchSearch3.xsd" MetadataType="Schema" ID="346141b6-ac23-4da3-891d-f377a7651cf8" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?xsd=xsd3" />
+    <MetadataFile FileName="SearchSearch.xsd" MetadataType="Schema" ID="228c4347-38b2-495f-8bdb-1952b8f92ddf" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?xsd=xsd2" />
+    <MetadataFile FileName="SearchSearch1.xsd" MetadataType="Schema" ID="700d6709-3003-4539-bffa-de4d8a9a334a" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?xsd=xsd1" />
+    <MetadataFile FileName="SearchService.wsdl" MetadataType="Wsdl" ID="90d101df-36a0-4fe9-ad17-d5c4b85bc7a5" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?wsdl" />
+    <MetadataFile FileName="SearchSearch.disco" MetadataType="Disco" ID="927afabf-f517-470d-8559-3b0cb96a75e1" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?disco" />
+    <MetadataFile FileName="SearchSearch2.xsd" MetadataType="Schema" ID="d1f5549d-6d00-4594-b322-0b0defddcd0a" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?xsd=xsd0" />
+    <MetadataFile FileName="SearchSearch3.xsd" MetadataType="Schema" ID="fd3ae559-940d-4571-b474-b3cbb74d962c" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?xsd=xsd3" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

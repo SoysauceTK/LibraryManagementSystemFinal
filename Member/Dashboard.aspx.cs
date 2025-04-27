@@ -5,7 +5,6 @@ using System.Xml;
 using System.Threading.Tasks;
 using System.ServiceModel;
 using System.Linq;
-using LMS.BookStorage.Models; // Using the BookStorage model directly
 
 namespace LibraryManagementSystem.Member
 {
@@ -102,27 +101,27 @@ namespace LibraryManagementSystem.Member
             };
         }
 
+        private SearchServiceReference.SearchServiceClient CreateSearchServiceClient()
+        {
+            var client = new SearchServiceReference.SearchServiceClient("BasicHttpBinding_ISearchService");
+            client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
+            client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            return client;
+        }
+
         private async Task LoadRecommendedBooksAsync()
         {
             try
             {
-                // Create BookService client
-                using (var bookClient = new BookServiceReference.BookServiceClient())
+                // Create SearchService client instead of BookService client
+                using (var searchClient = CreateSearchServiceClient())
                 {
-                    // Get all books from the service
-                    var allBooks = await bookClient.GetAllBooksAsync();
+                    // Get popular books from the search service
+                    var popularBooks = await searchClient.GetPopularBooksAsync();
 
-                    if (allBooks != null && allBooks.Length > 0)
+                    if (popularBooks != null && popularBooks.Length > 0)
                     {
-                        // For a real recommendation engine, you'd use more sophisticated logic
-                        // For now, just select a random subset of 3 books
-                        var random = new Random();
-                        var recommendedBooks = allBooks
-                            .OrderBy(x => random.Next()) // Randomize order
-                            .Take(3) // Take 3 random books
-                            .ToList();
-
-                        RecommendedBooksRepeater.DataSource = recommendedBooks;
+                        RecommendedBooksRepeater.DataSource = popularBooks;
                         RecommendedBooksRepeater.DataBind();
                     }
                     else
@@ -207,5 +206,19 @@ namespace LibraryManagementSystem.Member
         public string Author { get; set; }
         public DateTime BorrowDate { get; set; }
         public DateTime DueDate { get; set; }
+    }
+
+    public class Book
+    {
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public string ISBN { get; set; }
+        public string Category { get; set; }
+        public int PublicationYear { get; set; }
+        public string Publisher { get; set; }
+        public int CopiesAvailable { get; set; }
+        public string Description { get; set; }
+        public string CoverImageUrl { get; set; }
     }
 }
