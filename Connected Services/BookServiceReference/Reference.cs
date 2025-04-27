@@ -9,35 +9,287 @@
 //------------------------------------------------------------------------------
 
 namespace LibraryManagementSystem.BookServiceReference {
+    using System.Runtime.Serialization;
+    using System;
     
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Book", Namespace="http://schemas.datacontract.org/2004/07/LMS.BookStorage.Models")]
+    [System.SerializableAttribute()]
+    public partial class Book : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AuthorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CategoryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CopiesAvailableField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CoverImageUrlField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ISBNField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PublicationYearField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PublisherField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TitleField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Author {
+            get {
+                return this.AuthorField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AuthorField, value) != true)) {
+                    this.AuthorField = value;
+                    this.RaisePropertyChanged("Author");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Category {
+            get {
+                return this.CategoryField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CategoryField, value) != true)) {
+                    this.CategoryField = value;
+                    this.RaisePropertyChanged("Category");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CopiesAvailable {
+            get {
+                return this.CopiesAvailableField;
+            }
+            set {
+                if ((this.CopiesAvailableField.Equals(value) != true)) {
+                    this.CopiesAvailableField = value;
+                    this.RaisePropertyChanged("CopiesAvailable");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CoverImageUrl {
+            get {
+                return this.CoverImageUrlField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CoverImageUrlField, value) != true)) {
+                    this.CoverImageUrlField = value;
+                    this.RaisePropertyChanged("CoverImageUrl");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ISBN {
+            get {
+                return this.ISBNField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ISBNField, value) != true)) {
+                    this.ISBNField = value;
+                    this.RaisePropertyChanged("ISBN");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IdField, value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PublicationYear {
+            get {
+                return this.PublicationYearField;
+            }
+            set {
+                if ((this.PublicationYearField.Equals(value) != true)) {
+                    this.PublicationYearField = value;
+                    this.RaisePropertyChanged("PublicationYear");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Publisher {
+            get {
+                return this.PublisherField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PublisherField, value) != true)) {
+                    this.PublisherField = value;
+                    this.RaisePropertyChanged("Publisher");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Title {
+            get {
+                return this.TitleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TitleField, value) != true)) {
+                    this.TitleField = value;
+                    this.RaisePropertyChanged("Title");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="InventoryUpdate", Namespace="http://schemas.datacontract.org/2004/07/LMS.BookStorage.Models")]
+    [System.SerializableAttribute()]
+    public partial class InventoryUpdate : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string BookIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int QuantityChangeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string BookId {
+            get {
+                return this.BookIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BookIdField, value) != true)) {
+                    this.BookIdField = value;
+                    this.RaisePropertyChanged("BookId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int QuantityChange {
+            get {
+                return this.QuantityChangeField;
+            }
+            set {
+                if ((this.QuantityChangeField.Equals(value) != true)) {
+                    this.QuantityChangeField = value;
+                    this.RaisePropertyChanged("QuantityChange");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="BookServiceReference.IBookService")]
     public interface IBookService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/GetAllBooks", ReplyAction="http://tempuri.org/IBookService/GetAllBooksResponse")]
-        LMS.BookStorage.Models.Book[] GetAllBooks();
+        LibraryManagementSystem.BookServiceReference.Book[] GetAllBooks();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/GetAllBooks", ReplyAction="http://tempuri.org/IBookService/GetAllBooksResponse")]
-        System.Threading.Tasks.Task<LMS.BookStorage.Models.Book[]> GetAllBooksAsync();
+        System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book[]> GetAllBooksAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/GetBookById", ReplyAction="http://tempuri.org/IBookService/GetBookByIdResponse")]
-        LMS.BookStorage.Models.Book GetBookById(string id);
+        LibraryManagementSystem.BookServiceReference.Book GetBookById(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/GetBookById", ReplyAction="http://tempuri.org/IBookService/GetBookByIdResponse")]
-        System.Threading.Tasks.Task<LMS.BookStorage.Models.Book> GetBookByIdAsync(string id);
+        System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book> GetBookByIdAsync(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/AddBook", ReplyAction="http://tempuri.org/IBookService/AddBookResponse")]
-        LMS.BookStorage.Models.Book AddBook(LMS.BookStorage.Models.Book book);
+        LibraryManagementSystem.BookServiceReference.Book AddBook(LibraryManagementSystem.BookServiceReference.Book book);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/AddBook", ReplyAction="http://tempuri.org/IBookService/AddBookResponse")]
-        System.Threading.Tasks.Task<LMS.BookStorage.Models.Book> AddBookAsync(LMS.BookStorage.Models.Book book);
+        System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book> AddBookAsync(LibraryManagementSystem.BookServiceReference.Book book);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/UpdateBook", ReplyAction="http://tempuri.org/IBookService/UpdateBookResponse")]
-        LMS.BookStorage.Models.Book UpdateBook(LMS.BookStorage.Models.Book book);
+        LibraryManagementSystem.BookServiceReference.Book UpdateBook(LibraryManagementSystem.BookServiceReference.Book book);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/UpdateBook", ReplyAction="http://tempuri.org/IBookService/UpdateBookResponse")]
-        System.Threading.Tasks.Task<LMS.BookStorage.Models.Book> UpdateBookAsync(LMS.BookStorage.Models.Book book);
+        System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book> UpdateBookAsync(LibraryManagementSystem.BookServiceReference.Book book);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/DeleteBook", ReplyAction="http://tempuri.org/IBookService/DeleteBookResponse")]
         bool DeleteBook(string id);
@@ -46,16 +298,22 @@ namespace LibraryManagementSystem.BookServiceReference {
         System.Threading.Tasks.Task<bool> DeleteBookAsync(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/GetBooksByCategory", ReplyAction="http://tempuri.org/IBookService/GetBooksByCategoryResponse")]
-        LMS.BookStorage.Models.Book[] GetBooksByCategory(string category);
+        LibraryManagementSystem.BookServiceReference.Book[] GetBooksByCategory(string category);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/GetBooksByCategory", ReplyAction="http://tempuri.org/IBookService/GetBooksByCategoryResponse")]
-        System.Threading.Tasks.Task<LMS.BookStorage.Models.Book[]> GetBooksByCategoryAsync(string category);
+        System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book[]> GetBooksByCategoryAsync(string category);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/UpdateInventory", ReplyAction="http://tempuri.org/IBookService/UpdateInventoryResponse")]
-        bool UpdateInventory(LMS.BookStorage.Models.InventoryUpdate update);
+        bool UpdateInventory(LibraryManagementSystem.BookServiceReference.InventoryUpdate update);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/UpdateInventory", ReplyAction="http://tempuri.org/IBookService/UpdateInventoryResponse")]
-        System.Threading.Tasks.Task<bool> UpdateInventoryAsync(LMS.BookStorage.Models.InventoryUpdate update);
+        System.Threading.Tasks.Task<bool> UpdateInventoryAsync(LibraryManagementSystem.BookServiceReference.InventoryUpdate update);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/SetDataPath", ReplyAction="http://tempuri.org/IBookService/SetDataPathResponse")]
+        void SetDataPath(string path);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/SetDataPath", ReplyAction="http://tempuri.org/IBookService/SetDataPathResponse")]
+        System.Threading.Tasks.Task SetDataPathAsync(string path);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -85,35 +343,35 @@ namespace LibraryManagementSystem.BookServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public LMS.BookStorage.Models.Book[] GetAllBooks() {
+        public LibraryManagementSystem.BookServiceReference.Book[] GetAllBooks() {
             return base.Channel.GetAllBooks();
         }
         
-        public System.Threading.Tasks.Task<LMS.BookStorage.Models.Book[]> GetAllBooksAsync() {
+        public System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book[]> GetAllBooksAsync() {
             return base.Channel.GetAllBooksAsync();
         }
         
-        public LMS.BookStorage.Models.Book GetBookById(string id) {
+        public LibraryManagementSystem.BookServiceReference.Book GetBookById(string id) {
             return base.Channel.GetBookById(id);
         }
         
-        public System.Threading.Tasks.Task<LMS.BookStorage.Models.Book> GetBookByIdAsync(string id) {
+        public System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book> GetBookByIdAsync(string id) {
             return base.Channel.GetBookByIdAsync(id);
         }
         
-        public LMS.BookStorage.Models.Book AddBook(LMS.BookStorage.Models.Book book) {
+        public LibraryManagementSystem.BookServiceReference.Book AddBook(LibraryManagementSystem.BookServiceReference.Book book) {
             return base.Channel.AddBook(book);
         }
         
-        public System.Threading.Tasks.Task<LMS.BookStorage.Models.Book> AddBookAsync(LMS.BookStorage.Models.Book book) {
+        public System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book> AddBookAsync(LibraryManagementSystem.BookServiceReference.Book book) {
             return base.Channel.AddBookAsync(book);
         }
         
-        public LMS.BookStorage.Models.Book UpdateBook(LMS.BookStorage.Models.Book book) {
+        public LibraryManagementSystem.BookServiceReference.Book UpdateBook(LibraryManagementSystem.BookServiceReference.Book book) {
             return base.Channel.UpdateBook(book);
         }
         
-        public System.Threading.Tasks.Task<LMS.BookStorage.Models.Book> UpdateBookAsync(LMS.BookStorage.Models.Book book) {
+        public System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book> UpdateBookAsync(LibraryManagementSystem.BookServiceReference.Book book) {
             return base.Channel.UpdateBookAsync(book);
         }
         
@@ -125,20 +383,28 @@ namespace LibraryManagementSystem.BookServiceReference {
             return base.Channel.DeleteBookAsync(id);
         }
         
-        public LMS.BookStorage.Models.Book[] GetBooksByCategory(string category) {
+        public LibraryManagementSystem.BookServiceReference.Book[] GetBooksByCategory(string category) {
             return base.Channel.GetBooksByCategory(category);
         }
         
-        public System.Threading.Tasks.Task<LMS.BookStorage.Models.Book[]> GetBooksByCategoryAsync(string category) {
+        public System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book[]> GetBooksByCategoryAsync(string category) {
             return base.Channel.GetBooksByCategoryAsync(category);
         }
         
-        public bool UpdateInventory(LMS.BookStorage.Models.InventoryUpdate update) {
+        public bool UpdateInventory(LibraryManagementSystem.BookServiceReference.InventoryUpdate update) {
             return base.Channel.UpdateInventory(update);
         }
         
-        public System.Threading.Tasks.Task<bool> UpdateInventoryAsync(LMS.BookStorage.Models.InventoryUpdate update) {
+        public System.Threading.Tasks.Task<bool> UpdateInventoryAsync(LibraryManagementSystem.BookServiceReference.InventoryUpdate update) {
             return base.Channel.UpdateInventoryAsync(update);
+        }
+        
+        public void SetDataPath(string path) {
+            base.Channel.SetDataPath(path);
+        }
+        
+        public System.Threading.Tasks.Task SetDataPathAsync(string path) {
+            return base.Channel.SetDataPathAsync(path);
         }
     }
 }

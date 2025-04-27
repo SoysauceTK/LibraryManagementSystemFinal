@@ -1,4 +1,5 @@
-﻿using System;
+﻿// LMS.BookSearch/Services/SearchService.svc.cs
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -26,17 +27,31 @@ namespace LMS.BookSearch
 
         [OperationContract]
         List<string> GetAllCategories();
+
+        [OperationContract]
+        void SetDataPath(string path);
     }
 
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class SearchService : ISearchService
     {
-        private readonly BookServiceClient _bookServiceClient;
+        private XmlDataAccess<Book> _bookData;
+        private const string DEFAULT_FILE_NAME = "books.xml";
 
         public SearchService()
         {
-            _bookServiceClient = new BookServiceClient();
+            // Default initialization - client should call SetDataPath first for proper setup
+            string filePath = DataConfiguration.GetDataFilePath(DEFAULT_FILE_NAME);
+            _bookData = new XmlDataAccess<Book>(filePath);
+        }
+
+        public void SetDataPath(string path)
+        {
+            // Update the data path and reinitialize the data access
+            DataConfiguration.DataPath = path;
+            string filePath = DataConfiguration.GetDataFilePath(DEFAULT_FILE_NAME);
+            _bookData = new XmlDataAccess<Book>(filePath);
         }
 
         public List<Book> SearchBooks(string query)
@@ -46,8 +61,8 @@ namespace LMS.BookSearch
 
             query = query.ToLower();
 
-            // Get all books from the book storage service
-            var allBooks = _bookServiceClient.GetAllBooks();
+            // Get all books directly from the XML file
+            var allBooks = _bookData.GetAll();
 
             // Filter books based on query
             return allBooks.Where(b =>
@@ -61,7 +76,7 @@ namespace LMS.BookSearch
 
         public List<Book> AdvancedSearch(string title, string author, string category, string year)
         {
-            var allBooks = _bookServiceClient.GetAllBooks();
+            var allBooks = _bookData.GetAll();
 
             // Start with all books
             IEnumerable<Book> results = allBooks;
@@ -84,7 +99,7 @@ namespace LMS.BookSearch
 
         public List<Book> GetRecommendations(string bookId)
         {
-            var allBooks = _bookServiceClient.GetAllBooks();
+            var allBooks = _bookData.GetAll();
             var book = allBooks.FirstOrDefault(b => b.Id == bookId);
 
             if (book == null)
@@ -116,12 +131,12 @@ namespace LMS.BookSearch
         {
             // In a real scenario, this would be based on borrow records
             // Here we're just returning the first 10 books as an example
-            return _bookServiceClient.GetAllBooks().Take(10).ToList();
+            return _bookData.GetAll().Take(10).ToList();
         }
 
         public List<string> GetAllCategories()
         {
-            var allBooks = _bookServiceClient.GetAllBooks();
+            var allBooks = _bookData.GetAll();
             return allBooks.Select(b => b.Category).Where(c => !string.IsNullOrEmpty(c)).Distinct().ToList();
         }
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="6934d233-449f-487d-8138-b07d1dcddd13" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="7827ca3f-3d17-478b-ae5c-f7a7ac88edcf" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,15 +19,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="https://localhost:44302/SearchSearch.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://webstrar94.fulton.asu.edu/page7/SearchService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="SearchSearch.xsd" MetadataType="Schema" ID="228c4347-38b2-495f-8bdb-1952b8f92ddf" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?xsd=xsd2" />
-    <MetadataFile FileName="SearchSearch1.xsd" MetadataType="Schema" ID="700d6709-3003-4539-bffa-de4d8a9a334a" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?xsd=xsd1" />
-    <MetadataFile FileName="SearchService.wsdl" MetadataType="Wsdl" ID="90d101df-36a0-4fe9-ad17-d5c4b85bc7a5" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?wsdl" />
-    <MetadataFile FileName="SearchSearch.disco" MetadataType="Disco" ID="927afabf-f517-470d-8559-3b0cb96a75e1" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?disco" />
-    <MetadataFile FileName="SearchSearch2.xsd" MetadataType="Schema" ID="d1f5549d-6d00-4594-b322-0b0defddcd0a" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?xsd=xsd0" />
-    <MetadataFile FileName="SearchSearch3.xsd" MetadataType="Schema" ID="fd3ae559-940d-4571-b474-b3cbb74d962c" SourceId="1" SourceUrl="https://localhost:44302/SearchSearch.svc?xsd=xsd3" />
+    <MetadataFile FileName="SearchService.xsd" MetadataType="Schema" ID="e848a0a4-54e0-425c-8576-c6a8a33455e9" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page7/SearchService.svc?xsd=xsd1" />
+    <MetadataFile FileName="SearchService.disco" MetadataType="Disco" ID="daa20a81-4a0e-4f24-bc46-3cdaa45077f0" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page7/SearchService.svc?disco" />
+    <MetadataFile FileName="SearchService.wsdl" MetadataType="Wsdl" ID="8c508407-ddb7-4cd1-9594-9539cbd4c34a" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page7/SearchService.svc?wsdl" />
+    <MetadataFile FileName="SearchService1.xsd" MetadataType="Schema" ID="c5f3b34a-a0a1-46fa-8ee5-2cf04765ae21" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page7/SearchService.svc?xsd=xsd2" />
+    <MetadataFile FileName="SearchService2.xsd" MetadataType="Schema" ID="ae53b5a9-0a6c-454f-b3a0-2490f2a6270e" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page7/SearchService.svc?xsd=xsd3" />
+    <MetadataFile FileName="SearchService3.xsd" MetadataType="Schema" ID="42116b95-668f-4330-b6f1-a71234263c71" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page7/SearchService.svc?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

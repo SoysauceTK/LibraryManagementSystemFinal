@@ -9,41 +9,238 @@
 //------------------------------------------------------------------------------
 
 namespace LibraryManagementSystem.SearchServiceReference {
+    using System.Runtime.Serialization;
+    using System;
     
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Book", Namespace="http://schemas.datacontract.org/2004/07/LMS.BookSearch.Models")]
+    [System.SerializableAttribute()]
+    public partial class Book : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AuthorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CategoryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CopiesAvailableField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CoverImageUrlField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ISBNField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PublicationYearField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PublisherField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TitleField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Author {
+            get {
+                return this.AuthorField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AuthorField, value) != true)) {
+                    this.AuthorField = value;
+                    this.RaisePropertyChanged("Author");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Category {
+            get {
+                return this.CategoryField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CategoryField, value) != true)) {
+                    this.CategoryField = value;
+                    this.RaisePropertyChanged("Category");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CopiesAvailable {
+            get {
+                return this.CopiesAvailableField;
+            }
+            set {
+                if ((this.CopiesAvailableField.Equals(value) != true)) {
+                    this.CopiesAvailableField = value;
+                    this.RaisePropertyChanged("CopiesAvailable");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CoverImageUrl {
+            get {
+                return this.CoverImageUrlField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CoverImageUrlField, value) != true)) {
+                    this.CoverImageUrlField = value;
+                    this.RaisePropertyChanged("CoverImageUrl");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ISBN {
+            get {
+                return this.ISBNField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ISBNField, value) != true)) {
+                    this.ISBNField = value;
+                    this.RaisePropertyChanged("ISBN");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IdField, value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PublicationYear {
+            get {
+                return this.PublicationYearField;
+            }
+            set {
+                if ((this.PublicationYearField.Equals(value) != true)) {
+                    this.PublicationYearField = value;
+                    this.RaisePropertyChanged("PublicationYear");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Publisher {
+            get {
+                return this.PublisherField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PublisherField, value) != true)) {
+                    this.PublisherField = value;
+                    this.RaisePropertyChanged("Publisher");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Title {
+            get {
+                return this.TitleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TitleField, value) != true)) {
+                    this.TitleField = value;
+                    this.RaisePropertyChanged("Title");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SearchServiceReference.ISearchService")]
     public interface ISearchService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISearchService/SearchBooks", ReplyAction="http://tempuri.org/ISearchService/SearchBooksResponse")]
-        LMS.BookSearch.Models.Book[] SearchBooks(string query);
+        LibraryManagementSystem.SearchServiceReference.Book[] SearchBooks(string query);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISearchService/SearchBooks", ReplyAction="http://tempuri.org/ISearchService/SearchBooksResponse")]
-        System.Threading.Tasks.Task<LMS.BookSearch.Models.Book[]> SearchBooksAsync(string query);
+        System.Threading.Tasks.Task<LibraryManagementSystem.SearchServiceReference.Book[]> SearchBooksAsync(string query);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISearchService/AdvancedSearch", ReplyAction="http://tempuri.org/ISearchService/AdvancedSearchResponse")]
-        LMS.BookSearch.Models.Book[] AdvancedSearch(string title, string author, string category, string year);
+        LibraryManagementSystem.SearchServiceReference.Book[] AdvancedSearch(string title, string author, string category, string year);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISearchService/AdvancedSearch", ReplyAction="http://tempuri.org/ISearchService/AdvancedSearchResponse")]
-        System.Threading.Tasks.Task<LMS.BookSearch.Models.Book[]> AdvancedSearchAsync(string title, string author, string category, string year);
+        System.Threading.Tasks.Task<LibraryManagementSystem.SearchServiceReference.Book[]> AdvancedSearchAsync(string title, string author, string category, string year);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISearchService/GetRecommendations", ReplyAction="http://tempuri.org/ISearchService/GetRecommendationsResponse")]
-        LMS.BookSearch.Models.Book[] GetRecommendations(string bookId);
+        LibraryManagementSystem.SearchServiceReference.Book[] GetRecommendations(string bookId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISearchService/GetRecommendations", ReplyAction="http://tempuri.org/ISearchService/GetRecommendationsResponse")]
-        System.Threading.Tasks.Task<LMS.BookSearch.Models.Book[]> GetRecommendationsAsync(string bookId);
+        System.Threading.Tasks.Task<LibraryManagementSystem.SearchServiceReference.Book[]> GetRecommendationsAsync(string bookId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISearchService/GetPopularBooks", ReplyAction="http://tempuri.org/ISearchService/GetPopularBooksResponse")]
-        LMS.BookSearch.Models.Book[] GetPopularBooks();
+        LibraryManagementSystem.SearchServiceReference.Book[] GetPopularBooks();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISearchService/GetPopularBooks", ReplyAction="http://tempuri.org/ISearchService/GetPopularBooksResponse")]
-        System.Threading.Tasks.Task<LMS.BookSearch.Models.Book[]> GetPopularBooksAsync();
+        System.Threading.Tasks.Task<LibraryManagementSystem.SearchServiceReference.Book[]> GetPopularBooksAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISearchService/GetAllCategories", ReplyAction="http://tempuri.org/ISearchService/GetAllCategoriesResponse")]
         string[] GetAllCategories();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISearchService/GetAllCategories", ReplyAction="http://tempuri.org/ISearchService/GetAllCategoriesResponse")]
         System.Threading.Tasks.Task<string[]> GetAllCategoriesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISearchService/SetDataPath", ReplyAction="http://tempuri.org/ISearchService/SetDataPathResponse")]
+        void SetDataPath(string path);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISearchService/SetDataPath", ReplyAction="http://tempuri.org/ISearchService/SetDataPathResponse")]
+        System.Threading.Tasks.Task SetDataPathAsync(string path);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -73,35 +270,35 @@ namespace LibraryManagementSystem.SearchServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public LMS.BookSearch.Models.Book[] SearchBooks(string query) {
+        public LibraryManagementSystem.SearchServiceReference.Book[] SearchBooks(string query) {
             return base.Channel.SearchBooks(query);
         }
         
-        public System.Threading.Tasks.Task<LMS.BookSearch.Models.Book[]> SearchBooksAsync(string query) {
+        public System.Threading.Tasks.Task<LibraryManagementSystem.SearchServiceReference.Book[]> SearchBooksAsync(string query) {
             return base.Channel.SearchBooksAsync(query);
         }
         
-        public LMS.BookSearch.Models.Book[] AdvancedSearch(string title, string author, string category, string year) {
+        public LibraryManagementSystem.SearchServiceReference.Book[] AdvancedSearch(string title, string author, string category, string year) {
             return base.Channel.AdvancedSearch(title, author, category, year);
         }
         
-        public System.Threading.Tasks.Task<LMS.BookSearch.Models.Book[]> AdvancedSearchAsync(string title, string author, string category, string year) {
+        public System.Threading.Tasks.Task<LibraryManagementSystem.SearchServiceReference.Book[]> AdvancedSearchAsync(string title, string author, string category, string year) {
             return base.Channel.AdvancedSearchAsync(title, author, category, year);
         }
         
-        public LMS.BookSearch.Models.Book[] GetRecommendations(string bookId) {
+        public LibraryManagementSystem.SearchServiceReference.Book[] GetRecommendations(string bookId) {
             return base.Channel.GetRecommendations(bookId);
         }
         
-        public System.Threading.Tasks.Task<LMS.BookSearch.Models.Book[]> GetRecommendationsAsync(string bookId) {
+        public System.Threading.Tasks.Task<LibraryManagementSystem.SearchServiceReference.Book[]> GetRecommendationsAsync(string bookId) {
             return base.Channel.GetRecommendationsAsync(bookId);
         }
         
-        public LMS.BookSearch.Models.Book[] GetPopularBooks() {
+        public LibraryManagementSystem.SearchServiceReference.Book[] GetPopularBooks() {
             return base.Channel.GetPopularBooks();
         }
         
-        public System.Threading.Tasks.Task<LMS.BookSearch.Models.Book[]> GetPopularBooksAsync() {
+        public System.Threading.Tasks.Task<LibraryManagementSystem.SearchServiceReference.Book[]> GetPopularBooksAsync() {
             return base.Channel.GetPopularBooksAsync();
         }
         
@@ -111,6 +308,14 @@ namespace LibraryManagementSystem.SearchServiceReference {
         
         public System.Threading.Tasks.Task<string[]> GetAllCategoriesAsync() {
             return base.Channel.GetAllCategoriesAsync();
+        }
+        
+        public void SetDataPath(string path) {
+            base.Channel.SetDataPath(path);
+        }
+        
+        public System.Threading.Tasks.Task SetDataPathAsync(string path) {
+            return base.Channel.SetDataPathAsync(path);
         }
     }
 }

@@ -167,6 +167,19 @@
     <Content Include="App_Data\Member.xml" />
     <Content Include="App_Data\Staff.xml" />
     <Content Include="ApplicationInsights.config" />
+    <None Include="Connected Services\BookServiceReference\BookService.disco" />
+    <None Include="Connected Services\BookServiceReference\configuration91.svcinfo" />
+    <None Include="Connected Services\BookServiceReference\configuration.svcinfo" />
+    <Content Include="Connected Services\BookServiceReference\LibraryManagementSystem.BookServiceReference.Book.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\BookServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Connected Services\SearchServiceReference\LibraryManagementSystem.SearchServiceReference.Book.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Connected Services\BookServiceReference\BookService.wsdl" />
     <None Include="Connected Services\BookServiceReference\BookService.xsd">
       <SubType>Designer</SubType>
@@ -177,14 +190,7 @@
     <None Include="Connected Services\BookServiceReference\BookService2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\BookServiceReference\BookService.disco" />
-    <None Include="Connected Services\BookServiceReference\configuration91.svcinfo" />
-    <None Include="Connected Services\BookServiceReference\configuration.svcinfo" />
-    <None Include="Connected Services\BookServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Connected Services\SearchServiceReference\SearchSearch.disco" />
+    <None Include="Connected Services\SearchServiceReference\SearchService.disco" />
     <None Include="Connected Services\SearchServiceReference\configuration91.svcinfo" />
     <None Include="Connected Services\SearchServiceReference\configuration.svcinfo" />
     <None Include="Connected Services\SearchServiceReference\Reference.svcmap">
@@ -246,19 +252,19 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Properties\DataSources\LMS.BookStorage.Models.Book.datasource" />
     <Content Include="Properties\DataSources\LMS.BookSearch.Models.Book.datasource" />
-    <None Include="Connected Services\SearchServiceReference\SearchSearch.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\SearchServiceReference\SearchSearch1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\SearchServiceReference\SearchSearch2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\SearchServiceReference\SearchSearch3.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Connected Services\SearchServiceReference\SearchService.wsdl" />
+    <None Include="Connected Services\SearchServiceReference\SearchService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\SearchServiceReference\SearchService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\SearchServiceReference\SearchService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\SearchServiceReference\SearchService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -381,7 +387,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>

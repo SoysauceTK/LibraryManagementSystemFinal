@@ -31,11 +31,11 @@ namespace LibraryManagementSystem.Staff
             var client = new BookServiceReference.BookServiceClient("BasicHttpBinding_IBookService");
             client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
             client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
-            
+
             // Set the data path to use the App_Data folder of the main application
             string dataPath = Server.MapPath("~/App_Data");
             client.SetDataPath(dataPath);
-            
+
             return client;
         }
 
@@ -90,7 +90,7 @@ namespace LibraryManagementSystem.Staff
 
             try
             {
-                var book = new BookServiceReference.Book
+                var book = new LMS.BookStorage.Models.Book
                 {
                     Title = BookTitle.Text,
                     Author = BookAuthor.Text,
@@ -152,8 +152,6 @@ namespace LibraryManagementSystem.Staff
                 friendlyMessage = "Could not connect to the service. Please try again later.";
             else if (ex is ServerTooBusyException)
                 friendlyMessage = "The server is currently busy. Please try again later.";
-            else if (ex is SerializationException)
-                friendlyMessage = "Data format mismatch. Please contact support.";
             else
                 friendlyMessage = "An unexpected error occurred. Please contact support.";
 
@@ -169,7 +167,7 @@ namespace LibraryManagementSystem.Staff
         {
             // Implement your error logging here
             // Could use database, file system, or application insights
-            
+
             // For now, just log to a text file in App_Data
             try
             {
@@ -288,3 +286,5 @@ namespace LibraryManagementSystem.Staff
             public string CoverImageUrl { get; set; }
         }
     }
+
+}

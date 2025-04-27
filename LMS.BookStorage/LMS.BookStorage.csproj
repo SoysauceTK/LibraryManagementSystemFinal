@@ -115,10 +115,10 @@
     <Compile Include="Models\Book.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BookService.svc.cs" />
-    <Compile Include="Utils\JsonDataAccess.cs" />
+    <Compile Include="Utils\DataConfiguration.cs" />
+    <Compile Include="Utils\XmlDataAccess.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\books.json" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -127,9 +127,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\LMS.Security\LMS.Security.csproj">
       <Project>{c44a6049-2f5e-40eb-b03f-fae19d2a09c3}</Project>
@@ -151,7 +149,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>53029</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:53029/</IISUrl>
+          <IISUrl>http://localhost:44301</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
