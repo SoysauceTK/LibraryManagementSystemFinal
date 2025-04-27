@@ -1,0 +1,1 @@
+<%@ Application Codebehind="Global.asax.cs" Inherits="LMS.BorrowingService.Global" Language="C#" %> 
