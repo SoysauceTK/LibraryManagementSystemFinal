@@ -86,17 +86,29 @@ namespace LMS.BorrowingService
             try
             {
                 // Get book data from BookService using the new client
-                var bookServiceClient = new BookServiceClient(_bookServiceEndpoint);
-                var book = bookServiceClient.GetBookById(bookId);
+                var bookServiceClient = new BookServiceClient();
+                Book book;
                 
-                if (book == null)
+                try 
                 {
-                    throw new InvalidOperationException("Book not found.");
+                    book = bookServiceClient.GetBookById(bookId);
+                    
+                    if (book == null)
+                    {
+                        throw new InvalidOperationException("Book not found.");
+                    }
+                    
+                    if (book.CopiesAvailable <= 0)
+                    {
+                        throw new InvalidOperationException("No copies of this book are available.");
+                    }
                 }
-                
-                if (book.CopiesAvailable <= 0)
+                finally
                 {
-                    throw new InvalidOperationException("No copies of this book are available.");
+                    if (bookServiceClient != null)
+                    {
+                        ((IDisposable)bookServiceClient).Dispose();
+                    }
                 }
                 
                 // Create member record if it doesn't exist
@@ -112,12 +124,12 @@ namespace LMS.BorrowingService
                     CreateMember(member);
                 }
                 
-                // Create borrow record
+                // Create borrow record with verified book title
                 var borrowRecord = new BorrowRecord
                 {
                     Id = Guid.NewGuid().ToString(),
                     BookId = bookId,
-                    BookTitle = book.Title,
+                    BookTitle = book.Title?.Trim() ?? "Unknown Title",
                     UserId = userId,
                     BorrowDate = DateTime.Now,
                     DueDate = DateTime.Now.AddDays(14), // 2 weeks checkout period
@@ -125,7 +137,10 @@ namespace LMS.BorrowingService
                 };
                 
                 // Update book inventory (decrement available copies)
-                bookServiceClient.UpdateInventory(new InventoryUpdate { BookId = bookId, QuantityChange = -1 });
+                using (var bookServiceClient2 = new BookServiceClient())
+                {
+                    bookServiceClient2.UpdateInventory(new InventoryUpdate { BookId = bookId, QuantityChange = -1 });
+                }
                 
                 // Add to current borrows
                 _currentBorrowsData.Insert(borrowRecord);
@@ -135,14 +150,14 @@ namespace LMS.BorrowingService
                 var userBorrowsData = new XmlDataAccess<BorrowRecord>(userRecordPath);
                 userBorrowsData.Insert(borrowRecord);
                 
-                // Log the checkout action
+                // Log the checkout action with verified book title
                 var log = new BorrowLog
                 {
                     Id = Guid.NewGuid().ToString(),
                     UserId = userId,
                     UserName = userName,
                     BookId = bookId,
-                    BookTitle = book.Title,
+                    BookTitle = book.Title?.Trim() ?? "Unknown Title",
                     ActionType = "Checkout",
                     ActionDate = DateTime.Now
                 };
@@ -172,6 +187,27 @@ namespace LMS.BorrowingService
                 {
                     throw new InvalidOperationException("Book has already been returned.");
                 }
+
+                // Verify/update book title if needed
+                if (string.IsNullOrEmpty(borrowRecord.BookTitle) || borrowRecord.BookTitle == "Unknown Title")
+                {
+                    using (var bookServiceClient = new BookServiceClient())
+                    {
+                        try
+                        {
+                            var book = bookServiceClient.GetBookById(borrowRecord.BookId);
+                            if (book != null && !string.IsNullOrEmpty(book.Title))
+                            {
+                                borrowRecord.BookTitle = book.Title.Trim();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Log but continue with return process
+                            System.Diagnostics.Debug.WriteLine($"Error updating book title during return: {ex.Message}");
+                        }
+                    }
+                }
                 
                 // Update return information
                 borrowRecord.ReturnDate = DateTime.Now;
@@ -185,11 +221,13 @@ namespace LMS.BorrowingService
                 var userBorrowsData = new XmlDataAccess<BorrowRecord>(userRecordPath);
                 userBorrowsData.Update(borrowRecord, b => b.Id == borrowId);
                 
-                // Update book inventory (increment available copies) using the new client
-                var bookServiceClient = new BookServiceClient(_bookServiceEndpoint);
-                bookServiceClient.UpdateInventory(new InventoryUpdate { BookId = borrowRecord.BookId, QuantityChange = 1 });
+                // Update book inventory (increment available copies)
+                using (var bookServiceClient = new BookServiceClient())
+                {
+                    bookServiceClient.UpdateInventory(new InventoryUpdate { BookId = borrowRecord.BookId, QuantityChange = 1 });
+                }
                 
-                // Log the return action
+                // Log the return action with verified book title
                 var member = GetMemberById(borrowRecord.UserId);
                 var log = new BorrowLog
                 {

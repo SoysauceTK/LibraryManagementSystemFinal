@@ -1,39 +1,31 @@
 using System;
-using System.Collections.Generic;
 using System.ServiceModel;
 using LMS.BorrowingService.Models;
-using System.ServiceModel.Description;
 
 namespace LMS.BorrowingService.Services
 {
     /// <summary>
     /// Client proxy class for interacting with the BookStorage service
     /// </summary>
-    public class BookServiceClient
+    public class BookServiceClient : IDisposable
     {
         private BookServiceReference.BookServiceClient _client;
-        private readonly string _endpoint;
 
         /// <summary>
-        /// Constructor that uses the configured endpoint from WCF configuration
+        /// Constructor that initializes the client with default configuration
         /// </summary>
         public BookServiceClient()
         {
-            var binding = new BasicHttpBinding();
-            var address = new EndpointAddress("http://localhost:44355/Services/BookService.svc");
-            _client = new BookServiceReference.BookServiceClient(binding, address);
+            _client = CreateBookServiceClient();
         }
 
-        /// <summary>
-        /// Constructor that uses a specified endpoint URL
-        /// </summary>
-        /// <param name="endpoint">The service endpoint URL</param>
-        public BookServiceClient(string endpoint)
+        private BookServiceReference.BookServiceClient CreateBookServiceClient()
         {
-            _endpoint = endpoint;
-            var binding = new BasicHttpBinding();
-            var address = new EndpointAddress(endpoint);
-            _client = new BookServiceReference.BookServiceClient(binding, address);
+            var client = new BookServiceReference.BookServiceClient("BasicHttpBinding_IBookService");
+            client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
+            client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+
+            return client;
         }
 
         /// <summary>
@@ -56,6 +48,14 @@ namespace LMS.BorrowingService.Services
             catch (EndpointNotFoundException ex)
             {
                 throw new ServiceException("Book service is not available", ex);
+            }
+            catch (CommunicationException ex)
+            {
+                throw new ServiceException("Communication error with book service", ex);
+            }
+            catch (TimeoutException ex)
+            {
+                throw new ServiceException("Book service request timed out", ex);
             }
             catch (Exception ex)
             {
@@ -84,6 +84,14 @@ namespace LMS.BorrowingService.Services
             {
                 throw new ServiceException("Book service is not available", ex);
             }
+            catch (CommunicationException ex)
+            {
+                throw new ServiceException("Communication error with book service", ex);
+            }
+            catch (TimeoutException ex)
+            {
+                throw new ServiceException("Book service request timed out", ex);
+            }
             catch (Exception ex)
             {
                 throw new ServiceException($"Error updating inventory: {ex.Message}", ex);
@@ -100,8 +108,8 @@ namespace LMS.BorrowingService.Services
             return new Book
             {
                 Id = book.Id,
-                Title = book.Title ?? "Unknown Title",
-                Author = book.Author ?? "Unknown Author",
+                Title = book.Title?.Trim() ?? "Unknown Title",
+                Author = book.Author?.Trim() ?? "Unknown Author",
                 ISBN = book.ISBN,
                 Category = book.Category,
                 PublicationYear = book.PublicationYear,
@@ -110,6 +118,25 @@ namespace LMS.BorrowingService.Services
                 Description = book.Description,
                 CoverImageUrl = book.CoverImageUrl
             };
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                if (_client != null && _client.State != CommunicationState.Faulted)
+                {
+                    _client.Close();
+                }
+            }
+            catch
+            {
+                _client.Abort();
+            }
+            finally
+            {
+                _client = null;
+            }
         }
     }
 
@@ -168,8 +195,8 @@ namespace LMS.BorrowingService.Services
         /// </summary>
         public class BookServiceClient : ClientBase<IBookService>, IBookService
         {
-            public BookServiceClient(Binding binding, EndpointAddress address) 
-                : base(binding, address)
+            public BookServiceClient(string endpointConfigurationName) 
+                : base(endpointConfigurationName)
             {
             }
 
