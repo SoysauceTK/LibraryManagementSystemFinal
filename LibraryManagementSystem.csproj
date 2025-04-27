@@ -167,17 +167,27 @@
     <Content Include="App_Data\Member.xml" />
     <Content Include="App_Data\Staff.xml" />
     <Content Include="ApplicationInsights.config" />
-    <None Include="Connected Services\BookServiceReference\BookService.disco" />
-    <None Include="Connected Services\BookServiceReference\configuration91.svcinfo" />
-    <None Include="Connected Services\BookServiceReference\configuration.svcinfo" />
-    <None Include="Connected Services\BookServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
+    <None Include="Connected Services\BookServiceReference\BookService.wsdl" />
+    <None Include="Connected Services\BookServiceReference\BookService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BookServiceReference\BookService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BookServiceReference\BookService2.xsd">
+      <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\SearchServiceReference\SearchSearch.disco" />
     <None Include="Connected Services\SearchServiceReference\configuration91.svcinfo" />
     <None Include="Connected Services\SearchServiceReference\configuration.svcinfo" />
     <None Include="Connected Services\SearchServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\BookServiceReference\BookService.disco" />
+    <None Include="Connected Services\BookServiceReference\configuration91.svcinfo" />
+    <None Include="Connected Services\BookServiceReference\configuration.svcinfo" />
+    <None Include="Connected Services\BookServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -234,16 +244,6 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <None Include="Connected Services\BookServiceReference\BookService.wsdl" />
-    <None Include="Connected Services\BookServiceReference\BookService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\BookServiceReference\BookService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\BookServiceReference\BookService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="Properties\DataSources\LMS.BookStorage.Models.Book.datasource" />
     <None Include="Connected Services\SearchServiceReference\SearchSearch.xsd">
       <SubType>Designer</SubType>

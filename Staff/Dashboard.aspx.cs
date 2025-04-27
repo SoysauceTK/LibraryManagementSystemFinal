@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Web.UI;
 using System.Threading.Tasks;
 using System.ServiceModel;
-using LMS.BookStorage.Models; // Using the original Book model directly
+using LMS.BookStorage.Models;
+using System.Runtime.Serialization;
 
 namespace LibraryManagementSystem.Staff
 {
@@ -11,128 +12,155 @@ namespace LibraryManagementSystem.Staff
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Check if user is authenticated and in Staff role
             if (!User.Identity.IsAuthenticated || !User.IsInRole("Staff"))
             {
-                Response.Redirect("~/Staff/Login.aspx", false);
-                Context.ApplicationInstance.CompleteRequest();
+                Response.Redirect("~/Staff/Login.aspx", true);
                 return;
             }
 
             if (!IsPostBack)
             {
-                // Display username
                 UserNameLiteral.Text = User.Identity.Name;
-
-                // Load quick stats asynchronously
                 RegisterAsyncTask(new PageAsyncTask(LoadQuickStats));
-
-                // Load activity log (sample data)
                 LoadActivityLog();
             }
+        }
+
+        private BookServiceReference.BookServiceClient CreateBookServiceClient()
+        {
+            var client = new BookServiceReference.BookServiceClient("BasicHttpBinding_IBookService");
+            client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
+            client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            return client;
         }
 
         private async Task LoadQuickStats()
         {
             try
             {
-                // Create BookService client
-                using (var bookClient = new BookServiceReference.BookServiceClient())
+                using (var bookClient = CreateBookServiceClient())
                 {
-                    // Call GetAllBooks method
                     var books = await bookClient.GetAllBooksAsync();
-
-                    // Update the UI with the book count
                     TotalBooksLiteral.Text = books?.Length.ToString("N0") ?? "0";
                 }
             }
             catch (Exception ex)
             {
+                HandleServiceError(ex, "load quick stats");
                 TotalBooksLiteral.Text = "Error";
-                System.Diagnostics.Debug.WriteLine($"Error loading total books: {ex.Message}");
             }
 
             // Placeholder data for other stats
-            BorrowedBooksLiteral.Text = "278 (Sample)";
-            MembersLiteral.Text = "356 (Sample)";
-            OverdueLiteral.Text = "12 (Sample)";
+            BorrowedBooksLiteral.Text = "278";
+            MembersLiteral.Text = "356";
+            OverdueLiteral.Text = "12";
         }
 
         private void LoadActivityLog()
         {
-            if (ActivityLogGridView.DataSource == null)
+            var activityLog = new List<ActivityLogEntry>
             {
-                List<ActivityLogEntry> activityLog = new List<ActivityLogEntry>
-                 {
-                     new ActivityLogEntry { Date = DateTime.Now.AddHours(-3), Action = "Book Borrowed", Details = "To Kill a Mockingbird by Harper Lee", User = "john_doe" },
-                     new ActivityLogEntry { Date = DateTime.Now.AddHours(-5), Action = "New Member", Details = "sarah_smith joined the library", User = "system" },
-                     new ActivityLogEntry { Date = DateTime.Now.AddDays(-1), Action = "Book Returned", Details = "1984 by George Orwell", User = "mike_jones" }
-                 };
-                ActivityLogGridView.DataSource = activityLog;
-            }
+                new ActivityLogEntry { Date = DateTime.Now.AddHours(-3), Action = "Book Borrowed", Details = "To Kill a Mockingbird by Harper Lee", User = "john_doe" },
+                new ActivityLogEntry { Date = DateTime.Now.AddHours(-5), Action = "New Member", Details = "sarah_smith joined the library", User = "system" },
+                new ActivityLogEntry { Date = DateTime.Now.AddDays(-1), Action = "Book Returned", Details = "1984 by George Orwell", User = "mike_jones" }
+            };
 
+            ActivityLogGridView.DataSource = activityLog;
             ActivityLogGridView.DataBind();
         }
 
         protected async void AddBookButton_Click(object sender, EventArgs e)
         {
+            if (!Page.IsValid) return;
+
             BookAddStatusPanel.Visible = true;
 
-            if (Page.IsValid)
+            try
             {
-                try
+                var book = new Book
                 {
-                    // Create new Book object using the LMS.BookStorage.Models.Book class
-                    var book = new Book
+                    Title = BookTitle.Text,
+                    Author = BookAuthor.Text,
+                    ISBN = BookISBN.Text,
+                    Category = BookCategory.SelectedValue,
+                    Description = BookDescription.Text,
+                    CopiesAvailable = int.Parse(BookCopies.Text),
+                    PublicationYear = int.Parse(BookPublicationYear.Text),
+                    Publisher = "Unknown"
+                };
+
+                using (var bookClient = CreateBookServiceClient())
+                {
+                    var addedBook = await bookClient.AddBookAsync(book);
+
+                    if (addedBook != null)
                     {
-                        Title = BookTitle.Text,
-                        Author = BookAuthor.Text,
-                        ISBN = BookISBN.Text,
-                        Category = BookCategory.SelectedValue,
-                        Description = BookDescription.Text,
-                        CopiesAvailable = int.Parse(BookCopies.Text),
-                        PublicationYear = int.Parse(BookPublicationYear.Text),
-                        Publisher = "Unknown"
-                    };
-
-                    // Create BookService client
-                    using (var bookClient = new BookServiceReference.BookServiceClient())
+                        BookAddStatus.Text = "<div class='alert alert-success'>Book added successfully!</div>";
+                        LogBookAddition(book.Title, book.Author);
+                        ClearBookForm();
+                        await LoadQuickStats();
+                    }
+                    else
                     {
-                        // Call AddBook method
-                        var addedBook = await bookClient.AddBookAsync(book);
-
-                        if (addedBook != null)
-                        {
-                            BookAddStatus.Text = "<div class='alert alert-success'>Book added successfully!</div>";
-
-                            // Log the activity
-                            LogBookAddition(book.Title, book.Author);
-
-                            // Clear the form
-                            ClearBookForm();
-
-                            // Refresh stats
-                            await LoadQuickStats();
-                        }
-                        else
-                        {
-                            BookAddStatus.Text = "<div class='alert alert-danger'>Error adding book: Service returned null.</div>";
-                        }
+                        BookAddStatus.Text = "<div class='alert alert-danger'>Error adding book</div>";
                     }
                 }
-                catch (FaultException fex)
-                {
-                    BookAddStatus.Text = $"<div class='alert alert-danger'>Service error: {fex.Message}</div>";
-                }
-                catch (CommunicationException cex)
-                {
-                    BookAddStatus.Text = $"<div class='alert alert-warning'>Could not connect to Book Service. Please try again later. ({cex.Message})</div>";
-                }
-                catch (Exception ex)
-                {
-                    BookAddStatus.Text = $"<div class='alert alert-danger'>An unexpected error occurred: {ex.Message}</div>";
-                }
             }
+            catch (Exception ex)
+            {
+                HandleServiceError(ex, "add book");
+                BookAddStatus.Text = $"<div class='alert alert-danger'>{GetUserFriendlyError(ex)}</div>";
+            }
+        }
+
+        private void HandleServiceError(Exception ex, string operation)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error during {operation}: {ex}");
+
+            // 👇 ADD this for now to see the real error on screen
+            Response.Write($"<pre>Real error during {operation}: {ex}</pre>");
+
+            if (ex is CommunicationException || ex is TimeoutException)
+            {
+                LogErrorToDatabase($"Service communication error during {operation}", ex);
+            }
+        }
+
+
+        private string GetUserFriendlyError(Exception ex)
+        {
+            string friendlyMessage;
+
+            if (ex is CommunicationException)
+                friendlyMessage = "Service is unavailable. Please try again later.";
+            else if (ex is TimeoutException)
+                friendlyMessage = "Request timed out. Please check your connection.";
+            else if (ex is FaultException)
+                friendlyMessage = "The server reported an error while processing your request.";
+            else if (ex is ProtocolException)
+                friendlyMessage = "There was a communication protocol issue. Please contact support.";
+            else if (ex is EndpointNotFoundException)
+                friendlyMessage = "Could not connect to the service. Please try again later.";
+            else if (ex is ServerTooBusyException)
+                friendlyMessage = "The server is currently busy. Please try again later.";
+            else if (ex is SerializationException)
+                friendlyMessage = "Data format mismatch. Please contact support.";
+            else
+                friendlyMessage = "An unexpected error occurred. Please contact support.";
+
+#if DEBUG
+            // 👇 Add detailed technical error in DEBUG mode
+            friendlyMessage += $"<br/><strong>Technical details:</strong> {ex.Message}";
+#endif
+
+            return friendlyMessage;
+        }
+
+
+        private void LogErrorToDatabase(string message, Exception ex)
+        {
+            // Implement your error logging here
+            // Could use database, file system, or application insights
         }
 
         private void ClearBookForm()
@@ -141,100 +169,86 @@ namespace LibraryManagementSystem.Staff
             BookAuthor.Text = string.Empty;
             BookISBN.Text = string.Empty;
             BookCategory.SelectedIndex = 0;
-            BookPublicationYear.Text = string.Empty;
-            BookCopies.Text = string.Empty;
             BookDescription.Text = string.Empty;
+            BookCopies.Text = "1";
+            BookPublicationYear.Text = DateTime.Now.Year.ToString();
         }
 
         private void LogBookAddition(string title, string author)
         {
-            var activityLog = ActivityLogGridView.DataSource as List<ActivityLogEntry>;
-            if (activityLog == null)
-            {
-                activityLog = new List<ActivityLogEntry>();
-            }
-
-            activityLog.Insert(0, new ActivityLogEntry
+            var newEntry = new ActivityLogEntry
             {
                 Date = DateTime.Now,
                 Action = "Book Added",
                 Details = $"{title} by {author}",
-                User = User.Identity.Name ?? "Unknown"
-            });
+                User = User.Identity.Name
+            };
 
-            ActivityLogGridView.DataSource = activityLog;
+            var currentLog = ActivityLogGridView.DataSource as List<ActivityLogEntry> ?? new List<ActivityLogEntry>();
+            currentLog.Insert(0, newEntry);
+
+            ActivityLogGridView.DataSource = currentLog;
             ActivityLogGridView.DataBind();
         }
 
         protected async void SearchButton_Click(object sender, EventArgs e)
         {
             string query = SearchTextBox.Text.Trim();
-            SearchStatusPanel.Visible = true;
-
             if (string.IsNullOrWhiteSpace(query))
             {
-                SearchStatusLiteral.Text = "<div class='alert alert-warning'>Please enter a search term.</div>";
+                SearchStatusLiteral.Text = "<div class='alert alert-warning'>Please enter a search term</div>";
                 SearchResultsGridView.DataSource = null;
                 SearchResultsGridView.DataBind();
                 return;
             }
 
-            SearchStatusLiteral.Text = "<div class='alert alert-info'>Searching...</div>";
-
             try
             {
-                // Use BookService for searching by retrieving all books
-                using (var bookClient = new BookServiceReference.BookServiceClient())
+                using (var bookClient = CreateBookServiceClient())
                 {
                     var allBooks = await bookClient.GetAllBooksAsync();
-
-                    // Perform basic search filtering
-                    var results = new List<Book>();
-
-                    if (allBooks != null)
-                    {
-                        query = query.ToLower();
-
-                        foreach (var book in allBooks)
-                        {
-                            if ((book.Title != null && book.Title.ToLower().Contains(query)) ||
-                                (book.Author != null && book.Author.ToLower().Contains(query)) ||
-                                (book.ISBN != null && book.ISBN.ToLower().Contains(query)) ||
-                                (book.Category != null && book.Category.ToLower().Contains(query)) ||
-                                (book.Description != null && book.Description.ToLower().Contains(query)))
-                            {
-                                results.Add(book);
-                            }
-                        }
-                    }
+                    var results = FilterBooks(allBooks, query);
 
                     SearchResultsGridView.DataSource = results;
                     SearchResultsGridView.DataBind();
 
-                    if (results.Count > 0)
-                    {
-                        SearchStatusLiteral.Text = $"<div class='alert alert-success'>Found {results.Count} book(s) matching '{System.Web.HttpUtility.HtmlEncode(query)}'.</div>";
-                    }
-                    else
-                    {
-                        SearchStatusLiteral.Text = $"<div class='alert alert-warning'>No books found matching '{System.Web.HttpUtility.HtmlEncode(query)}'.</div>";
-                    }
+                    SearchStatusLiteral.Text = results.Count > 0
+                        ? $"<div class='alert alert-success'>Found {results.Count} book(s)</div>"
+                        : $"<div class='alert alert-warning'>No books found</div>";
                 }
             }
             catch (Exception ex)
             {
-                SearchStatusLiteral.Text = $"<div class='alert alert-danger'>Error during search: {ex.Message}</div>";
-                SearchResultsGridView.DataSource = null;
-                SearchResultsGridView.DataBind();
+                HandleServiceError(ex, "search books");
+                SearchStatusLiteral.Text = "<div class='alert alert-danger'>Search failed</div>";
             }
         }
-    }
 
-    public class ActivityLogEntry
-    {
-        public DateTime Date { get; set; }
-        public string Action { get; set; }
-        public string Details { get; set; }
-        public string User { get; set; }
+        private List<Book> FilterBooks(Book[] allBooks, string query)
+        {
+            var results = new List<Book>();
+            if (allBooks == null) return results;
+
+            query = query.ToLower();
+            foreach (var book in allBooks)
+            {
+                if (book.Title?.ToLower().Contains(query) == true ||
+                    book.Author?.ToLower().Contains(query) == true ||
+                    book.ISBN?.ToLower().Contains(query) == true ||
+                    book.Category?.ToLower().Contains(query) == true)
+                {
+                    results.Add(book);
+                }
+            }
+            return results;
+        }
+
+        public class ActivityLogEntry
+        {
+            public DateTime Date { get; set; }
+            public string Action { get; set; }
+            public string Details { get; set; }
+            public string User { get; set; }
+        }
     }
 }
