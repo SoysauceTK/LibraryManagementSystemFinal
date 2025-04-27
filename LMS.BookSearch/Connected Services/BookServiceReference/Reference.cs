@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LibraryManagementSystem.BookServiceReference {
+namespace LMS.BookSearch.BookServiceReference {
     using System.Runtime.Serialization;
     using System;
     
@@ -268,28 +268,28 @@ namespace LibraryManagementSystem.BookServiceReference {
     public interface IBookService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/GetAllBooks", ReplyAction="http://tempuri.org/IBookService/GetAllBooksResponse")]
-        LibraryManagementSystem.BookServiceReference.Book[] GetAllBooks();
+        LMS.BookSearch.BookServiceReference.Book[] GetAllBooks();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/GetAllBooks", ReplyAction="http://tempuri.org/IBookService/GetAllBooksResponse")]
-        System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book[]> GetAllBooksAsync();
+        System.Threading.Tasks.Task<LMS.BookSearch.BookServiceReference.Book[]> GetAllBooksAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/GetBookById", ReplyAction="http://tempuri.org/IBookService/GetBookByIdResponse")]
-        LibraryManagementSystem.BookServiceReference.Book GetBookById(string id);
+        LMS.BookSearch.BookServiceReference.Book GetBookById(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/GetBookById", ReplyAction="http://tempuri.org/IBookService/GetBookByIdResponse")]
-        System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book> GetBookByIdAsync(string id);
+        System.Threading.Tasks.Task<LMS.BookSearch.BookServiceReference.Book> GetBookByIdAsync(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/AddBook", ReplyAction="http://tempuri.org/IBookService/AddBookResponse")]
-        LibraryManagementSystem.BookServiceReference.Book AddBook(LibraryManagementSystem.BookServiceReference.Book book);
+        LMS.BookSearch.BookServiceReference.Book AddBook(LMS.BookSearch.BookServiceReference.Book book);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/AddBook", ReplyAction="http://tempuri.org/IBookService/AddBookResponse")]
-        System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book> AddBookAsync(LibraryManagementSystem.BookServiceReference.Book book);
+        System.Threading.Tasks.Task<LMS.BookSearch.BookServiceReference.Book> AddBookAsync(LMS.BookSearch.BookServiceReference.Book book);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/UpdateBook", ReplyAction="http://tempuri.org/IBookService/UpdateBookResponse")]
-        LibraryManagementSystem.BookServiceReference.Book UpdateBook(LibraryManagementSystem.BookServiceReference.Book book);
+        LMS.BookSearch.BookServiceReference.Book UpdateBook(LMS.BookSearch.BookServiceReference.Book book);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/UpdateBook", ReplyAction="http://tempuri.org/IBookService/UpdateBookResponse")]
-        System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book> UpdateBookAsync(LibraryManagementSystem.BookServiceReference.Book book);
+        System.Threading.Tasks.Task<LMS.BookSearch.BookServiceReference.Book> UpdateBookAsync(LMS.BookSearch.BookServiceReference.Book book);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/DeleteBook", ReplyAction="http://tempuri.org/IBookService/DeleteBookResponse")]
         bool DeleteBook(string id);
@@ -298,25 +298,25 @@ namespace LibraryManagementSystem.BookServiceReference {
         System.Threading.Tasks.Task<bool> DeleteBookAsync(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/GetBooksByCategory", ReplyAction="http://tempuri.org/IBookService/GetBooksByCategoryResponse")]
-        LibraryManagementSystem.BookServiceReference.Book[] GetBooksByCategory(string category);
+        LMS.BookSearch.BookServiceReference.Book[] GetBooksByCategory(string category);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/GetBooksByCategory", ReplyAction="http://tempuri.org/IBookService/GetBooksByCategoryResponse")]
-        System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book[]> GetBooksByCategoryAsync(string category);
+        System.Threading.Tasks.Task<LMS.BookSearch.BookServiceReference.Book[]> GetBooksByCategoryAsync(string category);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/UpdateInventory", ReplyAction="http://tempuri.org/IBookService/UpdateInventoryResponse")]
-        bool UpdateInventory(LibraryManagementSystem.BookServiceReference.InventoryUpdate update);
+        bool UpdateInventory(LMS.BookSearch.BookServiceReference.InventoryUpdate update);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBookService/UpdateInventory", ReplyAction="http://tempuri.org/IBookService/UpdateInventoryResponse")]
-        System.Threading.Tasks.Task<bool> UpdateInventoryAsync(LibraryManagementSystem.BookServiceReference.InventoryUpdate update);
+        System.Threading.Tasks.Task<bool> UpdateInventoryAsync(LMS.BookSearch.BookServiceReference.InventoryUpdate update);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IBookServiceChannel : LibraryManagementSystem.BookServiceReference.IBookService, System.ServiceModel.IClientChannel {
+    public interface IBookServiceChannel : LMS.BookSearch.BookServiceReference.IBookService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class BookServiceClient : System.ServiceModel.ClientBase<LibraryManagementSystem.BookServiceReference.IBookService>, LibraryManagementSystem.BookServiceReference.IBookService {
+    public partial class BookServiceClient : System.ServiceModel.ClientBase<LMS.BookSearch.BookServiceReference.IBookService>, LMS.BookSearch.BookServiceReference.IBookService {
         
         public BookServiceClient() {
         }
@@ -337,35 +337,35 @@ namespace LibraryManagementSystem.BookServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public LibraryManagementSystem.BookServiceReference.Book[] GetAllBooks() {
+        public LMS.BookSearch.BookServiceReference.Book[] GetAllBooks() {
             return base.Channel.GetAllBooks();
         }
         
-        public System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book[]> GetAllBooksAsync() {
+        public System.Threading.Tasks.Task<LMS.BookSearch.BookServiceReference.Book[]> GetAllBooksAsync() {
             return base.Channel.GetAllBooksAsync();
         }
         
-        public LibraryManagementSystem.BookServiceReference.Book GetBookById(string id) {
+        public LMS.BookSearch.BookServiceReference.Book GetBookById(string id) {
             return base.Channel.GetBookById(id);
         }
         
-        public System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book> GetBookByIdAsync(string id) {
+        public System.Threading.Tasks.Task<LMS.BookSearch.BookServiceReference.Book> GetBookByIdAsync(string id) {
             return base.Channel.GetBookByIdAsync(id);
         }
         
-        public LibraryManagementSystem.BookServiceReference.Book AddBook(LibraryManagementSystem.BookServiceReference.Book book) {
+        public LMS.BookSearch.BookServiceReference.Book AddBook(LMS.BookSearch.BookServiceReference.Book book) {
             return base.Channel.AddBook(book);
         }
         
-        public System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book> AddBookAsync(LibraryManagementSystem.BookServiceReference.Book book) {
+        public System.Threading.Tasks.Task<LMS.BookSearch.BookServiceReference.Book> AddBookAsync(LMS.BookSearch.BookServiceReference.Book book) {
             return base.Channel.AddBookAsync(book);
         }
         
-        public LibraryManagementSystem.BookServiceReference.Book UpdateBook(LibraryManagementSystem.BookServiceReference.Book book) {
+        public LMS.BookSearch.BookServiceReference.Book UpdateBook(LMS.BookSearch.BookServiceReference.Book book) {
             return base.Channel.UpdateBook(book);
         }
         
-        public System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book> UpdateBookAsync(LibraryManagementSystem.BookServiceReference.Book book) {
+        public System.Threading.Tasks.Task<LMS.BookSearch.BookServiceReference.Book> UpdateBookAsync(LMS.BookSearch.BookServiceReference.Book book) {
             return base.Channel.UpdateBookAsync(book);
         }
         
@@ -377,19 +377,19 @@ namespace LibraryManagementSystem.BookServiceReference {
             return base.Channel.DeleteBookAsync(id);
         }
         
-        public LibraryManagementSystem.BookServiceReference.Book[] GetBooksByCategory(string category) {
+        public LMS.BookSearch.BookServiceReference.Book[] GetBooksByCategory(string category) {
             return base.Channel.GetBooksByCategory(category);
         }
         
-        public System.Threading.Tasks.Task<LibraryManagementSystem.BookServiceReference.Book[]> GetBooksByCategoryAsync(string category) {
+        public System.Threading.Tasks.Task<LMS.BookSearch.BookServiceReference.Book[]> GetBooksByCategoryAsync(string category) {
             return base.Channel.GetBooksByCategoryAsync(category);
         }
         
-        public bool UpdateInventory(LibraryManagementSystem.BookServiceReference.InventoryUpdate update) {
+        public bool UpdateInventory(LMS.BookSearch.BookServiceReference.InventoryUpdate update) {
             return base.Channel.UpdateInventory(update);
         }
         
-        public System.Threading.Tasks.Task<bool> UpdateInventoryAsync(LibraryManagementSystem.BookServiceReference.InventoryUpdate update) {
+        public System.Threading.Tasks.Task<bool> UpdateInventoryAsync(LMS.BookSearch.BookServiceReference.InventoryUpdate update) {
             return base.Channel.UpdateInventoryAsync(update);
         }
     }

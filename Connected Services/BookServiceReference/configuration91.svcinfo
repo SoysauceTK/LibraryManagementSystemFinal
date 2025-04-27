@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="pH3lHJ4L9Pi3kg0iP0oYmr0KjoKWu+yP00nqAPdakE0=">
+<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="Qg6ZCyUgfyzMrETUjL8211KN0lMR7kd2IsK90YMgxfs=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IBookService1">
       <properties>
@@ -112,7 +112,7 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IBookService" contract="BookServiceReference.IBookService" bindingType="basicHttpBinding" address="http://webstrar94.fulton.asu.edu/Page8/BookService.svc" bindingConfiguration="BasicHttpBinding_IBookService1">
+    <endpoint name="BasicHttpBinding_IBookService1" contract="BookServiceReference.IBookService" bindingType="basicHttpBinding" address="http://webstrar94.fulton.asu.edu/Page8/BookService.svc" bindingConfiguration="BasicHttpBinding_IBookService1">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>http://webstrar94.fulton.asu.edu/Page8/BookService.svc</serializedValue>
@@ -187,7 +187,7 @@
           <serializedValue>False</serializedValue>
         </property>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>BasicHttpBinding_IBookService</serializedValue>
+          <serializedValue>BasicHttpBinding_IBookService1</serializedValue>
         </property>
         <property path="/kind" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="328bdf9f-856e-4d0c-8c27-239f75c4e581" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="c6f38fa6-477d-4294-ba3b-5be1b00e89ad" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,11 +22,11 @@
     <MetadataSource Address="http://webstrar94.fulton.asu.edu/page8/BookService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="BookService.xsd" MetadataType="Schema" ID="eb800332-9986-4928-9318-99d42839d873" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?xsd=xsd2" />
-    <MetadataFile FileName="BookService.disco" MetadataType="Disco" ID="3a4a2be4-726b-40f3-9fbd-116eca0242f1" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?disco" />
-    <MetadataFile FileName="BookService1.xsd" MetadataType="Schema" ID="86a9e151-be63-4f10-ad97-6daa7a3f8137" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?xsd=xsd0" />
-    <MetadataFile FileName="BookService2.xsd" MetadataType="Schema" ID="581efa24-0860-4a0a-9dff-2cd93a093ec0" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?xsd=xsd1" />
-    <MetadataFile FileName="BookService.wsdl" MetadataType="Wsdl" ID="68fdd51b-3e8f-41fc-bc94-82d4cb130891" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?wsdl" />
+    <MetadataFile FileName="BookService.xsd" MetadataType="Schema" ID="7f042447-e165-4da8-8081-9561ee697adf" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?xsd=xsd2" />
+    <MetadataFile FileName="BookService.disco" MetadataType="Disco" ID="b1b0b277-35eb-4f0d-a9ed-420173972a1b" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?disco" />
+    <MetadataFile FileName="BookService1.xsd" MetadataType="Schema" ID="63fce334-f82a-4119-ab88-7a0d34f07e20" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?xsd=xsd0" />
+    <MetadataFile FileName="BookService2.xsd" MetadataType="Schema" ID="d94bcfff-ba21-4f29-9cde-a9778daea973" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?xsd=xsd1" />
+    <MetadataFile FileName="BookService.wsdl" MetadataType="Wsdl" ID="728b2aac-9439-46fc-9e5d-7141ef25296d" SourceId="1" SourceUrl="http://webstrar94.fulton.asu.edu/Page8/BookService.svc?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
