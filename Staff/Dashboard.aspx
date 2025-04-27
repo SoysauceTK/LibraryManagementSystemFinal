@@ -178,4 +178,30 @@
             </div>
         </div>
     </div>
+
+    <%-- Activity Log Section --%>
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header bg-secondary text-white">
+                    <h3>Recent Activity</h3>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <asp:GridView ID="ActivityLogGridView" runat="server" AutoGenerateColumns="False" 
+                            CssClass="table table-striped table-bordered table-hover" EmptyDataText="No recent activity found." 
+                            GridLines="None">
+                            <Columns>
+                                <asp:BoundField DataField="Date" HeaderText="Date" DataFormatString="{0:MM/dd/yyyy HH:mm}" />
+                                <asp:BoundField DataField="Action" HeaderText="Action" />
+                                <asp:BoundField DataField="Details" HeaderText="Details" />
+                                <asp:BoundField DataField="User" HeaderText="User" />
+                            </Columns>
+                            <HeaderStyle CssClass="bg-light" />
+                        </asp:GridView>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>
