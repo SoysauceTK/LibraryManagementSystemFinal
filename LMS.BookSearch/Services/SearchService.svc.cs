@@ -7,6 +7,7 @@ using System.ServiceModel.Activation;
 using System.Runtime.Serialization;
 using LMS.BookSearch.Models;
 using LMS.BookSearch.Utils;
+using System.IO;
 
 namespace LMS.BookSearch
 {
@@ -50,6 +51,21 @@ namespace LMS.BookSearch
         {
             // Update the data path and reinitialize the data access
             DataConfiguration.DataPath = path;
+            
+            // Ensure directory exists
+            if (!Directory.Exists(path))
+            {
+                try
+                {
+                    Directory.CreateDirectory(path);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error creating directory: {ex.Message}");
+                    // Continue anyway, maybe the directory will be created by another method
+                }
+            }
+            
             string filePath = DataConfiguration.GetDataFilePath(DEFAULT_FILE_NAME);
             _bookData = new XmlDataAccess<Book>(filePath);
         }
