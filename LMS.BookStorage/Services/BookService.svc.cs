@@ -32,9 +32,6 @@ namespace LMS.BookStorage
 
         [OperationContract]
         bool UpdateInventory(InventoryUpdate update);
-        
-        [OperationContract]
-        void SetDataPath(string path);
     }
 
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
@@ -42,35 +39,33 @@ namespace LMS.BookStorage
     public class BookService : IBookService
     {
         private XmlDataAccess<Book> _bookData;
-        private const string DEFAULT_FILE_NAME = "books.xml";
-
-        public BookService()
+        private const string DEFAULT_FILE_NAME = "Books.xml";
+        private static readonly string LOCAL_DATA_PATH;
+        
+        // Static constructor to initialize the local data path
+        static BookService()
         {
-            // Default initialization - client should call SetDataPath first for proper setup
-            string filePath = DataConfiguration.GetDataFilePath(DEFAULT_FILE_NAME);
-            _bookData = new XmlDataAccess<Book>(filePath);
-        }
-
-        public void SetDataPath(string path)
-        {
-            // Update the data path and reinitialize the data access
-            DataConfiguration.DataPath = path;
+            // Set up a local directory for this service's data
+            LOCAL_DATA_PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BookStorage");
             
-            // Ensure directory exists
-            if (!Directory.Exists(path))
+            // Ensure the directory exists
+            if (!Directory.Exists(LOCAL_DATA_PATH))
             {
                 try
                 {
-                    Directory.CreateDirectory(path);
+                    Directory.CreateDirectory(LOCAL_DATA_PATH);
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Error creating directory: {ex.Message}");
-                    // Continue anyway, maybe the directory will be created by another method
+                    System.Diagnostics.Debug.WriteLine($"Error creating local data directory: {ex.Message}");
                 }
             }
-            
-            string filePath = DataConfiguration.GetDataFilePath(DEFAULT_FILE_NAME);
+        }
+
+        public BookService()
+        {
+            // Initialize with local data path
+            string filePath = Path.Combine(LOCAL_DATA_PATH, DEFAULT_FILE_NAME);
             _bookData = new XmlDataAccess<Book>(filePath);
         }
 
