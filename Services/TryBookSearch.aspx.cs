@@ -4,23 +4,27 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using LMS.BookSearch;
-using LMS.BookSearch.Models;
 using System.Text;
 using Newtonsoft.Json;
+using System.ServiceModel;
 
 namespace LibraryManagementSystem.Services
 {
     public partial class TryBookSearch : System.Web.UI.Page
     {
-        private SearchService _searchService;
+        private SearchServiceReference.SearchServiceClient CreateSearchServiceClient()
+        {
+            var client = new SearchServiceReference.SearchServiceClient("BasicHttpBinding_ISearchService");
+            client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
+            client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            return client;
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _searchService = new SearchService();
         }
 
-        protected void btnSearch_Click(object sender, EventArgs e)
+        protected async void btnSearch_Click(object sender, EventArgs e)
         {
             try
             {
@@ -31,8 +35,11 @@ namespace LibraryManagementSystem.Services
                     return;
                 }
 
-                var books = _searchService.SearchBooks(query);
-                DisplayResults(books);
+                using (var searchClient = CreateSearchServiceClient())
+                {
+                    var books = await searchClient.SearchBooksAsync(query);
+                    DisplayResults(books);
+                }
             }
             catch (Exception ex)
             {
@@ -40,7 +47,7 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected void btnAdvancedSearch_Click(object sender, EventArgs e)
+        protected async void btnAdvancedSearch_Click(object sender, EventArgs e)
         {
             try
             {
@@ -56,8 +63,11 @@ namespace LibraryManagementSystem.Services
                     return;
                 }
 
-                var books = _searchService.AdvancedSearch(title, author, category, year);
-                DisplayResults(books);
+                using (var searchClient = CreateSearchServiceClient())
+                {
+                    var books = await searchClient.AdvancedSearchAsync(title, author, category, year);
+                    DisplayResults(books);
+                }
             }
             catch (Exception ex)
             {
@@ -65,7 +75,7 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected void btnGetRecommendations_Click(object sender, EventArgs e)
+        protected async void btnGetRecommendations_Click(object sender, EventArgs e)
         {
             try
             {
@@ -76,8 +86,11 @@ namespace LibraryManagementSystem.Services
                     return;
                 }
 
-                var books = _searchService.GetRecommendations(bookId);
-                DisplayResults(books);
+                using (var searchClient = CreateSearchServiceClient())
+                {
+                    var books = await searchClient.GetRecommendationsAsync(bookId);
+                    DisplayResults(books);
+                }
             }
             catch (Exception ex)
             {
@@ -85,12 +98,15 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected void btnGetPopularBooks_Click(object sender, EventArgs e)
+        protected async void btnGetPopularBooks_Click(object sender, EventArgs e)
         {
             try
             {
-                var books = _searchService.GetPopularBooks();
-                DisplayResults(books);
+                using (var searchClient = CreateSearchServiceClient())
+                {
+                    var books = await searchClient.GetPopularBooksAsync();
+                    DisplayResults(books);
+                }
             }
             catch (Exception ex)
             {
@@ -98,12 +114,15 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected void btnGetAllCategories_Click(object sender, EventArgs e)
+        protected async void btnGetAllCategories_Click(object sender, EventArgs e)
         {
             try
             {
-                var categories = _searchService.GetAllCategories();
-                DisplayResults(categories);
+                using (var searchClient = CreateSearchServiceClient())
+                {
+                    var categories = await searchClient.GetAllCategoriesAsync();
+                    DisplayResults(categories);
+                }
             }
             catch (Exception ex)
             {

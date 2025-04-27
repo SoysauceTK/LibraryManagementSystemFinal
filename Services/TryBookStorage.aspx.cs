@@ -4,28 +4,35 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using LMS.BookStorage;
-using LMS.BookStorage.Models;
 using System.Text;
 using Newtonsoft.Json;
+using System.ServiceModel;
 
 namespace LibraryManagementSystem.Services
 {
     public partial class TryBookStorage : System.Web.UI.Page
     {
-        private BookService _bookService;
+        private BookServiceReference.BookServiceClient CreateBookServiceClient()
+        {
+            var client = new BookServiceReference.BookServiceClient("BasicHttpBinding_IBookService");
+            client.Endpoint.Binding.SendTimeout = TimeSpan.FromSeconds(30);
+            client.Endpoint.Binding.ReceiveTimeout = TimeSpan.FromSeconds(30);
+            return client;
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _bookService = new BookService();
         }
 
-        protected void btnGetAllBooks_Click(object sender, EventArgs e)
+        protected async void btnGetAllBooks_Click(object sender, EventArgs e)
         {
             try
             {
-                var books = _bookService.GetAllBooks();
-                DisplayResults(books);
+                using (var bookClient = CreateBookServiceClient())
+                {
+                    var books = await bookClient.GetAllBooksAsync();
+                    DisplayResults(books);
+                }
             }
             catch (Exception ex)
             {
@@ -33,7 +40,7 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected void btnGetBookById_Click(object sender, EventArgs e)
+        protected async void btnGetBookById_Click(object sender, EventArgs e)
         {
             try
             {
@@ -44,8 +51,11 @@ namespace LibraryManagementSystem.Services
                     return;
                 }
 
-                var book = _bookService.GetBookById(bookId);
-                DisplayResults(book);
+                using (var bookClient = CreateBookServiceClient())
+                {
+                    var book = await bookClient.GetBookByIdAsync(bookId);
+                    DisplayResults(book);
+                }
             }
             catch (Exception ex)
             {
@@ -53,11 +63,11 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected void btnAddBook_Click(object sender, EventArgs e)
+        protected async void btnAddBook_Click(object sender, EventArgs e)
         {
             try
             {
-                Book book = new Book
+                var book = new BookServiceReference.Book
                 {
                     Title = txtTitle.Text.Trim(),
                     Author = txtAuthor.Text.Trim(),
@@ -72,8 +82,11 @@ namespace LibraryManagementSystem.Services
                     book.PublicationYear = year;
                 }
 
-                var result = _bookService.AddBook(book);
-                DisplayResults(result);
+                using (var bookClient = CreateBookServiceClient())
+                {
+                    var result = await bookClient.AddBookAsync(book);
+                    DisplayResults(result);
+                }
                 
                 // Clear fields for next book
                 txtTitle.Text = string.Empty;
@@ -89,7 +102,7 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected void btnGetBooksByCategory_Click(object sender, EventArgs e)
+        protected async void btnGetBooksByCategory_Click(object sender, EventArgs e)
         {
             try
             {
@@ -100,8 +113,11 @@ namespace LibraryManagementSystem.Services
                     return;
                 }
 
-                var books = _bookService.GetBooksByCategory(category);
-                DisplayResults(books);
+                using (var bookClient = CreateBookServiceClient())
+                {
+                    var books = await bookClient.GetBooksByCategoryAsync(category);
+                    DisplayResults(books);
+                }
             }
             catch (Exception ex)
             {
@@ -109,7 +125,7 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected void btnUpdateInventory_Click(object sender, EventArgs e)
+        protected async void btnUpdateInventory_Click(object sender, EventArgs e)
         {
             try
             {
@@ -127,16 +143,19 @@ namespace LibraryManagementSystem.Services
                     return;
                 }
 
-                InventoryUpdate update = new InventoryUpdate
+                var update = new BookServiceReference.InventoryUpdate
                 {
                     BookId = bookId,
                     QuantityChange = quantityChange
                 };
 
-                bool result = _bookService.UpdateInventory(update);
-                litResults.Text = result ? 
-                    "Inventory updated successfully" : 
-                    "Failed to update inventory. Book might not exist.";
+                using (var bookClient = CreateBookServiceClient())
+                {
+                    bool result = await bookClient.UpdateInventoryAsync(update);
+                    litResults.Text = result ? 
+                        "Inventory updated successfully" : 
+                        "Failed to update inventory. Book might not exist.";
+                }
             }
             catch (Exception ex)
             {
@@ -144,7 +163,7 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-        protected void btnDeleteBook_Click(object sender, EventArgs e)
+        protected async void btnDeleteBook_Click(object sender, EventArgs e)
         {
             try
             {
@@ -155,10 +174,13 @@ namespace LibraryManagementSystem.Services
                     return;
                 }
 
-                bool result = _bookService.DeleteBook(bookId);
-                litResults.Text = result ? 
-                    "Book deleted successfully" : 
-                    "Failed to delete book. Book might not exist.";
+                using (var bookClient = CreateBookServiceClient())
+                {
+                    bool result = await bookClient.DeleteBookAsync(bookId);
+                    litResults.Text = result ? 
+                        "Book deleted successfully" : 
+                        "Failed to delete book. Book might not exist.";
+                }
             }
             catch (Exception ex)
             {
