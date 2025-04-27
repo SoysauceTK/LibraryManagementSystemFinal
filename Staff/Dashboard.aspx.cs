@@ -75,8 +75,8 @@ namespace LibraryManagementSystem.Staff
                         {
                             // Filter to checkout actions and take most recent
                             var recentBorrowLogs = borrowLogs
-                                .Where(log => log.Action == "Checkout")
-                                .OrderByDescending(log => log.Timestamp)
+                                .Where(log => log.ActionType == "Checkout")
+                                .OrderByDescending(log => log.ActionDate)
                                 .Take(10)
                                 .ToArray();
                             
@@ -88,8 +88,8 @@ namespace LibraryManagementSystem.Staff
                                     Id = b.Id,
                                     BookTitle = b.BookTitle,
                                     MemberName = b.UserName,
-                                    BorrowDate = b.Timestamp,
-                                    DueDate = b.Timestamp.AddDays(14), // Assuming 14-day loan period
+                                    BorrowDate = b.ActionDate,
+                                    DueDate = b.ActionDate.AddDays(14), // Assuming 14-day loan period
                                     Author = "Unknown"
                                 }).ToList();
                                 
