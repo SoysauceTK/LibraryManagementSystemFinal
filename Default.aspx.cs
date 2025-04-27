@@ -7,6 +7,8 @@ namespace LibraryManagementSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Make the components table visible
+            pnlLoggedInContent.Visible = true;
         }
 
         protected void btnMember_Click(object sender, EventArgs e)
