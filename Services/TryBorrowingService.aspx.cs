@@ -1,9 +1,9 @@
-using LMS.BorrowingService;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.UI;
+using BorrowingServiceReference;
 
 namespace LibraryManagementSystem.Services
 {
@@ -15,7 +15,7 @@ namespace LibraryManagementSystem.Services
         protected void Page_Load(object sender, EventArgs e)
         {
             // Initialize the borrowing service client
-            borrowingService = new BorrowingServiceClient();
+            borrowingService = new BorrowingServiceClient("BasicHttpBinding_IBorrowingService");
 
             if (!IsPostBack)
             {
@@ -75,7 +75,7 @@ namespace LibraryManagementSystem.Services
                 }
 
                 // Call the GetBorrowingHistory method from the service
-                BorrowRecord[] history = borrowingService.GetBorrowingHistory(memberId);
+                var history = borrowingService.GetBorrowingHistory(memberId);
 
                 // Display the records in the GridView
                 DisplayBorrowingRecords(history);
@@ -91,7 +91,7 @@ namespace LibraryManagementSystem.Services
             try
             {
                 // Call the GetCurrentBorrowings method from the service
-                BorrowRecord[] currentBorrowings = borrowingService.GetCurrentBorrowings();
+                var currentBorrowings = borrowingService.GetCurrentBorrowings();
 
                 // Display the records in the GridView
                 DisplayBorrowingRecords(currentBorrowings);
@@ -127,10 +127,10 @@ namespace LibraryManagementSystem.Services
             foreach (BorrowRecord record in records)
             {
                 DataRow row = dt.NewRow();
-                row["BorrowId"] = record.BorrowId;
+                row["BorrowId"] = record.Id;
                 row["BookId"] = record.BookId;
                 row["BookTitle"] = record.BookTitle;
-                row["MemberId"] = record.MemberId;
+                row["MemberId"] = record.UserId;
                 row["BorrowDate"] = record.BorrowDate;
                 row["DueDate"] = record.DueDate;
                 
@@ -143,7 +143,7 @@ namespace LibraryManagementSystem.Services
                     row["ReturnDate"] = DBNull.Value;
                 }
                 
-                row["Status"] = record.Status;
+                row["Status"] = record.IsReturned ? "Returned" : "Borrowed";
                 dt.Rows.Add(row);
             }
 
@@ -169,7 +169,14 @@ namespace LibraryManagementSystem.Services
             {
                 try
                 {
-                    borrowingService.Close();
+                    if (borrowingService.State != System.ServiceModel.CommunicationState.Faulted)
+                    {
+                        borrowingService.Close();
+                    }
+                    else
+                    {
+                        borrowingService.Abort();
+                    }
                 }
                 catch
                 {
