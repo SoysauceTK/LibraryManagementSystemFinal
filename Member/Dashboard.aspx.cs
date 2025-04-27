@@ -11,6 +11,10 @@ namespace LibraryManagementSystem.Member
 {
     public partial class Dashboard : Page
     {
+        // Controls from ASPX file
+        protected System.Web.UI.WebControls.Panel AlertPanel;
+        protected System.Web.UI.WebControls.Literal AlertMessage;
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             // Check if user is authenticated
