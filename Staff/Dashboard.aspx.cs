@@ -10,6 +10,10 @@ namespace LibraryManagementSystem.Staff
 {
     public partial class Dashboard : Page
     {
+        // Add control declarations
+        protected System.Web.UI.WebControls.Literal BorrowCountLiteral;
+        protected System.Web.UI.WebControls.ListView LatestBorrowsListView;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!User.Identity.IsAuthenticated || !User.IsInRole("Staff"))
@@ -64,25 +68,34 @@ namespace LibraryManagementSystem.Staff
                 {
                     try
                     {
-                        // Get recent borrows from service
-                        var borrowRecords = await borrowingClient.GetRecentBorrowsAsync(10); // Limit to 10 latest borrows
+                        // Get all logs from service and filter to most recent
+                        var borrowLogs = await borrowingClient.GetAllLogsAsync();
                         
-                        if (borrowRecords != null && borrowRecords.Length > 0)
+                        if (borrowLogs != null && borrowLogs.Length > 0)
                         {
-                            // Convert service records to our display model
-                            latestBorrows = borrowRecords.Select(b => new BorrowRecord
-                            {
-                                Id = b.Id,
-                                BookTitle = b.BookTitle,
-                                MemberName = b.MemberName,
-                                BorrowDate = b.BorrowDate,
-                                DueDate = b.DueDate,
-                                // The BorrowRecord class in the service doesn't have an Author property
-                                Author = "Unknown"
-                            }).ToList();
+                            // Filter to checkout actions and take most recent
+                            var recentBorrowLogs = borrowLogs
+                                .Where(log => log.Action == "Checkout")
+                                .OrderByDescending(log => log.Timestamp)
+                                .Take(10)
+                                .ToArray();
                             
-                            // Always try to get author info since it's not in the service model
-                            await EnrichBorrowsWithBookDetails(latestBorrows);
+                            if (recentBorrowLogs.Length > 0)
+                            {
+                                // Convert service records to our display model
+                                latestBorrows = recentBorrowLogs.Select(b => new BorrowRecord
+                                {
+                                    Id = b.Id,
+                                    BookTitle = b.BookTitle,
+                                    MemberName = b.UserName,
+                                    BorrowDate = b.Timestamp,
+                                    DueDate = b.Timestamp.AddDays(14), // Assuming 14-day loan period
+                                    Author = "Unknown"
+                                }).ToList();
+                                
+                                // Always try to get author info since it's not in the service model
+                                await EnrichBorrowsWithBookDetails(latestBorrows);
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -98,12 +111,18 @@ namespace LibraryManagementSystem.Staff
                     latestBorrows = GetSampleBorrows();
                 }
                 
-                // Update the borrow count display
-                BorrowCountLiteral.Text = latestBorrows.Count.ToString();
+                // Update the borrow count display - fix the literal
+                if (BorrowCountLiteral != null)
+                {
+                    BorrowCountLiteral.Text = latestBorrows.Count.ToString();
+                }
                 
-                // Bind data to the ListView
-                LatestBorrowsListView.DataSource = latestBorrows;
-                LatestBorrowsListView.DataBind();
+                // Bind data to the ListView - fix the reference
+                if (LatestBorrowsListView != null)
+                {
+                    LatestBorrowsListView.DataSource = latestBorrows;
+                    LatestBorrowsListView.DataBind();
+                }
             }
             catch (Exception ex)
             {
@@ -111,9 +130,19 @@ namespace LibraryManagementSystem.Staff
                 
                 // On error, fall back to sample data
                 var sampleBorrows = GetSampleBorrows();
-                BorrowCountLiteral.Text = sampleBorrows.Count.ToString();
-                LatestBorrowsListView.DataSource = sampleBorrows;
-                LatestBorrowsListView.DataBind();
+                
+                // Safely update UI controls - fix the literal
+                if (BorrowCountLiteral != null)
+                {
+                    BorrowCountLiteral.Text = sampleBorrows.Count.ToString();
+                }
+                
+                // Bind data to the ListView - fix the reference
+                if (LatestBorrowsListView != null)
+                {
+                    LatestBorrowsListView.DataSource = sampleBorrows;
+                    LatestBorrowsListView.DataBind();
+                }
             }
         }
         
