@@ -72,7 +72,7 @@
                                 <td>password (string)</td>
                                 <td>string</td>
                                 <td>Generates a secure hash of a password</td>
-                                <td><a href="~/Services/TryIt.aspx?service=SecurityService&op=HashPassword" class="btn btn-sm btn-info">Try It</a></td>
+                                <td><a href="Services/TryIt.aspx?service=SecurityService&op=HashPassword" class="btn btn-sm btn-info">Try It</a></td>
                             </tr>
                             <tr>
                                 <td>Aarya Baireddy</td>
@@ -81,7 +81,7 @@
                                 <td>password (string), hash (string)</td>
                                 <td>bool</td>
                                 <td>Verifies a password against a hash</td>
-                                <td><a href="~/Services/TryIt.aspx?service=SecurityService&op=VerifyPassword" class="btn btn-sm btn-info">Try It</a></td>
+                                <td><a href="Services/TryIt.aspx?service=SecurityService&op=VerifyPassword" class="btn btn-sm btn-info">Try It</a></td>
                             </tr>
                             <tr>
                                 <td>Aarya Baireddy</td>
@@ -109,7 +109,7 @@
                                 <td>Varies (e.g., bookId, memberId)</td>
                                 <td>Varies (e.g., string, BorrowRecord[])</td>
                                 <td>Manages book borrowing and returns via WSDL API.</td>
-                                <td><a href="~/Services/TryBorrowingService.aspx" class="btn btn-sm btn-info">Try It</a></td>
+                                <td><a href="Services/TryBorrowingService.aspx" class="btn btn-sm btn-info">Try It</a></td>
                             </tr>
                             <tr>
                                 <td>Sawyer Kesti</td>
