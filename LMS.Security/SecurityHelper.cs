@@ -1,6 +1,4 @@
-﻿// SecurityHelper.cs - Create in LMS.Security project
-// DEVELOPER: Aarya Baireddy - Security implementation
-using System;
+﻿using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;

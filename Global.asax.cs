@@ -8,7 +8,6 @@ using System.Web.UI;
 
 namespace LibraryManagementSystem
 {
-    // DEVELOPER: Aarya Baireddy - Global event handlers
     public class Global : HttpApplication
     {
         void Application_Start(object sender, EventArgs e)

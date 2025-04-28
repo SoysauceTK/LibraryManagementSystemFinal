@@ -8,7 +8,6 @@ using LibraryManagementSystem.Controls;
 
 namespace LibraryManagementSystem.Staff
 {
-    // DEVELOPER: Sawyer Kesti - Staff authentication - [Date]
     public partial class Login : Page
     {
         // Add a reference to the CaptchaControl on the page

@@ -7,7 +7,6 @@ using LMS.Security;
 
 namespace LibraryManagementSystem.Member
 {
-    // DEVELOPER: Aarya Baireddy - Member registration
     public partial class Register : Page
     {
         protected void Page_Load(object sender, EventArgs e)
